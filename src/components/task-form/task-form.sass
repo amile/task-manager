@@ -1,0 +1,88 @@
+.task-form
+    position: absolute
+    z-index: 10
+    width: 30em
+    height: 100%
+    top: 0
+    right: -30rem
+    background-color: #fff
+    transition: all 1s ease
+
+    &__top-bar
+        width: 100%
+        height: 2rem
+        padding: .5rem 1rem
+        background: lightblue
+
+    &__close-icon
+        display: inline-block
+        line-height: 1rem
+        font-size: 1.5rem
+        transform: rotate(45deg)
+
+    &_close
+        right: -30em
+        transition: all 1s ease
+
+    &_show
+        right: 0
+        transition: all 1s ease
+
+.tag-form
+    position: relative
+    width: 10rem
+    height: 7.5rem
+    padding: 10px
+    text-align: center
+    box-shadow: 0 0 5px rgba(0,0,0,.5)
+
+    &__close
+        position: absolute
+        top: 5px
+        right: 5px
+        line-height: 1rem
+        font-size: 1.5rem
+        color: #9ca3b5
+        transform: rotate(45deg)
+    
+    &__add
+        display: inline-block
+        line-height: 1rem
+        font-size: .8rem
+        color: #9ca3b5
+
+    &__input
+        width: 100%
+        margin-top: 1rem
+        margin-bottom: .5rem
+        color: #9ca3b5
+        border: 1px solid #eff0f2
+
+    & .list-color
+        text-align: center
+        padding: .5rem
+        border-top: 1px solid #eff0f2
+
+        &__item
+            display: inline-block
+            width: 20px
+            height: 20px
+            margin-right: 5px
+            border-radius: 50%
+
+            &_active
+                box-shadow: 0 0 5px rgba(0,0,0,.5)
+
+            &:last-child
+                margin-right: 0
+
+            &_violet
+                background-color: #C39BD3
+            &_blue
+                background-color: #85C1E9
+            &_green
+                background-color: #76D7C4
+            &_red
+                background-color: #F1948A
+            &_yellow
+                background-color: #F7DC6F 
