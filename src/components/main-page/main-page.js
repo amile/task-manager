@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import ItemList, { ItemList1 } from '../item-list/item-list';
+import ItemList from '../item-list/item-list';
 import TaskForm from '../task-form/task-form';
 
 import * as actions from '../../actions';
-import { projectsSelector, showedGroup } from '../../selectors';
+import { projectsSelector } from '../../selectors';
 
 import './main-page.sass';
 
@@ -16,56 +16,52 @@ class MainPage extends Component {
         super();
         this.state = {
             addNew: false,
-            showTaskEditor: false
+            showTaskEditor: true,
+            showedTask: null,
+            createTask: true
         };
-        this.onAdd = () => {
-            this.setState({ addNew: true});
+        this.addNewTask = (groupId) => {
+            this.props.history.push(`/task/new/${ groupId }`);
         };
-        this.addNewTask = (value, id) => {
-            if (value.length < 1) {
-                return;
-            }
-            this.props.taskAdded(value, id);
-            this.setState({ addNew:false });
-        }
         this.addNewGroup = (value, id) => {
             if (value.length < 1) {
                 return;
             }
-            this.props.groupAdded(value, id);
+            this.props.addGroup(value, id);
             this.setState({ addNew:false });
-        }
-        this.onShowTaskEditor = () => {
-            this.setState({ showTaskEditor: true });
-        }
-        this.onCloseTaskEditor = () => {
-            this.setState({ showTaskEditor: false });
+        };
+        this.showTaskEditor = (taskId) => {
+            this.props.history.push(`/task/${ taskId }`);
         }
     }
     render() {
+        console.log('history', this.props.history);
+        /* const taskForm = !this.state.showTaskEditor ? null : (
+            <TaskForm showedTaskId={this.state.showedTask}
+                createTask={ this.state.createTask }
+                showTaskEditor={ this.state.showTaskEditor }
+                onCloseTaskEditor={ this.onCloseTaskEditor }/>); */
         return (
             <div className='main-page'>
-                <ItemList1 project={ this.props.projects[0] } 
+                <ItemList 
                     addNewGroup={ this.addNewGroup }
                     addNewTask={ this.addNewTask }
-                    onShowTaskEditor={ this.onShowTaskEditor }/>
-                <TaskForm showTaskEditor={ this.state.showTaskEditor }
-                    onCloseTaskEditor={ this.onCloseTaskEditor }/>
+                    showTaskEditor={ this.showTaskEditor }/>
             </div>    
         );
     }
 }
 const mapStateToProps = (state) => {
     return {
-        projects: state.projects,
-        selector: showedGroup(state),
+        projects: projectsSelector(state),
     }
 };
 const mapDispatchToProps = (dispatch) => {
-    const { groupAdded, taskAdded } = bindActionCreators(actions, dispatch);
+    const { addGroup, taskAdded } = bindActionCreators(actions, dispatch);
     return {
-        groupAdded: groupAdded,
+        addGroup: addGroup,
         taskAdded: taskAdded
     }
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

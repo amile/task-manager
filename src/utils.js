@@ -10,8 +10,13 @@ const passHashBoris = genPasswordHash('qweasdzxc');
 export const comparePasswordHash = (pass, hash) => {
     return bcript.compare(pass, hash);
 }
-console.log(passHashBoris);
-console.log('пароль верный', comparePasswordHash('qweasdzxc', '$2a$08$uCHWtGxv1AUd2x09dPLVAuJL7nggyuRCdPwLEhvNA2hsGnuM0k6F.'));
+
+
+let idx = 100;
+
+export const createNewIndex = () => {
+    return (++idx).toString()
+}
 
 export const formatDate = (date) => {
     const monthNames = ['января', 'февраля', 'марта', 'апреля', 

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
-import optimize from '../../styles/styles';
+import '../../styles/styles';
 import './app.sass';
 
 import MainPage from '../main-page/main-page';
 import LoginPage from '../login-page/login-page';
 import MenuLeft from '../menu-left/menu-left';
+import TaskForm from '../task-form/task-form';
 
 
 class App extends Component {
@@ -23,19 +24,27 @@ class App extends Component {
         return (
             <div className='app'>
                 <MenuLeft />
-                <Switch>
                     <Route
                         path='/'
                         component={ MainPage }
-                        exact />
+                    />
+                    <Route
+                        path='/task/:id/:group?'
+                        render={ ({ match }) => {
+                            const { id, group } = match.params;
+                            return (
+                                <TaskForm itemId={ id } groupId={ group }/>
+                            )
+                        }}
+                    />
                     <Route
                         path='/login'
                         render={ () => {
                             return (
                                 <LoginPage isAuth={ this.state.isAuth } onAuth={ this.onAuth } />
                             )
-                        }} />
-                </Switch>
+                        }} 
+                    />
             </div>            
         );
     };

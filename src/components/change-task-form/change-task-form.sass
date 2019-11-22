@@ -1,0 +1,82 @@
+            
+.task-form
+    &__container
+        padding: 0 1rem
+
+    &__task-info
+        border-bottom: 1px solid #efefef
+
+    &__tags-wrapper
+        position: relative
+        display: inline-block
+        margin: .3rem 0
+
+    &__tag-item
+        display: inline-block
+        margin-right: .5rem
+        padding: 5px
+        font-size: .8rem
+        color: #fff
+        border-radius: 2px
+
+        &-delete
+            display: inline-block
+            margin-left: .5rem
+            transform: rotate(45deg) translateY(-2px)
+        
+        &_add
+            width: 1.5rem
+            height: 1.5rem
+            color: gray
+            text-align: center
+            background-color: #efefef
+        
+        &_violet
+            background-color: #C39BD3
+        &_blue
+            background-color: #85C1E9
+        &_green
+            background-color: #76D7C4
+        &_red
+            background-color: #F1948A
+        &_yellow
+            background-color: #F7DC6F
+
+.status-form
+    &__select
+        -webkit-appearance: none
+        -moz-appearance: none
+        appearance: none
+        background-color: #fff
+        border: none
+
+    &__select-icon
+        display: inline-block
+        width: 10px
+        height: 10px
+        margin-right: 1rem
+        border-radius: 50%
+
+    &__select,
+        &_testing
+            color: #f99412
+        &_acceptance
+            color: #a18f77
+        &_process
+            color: #77a180
+        &_done
+            color: #8f739f
+
+    &__select-icon
+        &_testing
+            background-color: #f99412
+        &_acceptance
+            background-color: #a18f77
+        &_process
+            background-color: #77a180
+        &_done
+            background-color: #8f739f
+
+
+
+    

@@ -28,12 +28,58 @@
         right: 0
         transition: all 1s ease
 
+    &__created-info
+        margin: .5rem 0
+
+    &__created-by,
+    &__created-date
+        display: inline-block
+        margin-right: 2rem
+        font-size: .8rem
+        line-height: 1.2
+        color: #9ca3b5
+
+    &__label
+        font-size: .875rem
+        line-height: 1.2rem
+
+    &__status-info
+        padding: 1rem 0
+        font-size: .9rem
+
+    &__status
+        display: inline-block
+
+    &__assigned-list
+        float: right
+
+    &__assigned-item
+        display: inline-block
+        width: 1.6rem
+        height: 1.6rem
+        margin-left: 5px
+        font-size: .7rem
+        line-height: 1.6rem
+        text-align: center
+        color: #fff
+        background-color: #4a8de4
+        border-radius: 50%
+
+        &_add
+            font-size: .9rem
+            color: gray
+            background-color: #efefef
+
 .tag-form
-    position: relative
-    width: 10rem
-    height: 7.5rem
+    position: absolute
+    top: 110%
+    left: 0 
+    width: 12rem
+    min-height: 7.5rem
     padding: 10px
     text-align: center
+    color: #9ca3b5
+    background-color: #fff
     box-shadow: 0 0 5px rgba(0,0,0,.5)
 
     &__close
@@ -44,23 +90,49 @@
         font-size: 1.5rem
         color: #9ca3b5
         transform: rotate(45deg)
-    
+
+    &__select-wrapper
+        position: relative
+        margin-top: .5rem
+
+    &__select-list
+        position: absolute
+        left: 0
+        top: 2.5rem
+        width: 100%
+        max-height: 6rem
+        overflow: scroll
+        padding-bottom: 10px
+        font-size: .9rem
+        text-align: left
+        background-color: #fff
+
+        &-item
+            padding: 5px 6px
+     
     &__add
         display: inline-block
+        padding: 3px 10px
         line-height: 1rem
         font-size: .8rem
         color: #9ca3b5
+        background-color: #fff
+        border: 1px solid #eff0f2
 
     &__input
         width: 100%
-        margin-top: 1rem
-        margin-bottom: .5rem
+        margin: .5rem 0
+        padding: 5px
         color: #9ca3b5
         border: 1px solid #eff0f2
+    
+    &__select_disable
+        display: none
 
     & .list-color
         text-align: center
-        padding: .5rem
+        margin: .5rem 0
+        padding: .6rem
         border-top: 1px solid #eff0f2
 
         &__item

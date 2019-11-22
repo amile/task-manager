@@ -1,4 +1,7 @@
-import { STATE_LOADED, PROJECT_ADDED, GROUP_ADDED, TASK_ADDED } from './constants';
+import { STATE_LOADED, ADD_PROJECT, ADD_GROUP, ADD_TASK, ADD_TAG, SET_SHOWED_GROUP,
+    UPDATE_TASK_ADD_TAG, UPDATE_TASK_DELETE_TAG, UPDATE_TASK_CHANGE_STATUS } from './constants';
+
+import { formatDate, createNewIndex } from './utils';
 
 const projectLoaded = (data) => {
     return {
@@ -7,30 +10,94 @@ const projectLoaded = (data) => {
     };
 };
 
-const projectAdded = (projectName) => {
+const addProject = (label) => {
     return {
-        type: PROJECT_ADDED,
-        payload: projectName
+        type: ADD_PROJECT,
+        payload: {
+            id: createNewIndex(),
+            label
+        }
     };
 };
 
-const groupAdded = (groupName, groupId) => {
+const addGroup = (label, parentId) => {
     return {
-        type: GROUP_ADDED,
-        payload: { groupId, groupName }
+        type: ADD_GROUP,
+        payload: {
+            id: createNewIndex(),
+            parentId, 
+            label
+        }
     };
 };
 
-const taskAdded = (taskName, groupId) => {
+const addTask = (label, parentId) => {
     return {
-        type: TASK_ADDED,
-        payload: { taskName, groupId }
+        type: ADD_TASK,
+        payload: {
+            id: createNewIndex(), 
+            label, 
+            parentId, 
+            dateCreated: formatDate(new Date())
+        }
+    };
+};
+
+const setShowedGroup = (parentId) => {
+    return {
+        type: SET_SHOWED_GROUP,
+        payload: { parentId }
+    };
+}
+
+const addTag = (id, tag) => {
+    return {
+        type: ADD_TAG,
+        payload: {
+            id,
+            tag: { ...tag, id: createNewIndex()}
+        }
+    };
+}
+
+const updateTaskAddTag = (taskId, tagId) => {
+    return {
+        type: UPDATE_TASK_ADD_TAG,
+        payload: {
+            taskId,
+            tagId
+        }
+    };
+};
+
+const updateTaskDeleteTag = (taskId, tagId) => {
+    return {
+        type: UPDATE_TASK_DELETE_TAG,
+        payload: {
+            taskId,
+            tagId
+        }
+    };
+}
+
+const updateTaskChangeStatus = (taskId, status) => {
+    return {
+        type: UPDATE_TASK_CHANGE_STATUS,
+        payload: {
+            taskId,
+            status
+        }
     };
 };
 
 export {
     projectLoaded,
-    projectAdded,
-    groupAdded,
-    taskAdded
+    addProject,
+    addGroup,
+    addTask,
+    setShowedGroup,
+    updateTaskAddTag,
+    addTag,
+    updateTaskDeleteTag,
+    updateTaskChangeStatus
 };

@@ -1,7 +1,7 @@
 import initialState from './getDefaultState';
-import { STATE_LOADED, PROJECT_ADDED, GROUP_ADDED, TASK_ADDED } from './constants';
+import { STATE_LOADED, ADD_PROJECT, ADD_GROUP, ADD_TAG, ADD_TASK, SET_SHOWED_GROUP,
+    UPDATE_TASK_ADD_TAG, UPDATE_TASK_DELETE_TAG, UPDATE_TASK_CHANGE_STATUS } from './constants';
 
-let idx = 10;
 
 const findGroup = (id, list, newItem, changeList) => {
     const newList = list.map((item) => {
@@ -38,56 +38,115 @@ const findTask = (id, list, newTag, changeTask) => {
     return newList;
 }
 
-const addTagToTask = (task, newTag) => {
-    return { ...task, tags: [ ...task.tags, newTag ]};
-};
+const createNewTask = ({id, label, parentId, dateCreated}, state) => {
+    console.log('reduser', id, label, parentId, dateCreated, state)
+    return {
+        id,
+        parentId,
+        label,
+        dateCreated,
+        user: state.currentUser,
+        status: 'acceptance',
+        assigned: [],
+        tags: [],
+        comments: [],
+        history: [{user: state.currentUser, label: 'создал задачу', date: dateCreated}]
+    };
+}
+
+const updateTaskAddTag = (taskId, tagId, state) => {
+    const updatedTasks = state.tasks.map((task) => {
+        if (task.id === taskId) {
+            return {...task, tags: [ ...task.tags, tagId ]}
+        }
+        return task
+    });
+    return updatedTasks
+}
+
+const updateTaskDeleteTag = (taskId, tagId, state) => {
+    const updatedTasks = state.tasks.map((task) => {
+        if (task.id === taskId) {
+            const idx = task.tags.findIndex((tag) => tag === tagId);
+            return { ...task, tags: [ ...task.tags.slice(0, idx), ...task.tags.slice(idx + 1)] }
+        }
+        return task
+    });
+    return updatedTasks
+}
+
+const updateTaskChangeStatus = (taskId, status, state) => {
+    const updatedTasks = state.tasks.map((task) => {
+        if (task.id === taskId) {
+            return { ...task, status: status }
+        }
+        return task
+    });
+    return updatedTasks
+}
 
 const reducer = (state = initialState, action) => {
-
     switch (action.type) {
         case STATE_LOADED :
-            console.log('hello reducer', action.payload)
             return action.payload;
 
-        case PROJECT_ADDED:
+        case ADD_PROJECT:
             const newProject = {
-                id: (++idx).toString(), 
-                label: action.payload,
-                groups: []
+                ...action.payload
             };
             return {
                 ...state,
                 projects: [...state.projects, newProject]
             }
 
-        case GROUP_ADDED:
+        case ADD_GROUP:
             const newGroup = {
-                id: (++idx).toString(), 
-                label: action.payload.groupName,
-                groups: [],
-                tasks: [],
-                active: false
+                ...action.payload
             };
             return {
                 ...state,
-                projects: findGroup(action.payload.groupId, state.projects, newGroup, changeGroupList)
+                groups: [ ...state.groups, newGroup ],
+
             };
 
-        case TASK_ADDED:
-            const newTask = {
-                id: (++idx).toString(), 
-                label: action.payload.taskName
-            };
+        case ADD_TASK:
+            console.log('add task', action.payload)
+
+            const newTask = createNewTask({ ...action.payload }, state);
             return {
                 ...state,
-                projects: findGroup(action.payload.groupId, state.projects, newTask, changeTaskList)
+                tasks: [ ...state.tasks, newTask]
+            };
+
+        case SET_SHOWED_GROUP:
+            return {
+                ...state,
+                showedGroup: action.payload.parentId
             };
         
-        case 'TASK_CHANGED_TAG_ADDED':
+        case ADD_TAG:
             return {
                 ...state,
-                projects: findTask(action.payload.taskId, state.projects, newTag, addTagToTask)
-            }
+                tags: [ ...state.tags, action.payload.tag]
+            };
+
+        case UPDATE_TASK_ADD_TAG:
+            return {
+                ...state,
+                tasks: updateTaskAddTag(action.payload.taskId, action.payload.tagId, state),
+            };
+
+        case UPDATE_TASK_DELETE_TAG:
+            return {
+                ...state,
+                tasks: updateTaskDeleteTag(action.payload.taskId, action.payload.tagId, state),
+            };
+        
+        case UPDATE_TASK_CHANGE_STATUS:
+            return {
+                ...state,
+                tasks: updateTaskChangeStatus(action.payload.taskId, action.payload.status, state),
+            };
         default:
             return state;
 

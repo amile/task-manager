@@ -1,8 +1,18 @@
 
 export const STATE_LOADED = 'STATE_LOADED';
 
-export const PROJECT_ADDED = 'PROJECT_ADDED';
+export const SET_SHOWED_GROUP = 'SET_SHOWED_GROUP';
 
-export const GROUP_ADDED = 'GROUP_ADDED';
+export const ADD_PROJECT = 'ADD_PROJECT';
 
-export const TASK_ADDED = 'TASK_ADDED';
+export const ADD_GROUP = 'ADD_GROUP';
+
+export const ADD_TASK = 'ADD_TASK';
+
+export const ADD_TAG = 'ADD_TAG';
+
+export const UPDATE_TASK_ADD_TAG = 'UPDATE_TASK_ADD_TAG';
+
+export const UPDATE_TASK_DELETE_TAG = 'UPDATE_TASK_DELETE_TAG';
+
+export const UPDATE_TASK_CHANGE_STATUS = 'UPDATE_TASK_CHANGE_STATUS';

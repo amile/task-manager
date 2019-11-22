@@ -1,103 +1,33 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-
+import { showedGroupSelector } from '../../selectors';
 import './item-list.sass';
-import GroupItem from '../group-item/group-item';
+import ConnectedGroupItem from '../group-item/group-item';
 
-const ItemList = ({ groupList=[], addNewGroup, addNewTask }) => {
 
-    const drawTasks = ( tasks=[] ) => {
-        const items = tasks.map((task) => {
-            return <li key={ task.id } className='item-list__task'>{task.label}</li>
-        });
-        return items;
-    }
-    const drawGroup = ( groups=[] ) => {
-        const items = groups.map((group) => {
-            if (!group.label) return null;
-            let groupChildren, taskChildren = null;
-            if (group.groups && group.groups.length > 0) {
-                groupChildren = drawGroup(group.groups);
-                
-            } 
-            if (group.tasks && group.tasks.length > 0) {
-                taskChildren = drawTasks(group.tasks);
-            }
-            const row = (groupChildren || taskChildren) ? 
-                (<ul className='item-list'>{ groupChildren }{ taskChildren }</ul>) : null
-            return (
-                <GroupItem group={ group } 
-                    addNewGroup={ addNewGroup }
-                    addNewTask={ addNewTask }>{ row }
-                </GroupItem>
-            );
-        });
-        return items;
-    };
-    const itemsList = drawGroup(groupList);
-    return (
+export const ItemList = ({ group, addNewGroup, addNewTask, showTaskEditor }) => {
+    const inner = !group ? null : (
         <ul className='item-list'>
-            { itemsList }
+            <ConnectedGroupItem group={ group } 
+                addNewGroup={ addNewGroup }
+                addNewTask={ addNewTask }
+                showTaskEditor={ showTaskEditor }>
+            </ConnectedGroupItem>
         </ul>
     );
-}
-
-export const ItemList1 = ({ project={}, addNewGroup, addNewTask, onShowTaskEditor }) => {
-
-    const drawTasks = ( tasks=[] ) => {
-        const items = tasks.map((task) => {
-            return <li key={ task.id } className='item-list__task'>{task.label}</li>
-        });
-        return items;
-    }
-    const drawGroup = ( groups=[] ) => {
-        const items = groups.map((group) => {
-            if (!group.label) return null;
-            let groupChildren, taskChildren = null;
-            if (group.groups && group.groups.length > 0) {
-                groupChildren = drawGroup(group.groups);
-                
-            } 
-            if (group.tasks && group.tasks.length > 0) {
-                taskChildren = drawTasks(group.tasks);
-            }
-            const row = (groupChildren || taskChildren) ? 
-                (<ul className='item-list'>{ groupChildren }{ taskChildren }</ul>) : null
-            return (
-                <GroupItem group={ group } 
-                    addNewGroup={ addNewGroup }
-                    addNewTask={ addNewTask }>{ row }
-                </GroupItem>
-            );
-        });
-        return items;
-    };
-    console.log('project', project)
-    let groupList, taskList = null;
-    if (project.groups && project.groups.length > 0) {
-        groupList = project.groups.map( (group) => {
-            return (
-                <GroupItem group={ group } 
-                    addNewGroup={ addNewGroup }
-                    addNewTask={ addNewTask }
-                    onShowTaskEditor={ onShowTaskEditor }>>
-                </GroupItem>
-            );
-        });
-    }
-    if (project.tasks && project.tasks.length > 0) {
-        taskList = project.tasks.map( (task) => {
-            return <li key={ task.id } className='item-list__task'>{task.label}</li>;
-        });
-    }
     return (
+        
         <div className='item-list-wrapper'>
-            <ul className='item-list'>
-                { groupList }
-                { taskList }
-            </ul>
+            { inner }
         </div>
     );
 }
 
-export default ItemList;
+const mapStateToProps = (state) => {
+    return {
+        group: showedGroupSelector(state),
+    }
+};
+
+export default connect(mapStateToProps)(ItemList);
