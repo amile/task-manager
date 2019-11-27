@@ -4,7 +4,7 @@ import { projectLoaded, updateTaskAddTag } from './actions';
 
 import { defaultState } from './getDefaultState';
 
-import { ADD_GROUP, ADD_TAG } from './constants';
+import { ADD_GROUP, ADD_TAG, ADD_TASK } from './constants';
 
 function* helloSagaSetInitialState() {
     yield window.localStorage.setItem('reduxState', JSON.stringify(defaultState))
@@ -17,6 +17,7 @@ function* setState() {
 
 function* saveState() {
     yield takeEvery(ADD_GROUP, setState);
+    yield takeEvery(ADD_TASK, setState);
 }
 
 function* loadData() {
@@ -34,11 +35,19 @@ function* watchAddNewTag() {
     yield takeEvery(ADD_TAG, putTaskAddTag);
 }
 
+function* pushNewTaskUrlToHistory({ payload, history }) {
+    yield history.push(`/task/${ payload.id }`);
+}
+
+function* watchAddNewTask() {
+    yield takeEvery(ADD_TASK, pushNewTaskUrlToHistory);
+}
 export default function* rootSaga() {
     yield all([
         helloSagaSetInitialState(),
         loadData(),
         saveState(),
-        watchAddNewTag()
+        watchAddNewTag(),
+        watchAddNewTask()
     ]);
 }

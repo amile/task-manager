@@ -1,5 +1,6 @@
 import { STATE_LOADED, ADD_PROJECT, ADD_GROUP, ADD_TASK, ADD_TAG, SET_SHOWED_GROUP,
-    UPDATE_TASK_ADD_TAG, UPDATE_TASK_DELETE_TAG, UPDATE_TASK_CHANGE_STATUS } from './constants';
+    UPDATE_TASK_ADD_TAG, UPDATE_TASK_DELETE_TAG, UPDATE_TASK_CHANGE_STATUS,
+    UPDATE_TASK_ADD_ASSIGNED } from './constants';
 
 import { formatDate, createNewIndex } from './utils';
 
@@ -31,9 +32,10 @@ const addGroup = (label, parentId) => {
     };
 };
 
-const addTask = (label, parentId) => {
+const addTask = (label, parentId, history) => {
     return {
         type: ADD_TASK,
+        history,
         payload: {
             id: createNewIndex(), 
             label, 
@@ -90,6 +92,16 @@ const updateTaskChangeStatus = (taskId, status) => {
     };
 };
 
+const updateTaskAddAssigned = (taskId, userId) => {
+    return {
+        type: UPDATE_TASK_ADD_ASSIGNED,
+        payload: {
+            taskId,
+            userId
+        }
+    };
+};
+
 export {
     projectLoaded,
     addProject,
@@ -99,5 +111,6 @@ export {
     updateTaskAddTag,
     addTag,
     updateTaskDeleteTag,
-    updateTaskChangeStatus
+    updateTaskChangeStatus,
+    updateTaskAddAssigned
 };

@@ -16,14 +16,35 @@ export const defaultState = {
         {id: '6', parentId: '2', label: 'Learn Redux-saga'}
     ],
     tasks: [
-        {id: '3', parentId: '6', label: 'React task1'}, 
-        {id: '4', parentId: '6', label: 'React task2'},
-        {id: '5', parentId: '2', label: 'Redux task2'},
+        {
+            id: '3', parentId: '6', label: 'React task1', 
+            dateCreated: new Date(), user: '88', status: 'testing',
+            assigned: [],
+            tags: [],
+            comments: [],
+            history: [{user: '88', label: 'создал задачу', date: new Date() }]
+        }, 
+        {
+            id: '4', parentId: '6', label: 'React task2', 
+            dateCreated: new Date(), user: '89', status: 'testing',
+            assigned: [],
+            tags: [],
+            comments: [],
+            history: [{user: '88', label: 'создал задачу', date: new Date() }]
+        },
+        {
+            id: '5', parentId: '2', label: 'Redux task2', 
+            dateCreated: new Date(), user: '88', status: 'testing',
+            assigned: ['89'],
+            tags: [],
+            comments: [],
+            history: [{user: '88', label: 'создал задачу', date: new Date() }]
+        },
         {
             id: '7',
             parentId: '1',
             label: 'Иерархия пользователей. При удалении пользователя в консоли выводится сообщение об ошибке 500. Пользователь не удаляется',
-            dateCreated: formatDate(new Date()),
+            dateCreated: new Date(),
             user: '88',
             status: 'testing',
             assigned: ['89'],

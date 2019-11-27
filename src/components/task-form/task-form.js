@@ -4,7 +4,8 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 
 import { showedTaskSelector, taskCreatedByUserSelector, taskAssignedUsersSelector } from '../../selectors';
-import { addTask, addTag, updateTaskAddTag, updateTaskDeleteTag, updateTaskChangeStatus } from '../../actions';
+import { addTask, addTag, updateTaskAddTag, updateTaskDeleteTag, updateTaskChangeStatus,
+            updateTaskAddAssigned } from '../../actions';
 
 import CreateTaskForm from '../create-task-form/create-task-form';
 import ChangeTaskForm from '../change-task-form/change-task-form';
@@ -30,14 +31,17 @@ class TaskForm extends Component {
             this.props.updateTaskAddTag(this.props.itemId, tagId);
         }
         this.addNewItem = (e) => {
-            this.props.addTask(e, this.props.groupId);
-            this.onClose();
+            const { groupId, history } = this.props;
+            this.props.addTask(e, groupId, history);
         }
         this.updateTaskDeleteTag = (tagId) => {
             this.props.updateTaskDeleteTag(this.props.itemId, tagId);
         };
         this.updateTaskChangeStatus = (status) => {
             this.props.updateTaskChangeStatus(this.props.itemId, status);
+        };
+        this.updateTaskAddAssigned = (userId) => {
+            this.props.updateTaskAddAssigned(this.props.itemId, userId);
         };
     }
     componentDidMount() {
@@ -48,7 +52,8 @@ class TaskForm extends Component {
         const content = (itemId === 'new') ? <CreateTaskForm addNewItem={ this.addNewItem }/> : 
             <ChangeTaskForm task={ task } user={ user } assigned={ assigned } 
                 addTag={ this.addTag } updateTaskAddTag={ this.updateTaskAddTag } 
-                deleteTag={ this.updateTaskDeleteTag } changeStatus={ this.updateTaskChangeStatus }/>
+                deleteTag={ this.updateTaskDeleteTag } changeStatus={ this.updateTaskChangeStatus }
+                updateTaskAddAssigned={ this.updateTaskAddAssigned } />
         let classNames = this.state.close ? 'task-form_close' : '';
         if (this.state.show) { classNames = 'task-form_show' }
         return (
@@ -84,7 +89,8 @@ const mapDispatchToProps = (dispatch) => {
         addTag: bindActionCreators(addTag, dispatch),
         updateTaskAddTag: bindActionCreators(updateTaskAddTag, dispatch),
         updateTaskDeleteTag: bindActionCreators(updateTaskDeleteTag, dispatch),
-        updateTaskChangeStatus: bindActionCreators(updateTaskChangeStatus, dispatch)
+        updateTaskChangeStatus: bindActionCreators(updateTaskChangeStatus, dispatch),
+        updateTaskAddAssigned: bindActionCreators(updateTaskAddAssigned, dispatch)
     }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TaskForm));

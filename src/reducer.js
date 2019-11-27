@@ -1,6 +1,8 @@
+
 import initialState from './getDefaultState';
 import { STATE_LOADED, ADD_PROJECT, ADD_GROUP, ADD_TAG, ADD_TASK, SET_SHOWED_GROUP,
-    UPDATE_TASK_ADD_TAG, UPDATE_TASK_DELETE_TAG, UPDATE_TASK_CHANGE_STATUS } from './constants';
+    UPDATE_TASK_ADD_TAG, UPDATE_TASK_DELETE_TAG, UPDATE_TASK_CHANGE_STATUS,
+    UPDATE_TASK_ADD_ASSIGNED } from './constants';
 
 
 const findGroup = (id, list, newItem, changeList) => {
@@ -25,7 +27,7 @@ const changeTaskList = (item, newItem) => {
     return { ...item, tasks: groupsNew};
 }
 
-const findTask = (id, list, newTag, changeTask) => {
+const oldFindTask = (id, list, newTag, changeTask) => {
     const newList = list.map((item) => {
         if (item.id === id) {
             return changeTask(item, newTag);
@@ -36,6 +38,16 @@ const findTask = (id, list, newTag, changeTask) => {
         }
     });
     return newList;
+}
+
+const oldupdateTaskAddTag = (taskId, tagId, state) => {
+    const updatedTasks = state.tasks.map((task) => {
+        if (task.id === taskId) {
+            return {...task, tags: [ ...task.tags, tagId ]}
+        }
+        return task
+    });
+    return updatedTasks
 }
 
 const createNewTask = ({id, label, parentId, dateCreated}, state) => {
@@ -54,35 +66,40 @@ const createNewTask = ({id, label, parentId, dateCreated}, state) => {
     };
 }
 
-const updateTaskAddTag = (taskId, tagId, state) => {
-    const updatedTasks = state.tasks.map((task) => {
+const findTask = (taskId, state, callback) => {
+    return state.tasks.map((task) => {
         if (task.id === taskId) {
-            return {...task, tags: [ ...task.tags, tagId ]}
+            return callback(task);
         }
         return task
     });
+}
+
+const updateTaskAddTag = (taskId, tagId, state) => {
+    const updatedTasks = findTask(taskId, state, 
+        (task) => {return {...task, tags: [ ...task.tags, tagId ]}});
     return updatedTasks
 }
 
 const updateTaskDeleteTag = (taskId, tagId, state) => {
-    const updatedTasks = state.tasks.map((task) => {
-        if (task.id === taskId) {
+    const updatedTasks = findTask(taskId, state, 
+        (task) => {
             const idx = task.tags.findIndex((tag) => tag === tagId);
             return { ...task, tags: [ ...task.tags.slice(0, idx), ...task.tags.slice(idx + 1)] }
-        }
-        return task
-    });
-    return updatedTasks
+        });
+    return updatedTasks;
 }
 
 const updateTaskChangeStatus = (taskId, status, state) => {
-    const updatedTasks = state.tasks.map((task) => {
-        if (task.id === taskId) {
-            return { ...task, status: status }
-        }
-        return task
-    });
+    const updatedTasks = findTask(taskId, state, 
+        (task) => {return { ...task, status: status }});
     return updatedTasks
+}
+
+const updateTaskAddAssigned = (taskId, userId, state) => {
+    const updatedTasks = findTask(taskId, state, 
+        (task) => {return { ...task, assigned: [ ...task.assigned, userId ] }});
+    return updatedTasks;
 }
 
 const reducer = (state = initialState, action) => {
@@ -110,8 +127,6 @@ const reducer = (state = initialState, action) => {
             };
 
         case ADD_TASK:
-            console.log('add task', action.payload)
-
             const newTask = createNewTask({ ...action.payload }, state);
             return {
                 ...state,
@@ -147,6 +162,13 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 tasks: updateTaskChangeStatus(action.payload.taskId, action.payload.status, state),
             };
+        
+        case UPDATE_TASK_ADD_ASSIGNED:
+            return {
+                ...state,
+                tasks: updateTaskAddAssigned(action.payload.taskId, action.payload.userId, state),
+            }
+
         default:
             return state;
 
