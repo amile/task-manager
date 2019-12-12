@@ -97,6 +97,16 @@ export const taskAssignedUsersIdSelector = createSelector(
     item => item.assigned,
 );
 
+export const makeTaskAssignedUsersSelector = () => {
+    return createSelector(
+        taskAssignedUsersIdSelector,
+        usersSelector,
+        (assigned, users) => (assigned.length > 0) ? assigned.map(
+            (item) => users.find((user) => item === user.id)
+        ) : null
+    );
+};
+
 export const taskAssignedUsersSelector = createSelector(
     taskAssignedUsersIdSelector,
     usersSelector,
@@ -104,15 +114,6 @@ export const taskAssignedUsersSelector = createSelector(
         (item) => users.find((user) => item === user.id)
     ) : null
 );
-export const commentUserId = (_, props) => props.comment.user;
-
-export const makeCommentCreatedByUserSelector = () => {
-    return createSelector(
-        commentUserId,
-        usersSelector,
-        (userId, users) => users.find((user) => user.id === userId)
-    );
-};
 
 export const getAllTagsSelector = createSelector(
     state => state.tags,
@@ -128,3 +129,27 @@ export const getTaskTagsSelector = createSelector(
         (id) => tags.find((tag) => id === tag.id)
     ) : null
 );
+
+export const getAllCommentsSelector = createSelector(
+    state => state.comments,
+    items => items
+);
+export const getTaskCommentsId = (_, props) => props.task.comments;
+
+export const getTaskCommentsSelector = createSelector(
+    getTaskCommentsId,
+    getAllCommentsSelector,
+    (commentsIdList, comments) => (commentsIdList.length > 0) ? commentsIdList.map(
+        (id) => comments.find((comment) => id === comment.id)
+    ) : null
+);
+
+export const commentUserId = (_, props) => props.comment.user;
+
+export const makeCommentCreatedByUserSelector = () => {
+    return createSelector(
+        commentUserId,
+        usersSelector,
+        (userId, users) => users.find((user) => user.id === userId)
+    );
+};

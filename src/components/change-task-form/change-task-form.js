@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import * as moment from 'moment';
 import 'moment/locale/ru';
 
-import { getTaskTagsSelector, getAllTagsSelector, usersSelector } from '../../selectors';
+import { getTaskTagsSelector, getAllTagsSelector, usersSelector, getTaskCommentsSelector } from '../../selectors';
 
 import CommentItem from '../comment-item/comment-item';
+import CommentForm from '../comment-form/comment-form';
 
 import './change-task-form.sass';
 
@@ -30,10 +31,12 @@ class AddTagForm extends Component {
         };
         this.onSubmitTag = (e) => {
             e.preventDefault();
-            if (this.state.value === this.state.selectedValue.label) {
-                this.props.updateTaskAddTag(this.state.selectedValue.id);
-            } else {
-                this.props.addTag(this.state.value, this.state.setColor);
+            const { value, selectedValue } = this.state;
+            if (value === selectedValue.label) {
+                this.props.updateTaskAddTag(selectedValue.id);
+            } 
+            else if (value.length > 0) {
+                this.props.addTag(value, this.state.setColor);
             }
         };
         this.onShowSelectList = () => {
@@ -73,7 +76,7 @@ class AddTagForm extends Component {
         let filteredTags, listTags, newTag;
         if (this.state.showSelectList) {
             newTag = (this.state.value.length === 0) ? '' :
-                (<div key='new' className='tag-form__select-list-item' onClick={ () => { this.onSelectValue(false) }}>
+                (<div key='new' className='tag-form__select-list-item' onClick={ (e) => {  this.onSelectValue(false) }}>
                     { this.state.value } (new)
                 </div>);
             filteredTags = (this.props.tags && (this.props.tags.length > 0)) ? this.searchTags() : null;
@@ -178,31 +181,7 @@ class AddAssignedForm extends Component {
         );
     }
 }
-class CommentForm extends Component {
-    constructor() {
-        super();
-        this.state = {
-            comment: {
-                text: '',
-                files: []
-            }
-        }
-        this.onChangeComment = (e) => {
-            this.setState({
-                comment: { text: e.target.value }
-            });
-        }
-    }
-    render() {
-        return (
-            <form className='comment-form'>
-                <textarea className='comment-form__comment' placeholder='Напишите комментарий'
-                rows='4' value={ this.state.comment.text } onChange={ this.onChangeComment }>
-                </textarea>
-            </form>
-        )
-    }
-}
+
 
 class StatusForm extends Component {
     constructor(props) {
@@ -269,14 +248,14 @@ class ChangeTaskForm extends Component {
         }
     }
     render() {
-        const { task, assigned, user, users, taskTags, allTags, deleteTag, changeStatus } = this.props;
+        const { task, assigned, user, users, taskTags, allTags, deleteTag, changeStatus, comments } = this.props;
         const addTagForm = this.state.tagFormVisible ? 
             <AddTagForm tags={ allTags } onClose={ this.onCloseTagForm } 
                 addTag={ this.onAddTag } updateTaskAddTag={ this.onUpdateTaskAddTag }/> : null;
         const tagsList = (!taskTags) ? null : taskTags.map((tag) => {
-            const tagClassNames = 'task-form__tag-item_' + tag.color;
+            const tagClassNames = 'tag_' + tag.color;
             return (
-                <div key={tag.id} className={ 'task-form__tag-item ' + tagClassNames }>
+                <div key={tag.id} className={ 'task-form__tag-item tag ' + tagClassNames }>
                     { tag.label }
                     <span className='task-form__tag-item-delete' onClick={ () => { deleteTag(tag.id) } }>+</span>
                 </div>
@@ -301,9 +280,9 @@ class ChangeTaskForm extends Component {
                 </li>
             );
         });
-        const comments = (task.comments.length === 0) ? null : task.comments.map((comment, idx) => {
+        const listComments = (!comments) ? null : comments.map((comment) => {
             return (
-                <li key={ idx } className='comment list__item'>
+                <li key={ comment.id } className='comment list__item'>
                     <CommentItem comment={ comment } />
                 </li>
             );
@@ -322,7 +301,7 @@ class ChangeTaskForm extends Component {
                         <div className='task-form__tags-wrapper'>
                             { tagsList }
                             { addTagForm }
-                            <div className='task-form__tag-item task-form__tag-item_add' onClick={ this.onShowTagForm }>+</div>
+                            <div className='tag task-form__tag-item task-form__tag-item_add' onClick={ this.onShowTagForm }>+</div>
                         </div>
                         <div className='task-form__status-info'>
                             <div className='task-form__status'>
@@ -338,21 +317,37 @@ class ChangeTaskForm extends Component {
                         </div>
                     </div>
                 </section>
-                
-                <ul className='history'>
-                    { history }
-                </ul>
-                <div className='task-form__container'>
-                    <ul className='list comment-list'>
-                        { comments }
+                <section className='task-form__discussion'>
+                    <ul className='history'>
+                        { history }
                     </ul>
-                </div>
+                    <div className='task-form__container'>
+                        <ul className='list comment-list'>
+                            { listComments }
+                        </ul>
+                    </div>
+                </section>
+                <section className='task-form__task-info'>
+                    <div className='task-form__container'>
+                        <CommentForm addComment={ this.props.addComment }/>
+                    </div>
+                </section>
                 
-                <CommentForm />
-                <div className='task-form__bottom-menu'>
-                    <span className='bottom-menu__item bottom-menu__item_history' onClick={ this.onShowedHistory }>История</span>
-                    <span className='bottom-menu__item bottom-menu__item_files'>Файлы</span>
-                </div>
+                <section className='task-form__bottom-menu'>
+                    <div className='task-form__container bottom-menu__container'>
+                        <div className='bottom-menu__item'>
+                            <span className='bottom-menu__item-icon bottom-menu__item-icon_files'></span>
+                            Файлы
+                        </div> 
+                        <div className='bottom-menu__item'  onClick={ this.onShowedHistory }>
+                            <span className='bottom-menu__item-icon bottom-menu__item-icon_history'></span>
+                            История
+                        </div>
+                        <div className='bottom-menu__item bottom-menu__item_menu'>
+                            <span className='bottom-menu__item-icon bottom-menu__item-icon_menu'></span> 
+                        </div>  
+                    </div>
+                </section>
             </div>
         );
     }
@@ -362,7 +357,8 @@ const mapStateToProps = (state, props) => {
     return {
         taskTags: getTaskTagsSelector(state, props),
         allTags: getAllTagsSelector(state, props),
-        users: usersSelector(state)
+        users: usersSelector(state),
+        comments: getTaskCommentsSelector(state, props),
     }   
 };
 

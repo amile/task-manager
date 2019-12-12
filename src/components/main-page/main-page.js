@@ -24,11 +24,10 @@ class MainPage extends Component {
             this.props.history.push(`/task/new/${ groupId }`);
         };
         this.addNewGroup = (value, id) => {
-            if (value.length < 1) {
-                return;
+            if (value.length > 0) {
+                this.props.addGroup(value, id);
             }
-            this.props.addGroup(value, id);
-            this.setState({ addNew:false });
+            this.setState({ addNew: false });
         };
         this.showTaskEditor = (taskId) => {
             this.props.history.push(`/task/${ taskId }`);

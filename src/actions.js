@@ -1,8 +1,8 @@
 import { STATE_LOADED, ADD_PROJECT, ADD_GROUP, ADD_TASK, ADD_TAG, SET_SHOWED_GROUP,
     UPDATE_TASK_ADD_TAG, UPDATE_TASK_DELETE_TAG, UPDATE_TASK_CHANGE_STATUS,
-    UPDATE_TASK_ADD_ASSIGNED } from './constants';
+    UPDATE_TASK_ADD_ASSIGNED, UPDATE_TASK_ADD_COMMENT } from './constants';
 
-import { formatDate, createNewIndex } from './utils';
+import { createNewIndex } from './utils';
 
 const projectLoaded = (data) => {
     return {
@@ -40,7 +40,7 @@ const addTask = (label, parentId, history) => {
             id: createNewIndex(), 
             label, 
             parentId, 
-            dateCreated: formatDate(new Date())
+            dateCreated: new Date()
         }
     };
 };
@@ -102,6 +102,18 @@ const updateTaskAddAssigned = (taskId, userId) => {
     };
 };
 
+const updateTaskAddComment = (parentId, label) => {
+    return {
+        type: UPDATE_TASK_ADD_COMMENT,
+        payload: {
+            id: createNewIndex(),
+            parentId,
+            dateCreated: new Date(),
+            label
+        }
+    };
+};
+
 export {
     projectLoaded,
     addProject,
@@ -112,5 +124,6 @@ export {
     addTag,
     updateTaskDeleteTag,
     updateTaskChangeStatus,
-    updateTaskAddAssigned
+    updateTaskAddAssigned,
+    updateTaskAddComment
 };

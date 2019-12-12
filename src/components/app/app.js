@@ -8,6 +8,7 @@ import MainPage from '../main-page/main-page';
 import LoginPage from '../login-page/login-page';
 import MenuLeft from '../menu-left/menu-left';
 import TaskForm from '../task-form/task-form';
+import TopBar from '../top-bar/top-bar';
 
 
 class App extends Component {
@@ -23,7 +24,9 @@ class App extends Component {
     render() {
         return (
             <div className='app'>
-                <MenuLeft />
+                <TopBar />
+                <div className='app-wrapper'>
+                    <MenuLeft />
                     <Route
                         path='/'
                         component={ MainPage }
@@ -45,6 +48,8 @@ class App extends Component {
                             )
                         }} 
                     />
+
+                </div>
             </div>            
         );
     };

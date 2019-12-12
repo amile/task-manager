@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 
-import { showedTaskSelector, taskCreatedByUserSelector, taskAssignedUsersSelector } from '../../selectors';
+import { showedTaskSelector, taskCreatedByUserSelector, makeTaskAssignedUsersSelector } from '../../selectors';
 import { addTask, addTag, updateTaskAddTag, updateTaskDeleteTag, updateTaskChangeStatus,
-            updateTaskAddAssigned } from '../../actions';
+            updateTaskAddAssigned, updateTaskAddComment } from '../../actions';
 
 import CreateTaskForm from '../create-task-form/create-task-form';
 import ChangeTaskForm from '../change-task-form/change-task-form';
@@ -43,6 +43,10 @@ class TaskForm extends Component {
         this.updateTaskAddAssigned = (userId) => {
             this.props.updateTaskAddAssigned(this.props.itemId, userId);
         };
+        this.addComment = (label) => {
+            console.log(label);
+            this.props.updateTaskAddComment(this.props.itemId, label);
+        };
     }
     componentDidMount() {
         setTimeout(() => {this.setState({ show: true })}, 1000);
@@ -53,7 +57,7 @@ class TaskForm extends Component {
             <ChangeTaskForm task={ task } user={ user } assigned={ assigned } 
                 addTag={ this.addTag } updateTaskAddTag={ this.updateTaskAddTag } 
                 deleteTag={ this.updateTaskDeleteTag } changeStatus={ this.updateTaskChangeStatus }
-                updateTaskAddAssigned={ this.updateTaskAddAssigned } />
+                updateTaskAddAssigned={ this.updateTaskAddAssigned } addComment={ this.addComment }/>
         let classNames = this.state.close ? 'task-form_close' : '';
         if (this.state.show) { classNames = 'task-form_show' }
         return (
@@ -62,26 +66,28 @@ class TaskForm extends Component {
                     <span className='task-form__close-icon' onClick={ this.onClose }>+</span>
                 </div>
                 { content }
-                <div className='task-form__bottom-menu'>
-                </div>
             </div>
         );
     }
 }
-
-const mapStateToProps = (state, props) => {
-    let task, user, assigned = null;
-    if (!isNaN(props.itemId)) {
-        task = showedTaskSelector(state, props);
-        user = taskCreatedByUserSelector(state, props);
-        assigned = taskAssignedUsersSelector(state, props);
-    }
-    return {
-        task: task,
-        user: user,
-        assigned: assigned
-    }   
+const makeMapStateToProps = () => {  
+    const taskAssignedUsersSelector = makeTaskAssignedUsersSelector();
+    const mapStateToProps = (state, props) => {
+        let task, user, assigned = null;
+        if (!isNaN(props.itemId)) {
+            task = showedTaskSelector(state, props);
+            user = taskCreatedByUserSelector(state, props);
+            assigned = taskAssignedUsersSelector(state, props);
+        }
+        return {
+            task: task,
+            user: user,
+            assigned: assigned
+        }   
+    };
+    return mapStateToProps;
 };
+
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -90,7 +96,8 @@ const mapDispatchToProps = (dispatch) => {
         updateTaskAddTag: bindActionCreators(updateTaskAddTag, dispatch),
         updateTaskDeleteTag: bindActionCreators(updateTaskDeleteTag, dispatch),
         updateTaskChangeStatus: bindActionCreators(updateTaskChangeStatus, dispatch),
-        updateTaskAddAssigned: bindActionCreators(updateTaskAddAssigned, dispatch)
+        updateTaskAddAssigned: bindActionCreators(updateTaskAddAssigned, dispatch),
+        updateTaskAddComment: bindActionCreators(updateTaskAddComment, dispatch),
     }
 };
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TaskForm));
+export default connect(makeMapStateToProps, mapDispatchToProps)(withRouter(TaskForm));

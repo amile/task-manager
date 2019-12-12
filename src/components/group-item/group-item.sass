@@ -1,13 +1,30 @@
 .group
+    position: relative
+    color: #8e8f91
+    margin-left: .75rem
+    padding-left: .75rem
+    border-left: 1px solid transparent
+
     &__label
         position: relative
+        margin-top: .375rem
+        padding: .3125rem 0
+
+        &-name
+            font-size: 1rem
+            line-height: 1.25
+            cursor: pointer
+
+            &:hover
+               color: #000 
 
         &-icon
             position: absolute
-            top: 3px
+            top: .625rem
             left: -2.5rem
             width: 0
             height: 0
+            cursor: pointer
             border: 5px solid transparent
             border-left-color: gray
 
@@ -15,3 +32,41 @@
                 border-left-color: transparent
                 border-top-color: gray
                 left: -2.5rem
+
+        &_active
+            color: #000
+    
+    &_open
+        border-left: 1px solid #d7d7d7
+    
+    &::before
+        content: ''
+        position: absolute
+        top: 0
+        left: -1px
+        width: .5rem
+        height: .5rem
+        background-color: #eff0f2
+
+$delta: 1.5rem
+$start: 1
+$positionLeft: -2.5rem
+$maxLevel: 10
+
+@mixin position-left
+    .group__label-icon_level-#{$identificator}
+        left: setPosition() 
+
+@function setPosition($level)
+    $positionLeft: $positionLeft - $level * $delta
+    $level: $level + 1
+    @return $positionLeft
+
+
+@for $level from $start through $maxLevel
+    .group__label-icon_level-#{$level}
+        left: setPosition($level)
+
+
+//@include position-left
+   

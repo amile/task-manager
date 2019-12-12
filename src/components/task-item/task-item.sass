@@ -1,0 +1,102 @@
+.task-item
+    display: flex
+    position: relative
+
+    &__label
+        flex: 1 1 auto
+        padding-right: 1rem
+        cursor: pointer
+
+    &__comments
+        display: inline-block
+        position: relative
+        top: 2px
+        width: 24px
+        height: 21px
+        margin: 0 .625rem
+        font-size: .5rem
+        text-align: center
+        line-height: 17px
+        vertical-align: bottom
+        background: url('./comment-icon.svg') no-repeat 0 0 
+    
+    &__tags
+        display: inline-block
+    
+    &__date
+        position: absolute
+        top: .325rem
+        right: 0
+        padding-left: 10px
+        font-size: .75rem
+        color: #8e8f91
+        transform: translateX(100%)
+
+    &__date-time
+        margin-left: .5rem
+    
+    &__status
+        flex: 0 0 6.875rem
+        padding: 0 .5rem
+        // outline: 1px solid tomato
+
+    &__assigned
+        position: relative
+        flex: 0 0 6rem
+        padding-right: 1rem
+        text-align: right
+        // outline: 1px solid violet
+
+        & .user-icon
+            position: relative
+            width: 1.625rem
+            height: 1.625rem
+            font-size: .625rem
+            line-height: 1.375rem
+            border: 2px solid #fff
+
+            &_align:nth-child(1)
+                left: calc(.375rem * 2)
+            
+            &_align:nth-child(2)
+                left: .375rem
+
+            &_rest
+                position: absolute
+                top: 0
+                right: -4px
+                color: gray
+                background: none
+                border-color: transparent
+                // outline: 1px solid tomato
+
+
+.status
+    &_testing
+        color: #f99412
+    &_acceptance
+        color: #a18f77
+    &_process
+        color: #77a180
+    &_done
+        color: #8f739f
+
+.tag
+    display: inline-block
+    margin-right: .5rem
+    padding: .125rem .5rem
+    font-size: .75rem
+    line-height: 1
+    color: #fff
+    border-radius: 2px
+
+    &_violet
+        background-color: #C39BD3
+    &_blue
+        background-color: #85C1E9
+    &_green
+        background-color: #76D7C4
+    &_red
+        background-color: #F1948A
+    &_yellow
+        background-color: #F7DC6F

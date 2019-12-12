@@ -29,3 +29,18 @@ export const formatDate = (date) => {
     const minutes = date.getMinutes();
     return `${day} ${monthNames[month]} ${year}, ${hours}:${minutes}`;
 }
+
+export const formatStatus = (status) => {
+    switch(status) {
+        case('acceptance'):
+            return 'Приемка'
+        case('process'):
+            return 'В работе'
+        case('testing'):
+            return 'Тестирование'
+        case('done'):
+            return 'Выполнено'
+        default:
+            return ''
+    }
+}

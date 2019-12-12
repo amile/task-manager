@@ -2,7 +2,7 @@
 import initialState from './getDefaultState';
 import { STATE_LOADED, ADD_PROJECT, ADD_GROUP, ADD_TAG, ADD_TASK, SET_SHOWED_GROUP,
     UPDATE_TASK_ADD_TAG, UPDATE_TASK_DELETE_TAG, UPDATE_TASK_CHANGE_STATUS,
-    UPDATE_TASK_ADD_ASSIGNED } from './constants';
+    UPDATE_TASK_ADD_ASSIGNED, UPDATE_TASK_ADD_COMMENT } from './constants';
 
 
 const findGroup = (id, list, newItem, changeList) => {
@@ -51,7 +51,6 @@ const oldupdateTaskAddTag = (taskId, tagId, state) => {
 }
 
 const createNewTask = ({id, label, parentId, dateCreated}, state) => {
-    console.log('reduser', id, label, parentId, dateCreated, state)
     return {
         id,
         parentId,
@@ -63,6 +62,16 @@ const createNewTask = ({id, label, parentId, dateCreated}, state) => {
         tags: [],
         comments: [],
         history: [{user: state.currentUser, label: 'создал задачу', date: dateCreated}]
+    };
+}
+
+const createNewComment = (id, parentId, label, dateCreated, state) => {
+    return {
+        id,
+        parentId,
+        label,
+        dateCreated,
+        user: state.currentUser,
     };
 }
 
@@ -99,6 +108,12 @@ const updateTaskChangeStatus = (taskId, status, state) => {
 const updateTaskAddAssigned = (taskId, userId, state) => {
     const updatedTasks = findTask(taskId, state, 
         (task) => {return { ...task, assigned: [ ...task.assigned, userId ] }});
+    return updatedTasks;
+}
+
+const updateTaskAddComment = (taskId, commentId, state) => {
+    const updatedTasks = findTask(taskId, state, 
+        (task) => {return { ...task, comments: [ ...task.comments, commentId ] }});
     return updatedTasks;
 }
 
@@ -167,6 +182,15 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 tasks: updateTaskAddAssigned(action.payload.taskId, action.payload.userId, state),
+            }
+
+        case UPDATE_TASK_ADD_COMMENT:
+            const newComment = createNewComment(action.payload.id, action.payload.parentId,
+                action.payload.label, action.payload.dateCreated, state);
+            return {
+                ...state,
+                tasks: updateTaskAddComment(action.payload.parentId, action.payload.id, state),
+                comments: [ ... state.comments, newComment]
             }
 
         default:

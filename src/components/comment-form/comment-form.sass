@@ -1,0 +1,113 @@
+.comment-form
+    padding: .5rem
+    font-size: .875rem
+    line-height: 1.2rem
+
+    &__editor-wrapper
+        position: relative
+        width: 100%
+        min-height: 5.5rem
+        padding: 1rem 0
+        // outline: 1px solid tomato
+
+    input::placeholder
+        color: #9ca3b5
+
+    &__btn
+        display: inline-block
+        width: 20px
+        height: 20px
+        margin-left: 5px
+        margin-right: 10px
+        background: url('./text-editor-icons-blue-sm.png') no-repeat
+        border: none
+        cursor: pointer
+        // outline: 1px solid tomato
+
+        &_bold
+            background-position: -2px -3px
+        
+        &_italic
+            background-position: -52px -3px
+
+        &_underline
+            background-position: -104px -3px
+
+        &_ul
+            margin-left: 20px
+            background-position: -2px -54px
+
+        &_ol
+            background-position: -54px -54px
+
+        &_code
+            margin-left: 20px
+            background-position: -104px -105px
+
+        &_link
+            background-position: -155px -105px
+        
+        &_file
+            float: right
+            background: url('./clip-icon.svg') no-repeat 0 0
+            transform: rotate(-45deg)
+    
+    &__submit-btn
+        position: absolute
+        bottom: 0
+        right: 0
+        padding: 5px 8px
+        font-size: .875rem
+        color: #9ca3b5
+        background-color: #fff
+        border: 1px solid #eff0f2
+        cursor: pointer
+    
+    & .link-form
+        position: absolute
+        z-index: 2
+        left: 0
+        // top: .8rem
+        bottom: 0
+        width: 100%
+        padding-right: 30px
+        background-color: #fff
+        box-shadow: 0px 0px 4px 0px rgba(74,141,228,.7)
+
+        &__input
+            padding-left: 10px
+            border: none
+        
+        &__btn
+            top: .8rem
+            font-family: 'Source Code Pro', monospace
+            cursor: pointer
+
+            &_close
+                top: .8rem
+            &_add
+                transform: none
+                top: .8rem
+                right: 1.5rem
+
+.DraftEditor-root
+    position: relative
+    margin-top: .5rem
+
+    & ul, ol
+        padding: .5rem 1.2rem
+        list-style-position: inside
+    & ul
+        list-style-type: circle
+    
+    & pre
+        font-family: 'Source Code Pro', monospace
+
+.public-DraftEditorPlaceholder-root
+    position: absolute
+    z-index: 0
+    color: #9ca3b5
+
+.DraftEditor-editorContainer
+    position: relative
+    z-index: 1

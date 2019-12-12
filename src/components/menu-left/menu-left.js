@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { addProject, setShowedGroup } from '../../actions';
+import { addProject, setShowedGroup, addGroup } from '../../actions';
 import { projectsSelector } from '../../selectors';
 
 import AddForm from '../add-form/add-form';
 import ConnectedMenuLeftItem from '../menu-left-item/menu-left-item';
+import ProjectMenu from '../project-menu/project-menu';
 
 import './menu-left.sass';
 
@@ -16,32 +17,39 @@ class MenuLeft extends Component {
         this.state = {
             showedGroup: null,
             maxLevel: 3,
-            addNewProject: false
+            showAddProjectForm: false
         };
         this.onToggleShowed = (id) => {
             this.setState({ showedGroup: id });
             this.props.setShowedGroup(id);
         }
         this.onAddProject = () => {
-            this.setState({ addNewProject: true })
+            this.setState({ showAddProjectForm: true })
         }
-        this.onSubmitProject = (value) => {
-            this.setState({ addNewProject: false })
-            if (value.length > 0) {
-                this.props.addProject(value);
+        this.onCloseAddProjectForm = () => {
+            this.setState({ showAddProjectForm: false })
+        }
+        this.onSubmitProject = (label) => {
+            this.setState({ showAddProjectForm: false })
+            if (label.length > 0) {
+                this.props.addProject(label);
             }
+        }
+        this.addGroup = (label, parentId) => {
+            this.props.addGroup(label, parentId);
         }
     }
     
     render() {
         console.log(this.state.showedGroup);
-        const level = 1;
+        const level = 0;
         const listProjects = this.props.projects.map((project) => {
             return <ConnectedMenuLeftItem group={ project } level={ level } 
                 maxLevel={ this.state.maxLevel } showed={ this.state.showedGroup } 
-                onToggleShowed={ this.onToggleShowed }/>
+                onToggleShowed={ this.onToggleShowed } addGroup={ this.addGroup }/>
         });
-        const addForm = this.state.addNewProject ? <AddForm project={ true } addNewItem={ this.onSubmitProject }/> : null;
+        const addForm = this.state.showAddProjectForm ? <AddForm project={ true } addNewItem={ this.onSubmitProject }
+            onCloseForm={ this.onCloseAddProjectForm }/> : null;
         return (
             <div className='menu-left'>
                 <div className='menu-left__item'>Уведомления</div>
@@ -49,11 +57,14 @@ class MenuLeft extends Component {
                     <span className='menu-left__add-button' onClick={ this.onAddProject }>+</span>
                 </div>
                 <ul className='projects-list'>
-                    { listProjects }
-                    <li className='list-item projects-list__item'>
+                    <li key='add' className='list-item projects-list__item'>
                         { addForm }
                     </li>
+                    { listProjects }
                 </ul>
+                <div className='menu-left__bottom-bar'>
+                    <span className='menu-left__bottom-bar-icon'></span>
+                </div>
             </div>
         )
     }  
@@ -67,7 +78,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setShowedGroup: bindActionCreators(setShowedGroup, dispatch),
-        addProject: bindActionCreators(addProject, dispatch)
+        addProject: bindActionCreators(addProject, dispatch),
+        addGroup: bindActionCreators(addGroup, dispatch)
     }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MenuLeft);
