@@ -1,10 +1,10 @@
 import { all, put, takeEvery, select } from 'redux-saga/effects';
 
-import { projectLoaded, updateTaskAddTag } from './actions';
+import { projectLoaded, updateTaskAddTag, updateCommentAddFile } from './actions';
 
 import { defaultState } from './getDefaultState';
 
-import { ADD_GROUP, ADD_TAG, ADD_TASK } from './constants';
+import { ADD_GROUP, ADD_TAG, ADD_TASK, UPDATE_TASK_ADD_COMMENT } from './constants';
 
 function* helloSagaSetInitialState() {
     yield window.localStorage.setItem('reduxState', JSON.stringify(defaultState))
@@ -42,12 +42,24 @@ function* pushNewTaskUrlToHistory({ payload, history }) {
 function* watchAddNewTask() {
     yield takeEvery(ADD_TASK, pushNewTaskUrlToHistory);
 }
+
+function* putAddFilesToComment({ payload }) {
+    if (payload.files.length > 0) {
+        yield all(payload.files.map(file => put(updateCommentAddFile(file, payload.id))));
+    }   
+}
+
+function* watchAddNewComment() {
+    yield takeEvery(UPDATE_TASK_ADD_COMMENT, putAddFilesToComment);
+}
+
 export default function* rootSaga() {
     yield all([
         helloSagaSetInitialState(),
         loadData(),
         saveState(),
         watchAddNewTag(),
-        watchAddNewTask()
+        watchAddNewTask(),
+        watchAddNewComment()
     ]);
 }

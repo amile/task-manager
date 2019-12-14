@@ -288,7 +288,7 @@ class ChangeTaskForm extends Component {
             );
         });
         return (
-            <div>
+            <div className='task-form__body'>
                 <section className='task-form__task-info'>
                     <div className='task-form__container'>
                         <div className='task-form__created-info'>
@@ -327,7 +327,7 @@ class ChangeTaskForm extends Component {
                         </ul>
                     </div>
                 </section>
-                <section className='task-form__task-info'>
+                <section className='task-form__comment-editor'>
                     <div className='task-form__container'>
                         <CommentForm addComment={ this.props.addComment }/>
                     </div>

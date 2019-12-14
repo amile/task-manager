@@ -18,8 +18,8 @@ class CommentForm extends Component {
             linkValue: '',
             comment: null,
             editorState: EditorState.createEmpty(this.decorator),
-            file: null,
-            imagePreviewUrl: null
+            files: [],
+            filePreviewUrl: null
 
         }
         this.onChange = (editorState) => {
@@ -35,16 +35,17 @@ class CommentForm extends Component {
             this.onChange(RichUtils.toggleBlockType(this.state.editorState, blockType));
         };
         this.onSubmit = () => {
-            const { editorState } = this.state;
+            const { editorState, files } = this.state;
             const raw = convertToRaw(editorState.getCurrentContent());
             const rawJSON = JSON.stringify(raw);
             this.setState(
                 { 
                     comment: rawJSON, 
                     editorState: EditorState.createEmpty(this.decorator),
-                    showSubmitButton: false
+                    showSubmitButton: false,
+                    files: []
                 });
-            this.props.addComment(rawJSON);
+            this.props.addComment(rawJSON, files);
         };
         this.onChangeComment = (e) => {
             this.setState({
@@ -93,25 +94,48 @@ class CommentForm extends Component {
             
         }
         this.handleUploadFile = (e) => {
-            
+            console.log('onchange', e.target.files);
             e.preventDefault();
             const reader = new FileReader();
             const file = e.target.files[0];
+            
 
             reader.onloadend = () => {
-                this.setState({
-                    file: file,
-                    imagePreviewUrl: reader.result
-                });
-                console.log('File upload', this.state.file);
-                console.log('File upload url', this.state.imagePreviewUrl);
+                this.setState((state) => {
+                    return {
+                        files: [...state.files, {name: file.name, url: reader.result, type: file.type}]
+                    }
+            });
+                console.log('onchange', reader.result);
             }
             reader.readAsDataURL(file)
+        }
+        this.handleDeleteFile = (name) => {
+            const idx = this.state.files.findIndex((file) => { return name === file.name });
+            const newFiles = [ ...this.state.files.slice(0, idx), ...this.state.files.slice(idx + 1)];
+            this.setState({files: newFiles});
         }
 
     }
     render() {
-        const imagePreviewUrl = (!this.state.imagePreviewUrl) ? null : (<img src={ this.state.imagePreviewUrl } />);
+        let imageList = null;
+        if (this.state.files.length > 0) {
+            imageList = this.state.files.map((file) => {
+                const imageType = file.type.startsWith('image/');
+                const image = (!imageType) ? null : (<img className='file-img' src={ file.url } />);
+                return (
+                    <div className='file-wrapper'>
+                        { image }
+                        <div className='file-label'>
+                            { file.name }
+                            <span className='file-label-download'>Загрузить</span>
+                            <span className='file-label-delete'>+</span>
+                        </div>
+                    </div>
+                );
+            })
+
+        }
 
         const linkForm = (!this.state.showLinkForm) ? null : (
             <form className='link-form' onSubmit={ this.onSubmitLink }>
@@ -123,6 +147,14 @@ class CommentForm extends Component {
         )
         const submitButton = (!this.state.showSubmitButton) ? null :
             (<button className='comment-form__submit-btn' onClick={ this.onSubmit }>Сохранить</button>);
+        const filesLinkList = (this.state.files.length === 0) ? null : this.state.files.map((file) => {
+            return (
+                <div className='comment-form__load-file'>
+                    <a href={ file.url } target='_blank' download={ file.name }>{ file.name }</a>
+                    <span className='comment-form__load-file-cancel' onClick={() => {this.handleDeleteFile(file.name)} }> +</span>
+                </div>
+            );
+        });
         const comment = (this.state.comment) ? EditorState.createWithContent(convertFromRaw(JSON.parse(this.state.comment)), this.decorator) : this.state.editorState;
         return (
             <div className='comment-form'>
@@ -143,19 +175,27 @@ class CommentForm extends Component {
                     <button className='comment-form__btn comment-form__btn_link'
                         onClick={() => this.setState({ showLinkForm: true })}></button>
                     <button className='comment-form__btn comment-form__btn_file'
-                        onClick={() => { }}></button> 
+                        onClick={() => {this.fileUploadRef.click()}}>
+                        <label for='upload-file'>
+                            <input type='file' id='upload-file' ref={ (ref)=>{this.fileUploadRef = ref} }
+                            value='' onChange={ this.handleUploadFile } />
+                        </label>
+                        
+                    </button> 
                 </div>
                 <div className='comment-form__editor-wrapper'>
                     <Editor editorState={ this.state.editorState } onChange={ this.onChange } onBlur={ this.onBlur }
                         placeholder='Напишите комментарий' handleKeyCommand={ this.handleKeyCommand } onFocus={ this.onFocus }/>
                     { linkForm }
+                    <div className='comment-form__files-wrapper'>
+                        { filesLinkList }
+                    </div>
+                    
                     { submitButton }
                     
                 </div>
                 <div>
-                    <input type='file' onChange={ this.handleUploadFile } />
-                    { imagePreviewUrl }
-                    <a href={ this.state.imagePreviewUrl } target='_blank' download='myImage.png'>Link</a>
+                    { imageList }
 
                 </div>
             </div>    

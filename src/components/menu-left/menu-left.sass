@@ -1,12 +1,17 @@
 .menu-left
-    position: relative
-    flex: 0 0 30%
-    width: 16rem
-    min-height: 100vh
-    padding-top: 1rem
-    padding-bottom: 2.75rem
+    overflow: auto
+    flex: 0 0 20rem
+    width: 20rem
+    height: 100%
     color: #fff
     background-color: #2e3d54
+
+    &__container
+        position: relative
+        min-height: 100%
+        width: 100%
+        padding-top: 1rem
+        padding-bottom: 2.75rem       
 
     &__item
         position: relative
@@ -48,6 +53,7 @@
         font-size: 1rem
         line-height: 1
         text-align: center
+        background-color: #2e3d54
         border-top: 1px solid #434f65
 
         &-icon
@@ -58,6 +64,7 @@
             background: url('./lock-icon.svg') no-repeat 0 0
 
 .projects-list
+
     &__item
         position: relative
         margin-left: 20px
@@ -78,7 +85,8 @@
                 color: #fff
                 background-color: #59657b
 
-            &_project 
+            &_project
+                margin: 0
                 padding-top: .4375rem
                 padding-bottom: .4375rem
                 font-size: 1rem

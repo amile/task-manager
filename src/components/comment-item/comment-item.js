@@ -22,6 +22,7 @@ class CommentItem extends Component {
     }
     render() {
         const { user, comment } = this.props;
+        console.log('comment files', comment.files)
         const label = EditorState.createWithContent(convertFromRaw(JSON.parse(comment.label)), this.decorator);
         return (
             <div className='comment__wrapper'>

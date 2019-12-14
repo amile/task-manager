@@ -37,7 +37,7 @@ export const defaultState = {
             assigned: [],
             tags: [],
             comments: [],
-            history: [{user: '88', label: 'создал задачу', date: new Date() }]
+            history: [{user: '89', label: 'создал задачу', date: new Date() }]
         },
         {
             id: '5', parentId: '10', label: 'Баги в сервисе "новости/объявления"', 
@@ -57,6 +57,7 @@ export const defaultState = {
             assigned: ['89', '88', '89', '89'],
             tags: ['99', '98'],
             comments: ['25', '26'],
+            history: [{user: '88', label: 'создал задачу', date: new Date(2019, 11, 10) }]
         },
         {
             id: '8',
@@ -68,6 +69,7 @@ export const defaultState = {
             assigned: ['89', '88'],
             tags: ['99', '98'],
             comments: [],
+            history: [{user: '88', label: 'создал задачу', date: new Date(2019, 11, 11, 6, 4) }]
         },
         {
             id: '9',
@@ -79,6 +81,7 @@ export const defaultState = {
             assigned: ['89'],
             tags: ['96'],
             comments: [],
+            history: [{user: '89', label: 'создал задачу', date: new Date(2019, 11, 7, 15, 1) }]
         },
         {
             id: '30', parentId: '13', label: 'Ошибка сервера', 
@@ -114,7 +117,8 @@ export const defaultState = {
             "entityMap": {}
         }`,
             user: '89',
-            date: new Date()
+            date: new Date(),
+            files: []
         },
         { id: '26',
             parentId: '7',
@@ -134,9 +138,11 @@ export const defaultState = {
             "entityMap": {}
         }`,
             user: '89',
-            date: new Date()
+            date: new Date(),
+            files: []
         }
     ],
+    files: []
 };
 
 const initialState = {
@@ -147,6 +153,7 @@ const initialState = {
     groups: [],
     tasks: [],
     comments: [],
+    files: [],
 };
 
 export default initialState;

@@ -2,7 +2,8 @@
 import initialState from './getDefaultState';
 import { STATE_LOADED, ADD_PROJECT, ADD_GROUP, ADD_TAG, ADD_TASK, SET_SHOWED_GROUP,
     UPDATE_TASK_ADD_TAG, UPDATE_TASK_DELETE_TAG, UPDATE_TASK_CHANGE_STATUS,
-    UPDATE_TASK_ADD_ASSIGNED, UPDATE_TASK_ADD_COMMENT } from './constants';
+    UPDATE_TASK_ADD_ASSIGNED, UPDATE_TASK_ADD_COMMENT, ADD_FILE, UPDATE_TASK_ADD_FILE,
+    UPDATE_COMMENT_ADD_FILE } from './constants';
 
 
 const findGroup = (id, list, newItem, changeList) => {
@@ -72,6 +73,7 @@ const createNewComment = (id, parentId, label, dateCreated, state) => {
         label,
         dateCreated,
         user: state.currentUser,
+        files: []
     };
 }
 
@@ -81,6 +83,15 @@ const findTask = (taskId, state, callback) => {
             return callback(task);
         }
         return task
+    });
+}
+
+const findComment = (commentId, state, callback) => {
+    return state.comments.map((comment) => {
+        if (comment.id === commentId) {
+            return callback(comment);
+        }
+        return comment
     });
 }
 
@@ -115,6 +126,18 @@ const updateTaskAddComment = (taskId, commentId, state) => {
     const updatedTasks = findTask(taskId, state, 
         (task) => {return { ...task, comments: [ ...task.comments, commentId ] }});
     return updatedTasks;
+}
+
+const updateTaskAddFile = (taskId, file, state) => {
+    const updatedTasks = findTask(taskId, state, 
+        (task) => {return { ...task, files: [ ...task.files, file ] }});
+    return updatedTasks;
+}
+
+const updateCommentAddFile = (commentId, fileId, state) => {
+    const updatedComments = findComment(commentId, state, 
+        (comment) => {return { ...comment, files: [ ...comment.files, fileId ] }});
+    return updatedComments;
 }
 
 const reducer = (state = initialState, action) => {
@@ -192,6 +215,25 @@ const reducer = (state = initialState, action) => {
                 tasks: updateTaskAddComment(action.payload.parentId, action.payload.id, state),
                 comments: [ ... state.comments, newComment]
             }
+
+        case ADD_FILE:
+            return {
+                ...state,
+                files: [ ...state.files, action.payload.file]
+        }
+
+        case UPDATE_TASK_ADD_FILE:
+            return {
+                ...state,
+                tasks: updateTaskAddFile(action.payload.parentId, action.payload.file, state)
+        }
+
+        case UPDATE_COMMENT_ADD_FILE:
+            return {
+                ...state,
+                comments: updateCommentAddFile(action.payload.parentId, action.payload.file.id, state),
+                files: [...state.files, action.payload.file]
+        }
 
         default:
             return state;

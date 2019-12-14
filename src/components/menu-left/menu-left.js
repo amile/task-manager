@@ -52,19 +52,21 @@ class MenuLeft extends Component {
             onCloseForm={ this.onCloseAddProjectForm }/> : null;
         return (
             <div className='menu-left'>
-                <div className='menu-left__item'>Уведомления</div>
-                <div className='menu-left__item'>Проекты
-                    <span className='menu-left__add-button' onClick={ this.onAddProject }>+</span>
-                </div>
-                <ul className='projects-list'>
-                    <li key='add' className='list-item projects-list__item'>
-                        { addForm }
-                    </li>
-                    { listProjects }
-                </ul>
-                <div className='menu-left__bottom-bar'>
-                    <span className='menu-left__bottom-bar-icon'></span>
-                </div>
+                <div className='menu-left__container'>
+                    <div className='menu-left__item'>Уведомления</div>
+                    <div className='menu-left__item'>Проекты
+                        <span className='menu-left__add-button' onClick={ this.onAddProject }>+</span>
+                    </div>
+                    <ul className='projects-list'>
+                        <li key='add' className='list-item projects-list__item'>
+                            { addForm }
+                        </li>
+                        { listProjects }
+                    </ul>
+                    <div className='menu-left__bottom-bar'>
+                        <span className='menu-left__bottom-bar-icon'></span>
+                    </div>
+                </div>    
             </div>
         )
     }  

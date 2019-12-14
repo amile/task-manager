@@ -43,9 +43,9 @@ class TaskForm extends Component {
         this.updateTaskAddAssigned = (userId) => {
             this.props.updateTaskAddAssigned(this.props.itemId, userId);
         };
-        this.addComment = (label) => {
+        this.addComment = (label, files) => {
             console.log(label);
-            this.props.updateTaskAddComment(this.props.itemId, label);
+            this.props.updateTaskAddComment(this.props.itemId, label, files);
         };
     }
     componentDidMount() {

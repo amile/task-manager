@@ -1,5 +1,5 @@
 .comment-form
-    padding: .5rem
+    padding: 1rem 0
     font-size: .875rem
     line-height: 1.2rem
 
@@ -7,8 +7,27 @@
         position: relative
         width: 100%
         min-height: 5.5rem
-        padding: 1rem 0
+        padding: 1rem 0 2rem
         // outline: 1px solid tomato
+
+    &__files-wrapper
+        margin-top: 1.5rem
+
+    &__load-file
+        margin: .25rem 0
+        padding: 0 .5rem
+        font-size: .75rem
+        color: #7f7f7f
+        background-color: #f8f8f8
+
+    &__load-file-cancel
+        display: inline-block
+        margin-left: 1rem
+        font-size: .875rem
+        transform: rotate(45deg)
+        cursor: pointer
+    
+
 
     input::placeholder
         color: #9ca3b5
@@ -17,7 +36,7 @@
         display: inline-block
         width: 20px
         height: 20px
-        margin-left: 5px
+        margin-left: .5rem
         margin-right: 10px
         background: url('./text-editor-icons-blue-sm.png') no-repeat
         border: none
@@ -34,14 +53,12 @@
             background-position: -104px -3px
 
         &_ul
-            margin-left: 20px
             background-position: -2px -54px
 
         &_ol
             background-position: -54px -54px
 
         &_code
-            margin-left: 20px
             background-position: -104px -105px
 
         &_link
@@ -49,6 +66,7 @@
         
         &_file
             float: right
+            margin: 0
             background: url('./clip-icon.svg') no-repeat 0 0
             transform: rotate(-45deg)
     
@@ -93,6 +111,7 @@
 .DraftEditor-root
     position: relative
     margin-top: .5rem
+    padding-left: .5rem
 
     & ul, ol
         padding: .5rem 1.2rem
@@ -111,3 +130,11 @@
 .DraftEditor-editorContainer
     position: relative
     z-index: 1
+
+input[type='file']
+    visibility: hidden
+
+.file-img
+    max-width: 100%
+    max-height: 250px
+

@@ -1,8 +1,9 @@
 import { STATE_LOADED, ADD_PROJECT, ADD_GROUP, ADD_TASK, ADD_TAG, SET_SHOWED_GROUP,
     UPDATE_TASK_ADD_TAG, UPDATE_TASK_DELETE_TAG, UPDATE_TASK_CHANGE_STATUS,
-    UPDATE_TASK_ADD_ASSIGNED, UPDATE_TASK_ADD_COMMENT } from './constants';
+    UPDATE_TASK_ADD_ASSIGNED, UPDATE_TASK_ADD_COMMENT, ADD_FILE, UPDATE_TASK_ADD_FILE,
+    UPDATE_COMMENT_ADD_FILE } from './constants';
 
-import { createNewIndex } from './utils';
+import { createNewIndex, genFileHash } from './utils';
 
 const projectLoaded = (data) => {
     return {
@@ -102,14 +103,45 @@ const updateTaskAddAssigned = (taskId, userId) => {
     };
 };
 
-const updateTaskAddComment = (parentId, label) => {
+const updateTaskAddComment = (parentId, label, files) => {
     return {
         type: UPDATE_TASK_ADD_COMMENT,
         payload: {
             id: createNewIndex(),
             parentId,
             dateCreated: new Date(),
-            label
+            label,
+            files
+        }
+    };
+};
+
+const addFile = (file, parentId) => {
+    return {
+        type: ADD_FILE,
+        payload: {
+            file: { ...file, id: createNewIndex()},
+            parentId,
+        }
+    };
+};
+
+const updateTaskAddFile = (file, parentId) => {
+    return {
+        type: UPDATE_TASK_ADD_FILE,
+        payload: {
+            file,
+            parentId
+        }
+    };
+};
+
+const updateCommentAddFile = (file, parentId) => {
+    return {
+        type: UPDATE_COMMENT_ADD_FILE,
+        payload: {
+            file: { ...file, id: createNewIndex()},
+            parentId
         }
     };
 };
@@ -125,5 +157,8 @@ export {
     updateTaskDeleteTag,
     updateTaskChangeStatus,
     updateTaskAddAssigned,
-    updateTaskAddComment
+    updateTaskAddComment, 
+    addFile,
+    updateTaskAddFile,
+    updateCommentAddFile,
 };

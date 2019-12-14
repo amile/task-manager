@@ -4,6 +4,12 @@ export const genPasswordHash = (pass) => {
     const hash = bcript.hashSync(pass, 8);
     return hash;
 }
+
+export const genFileHash = (file) => {
+    const hash = bcript.hashSync(file, 8);
+    return hash;
+}
+
 const passHashDimon = genPasswordHash('1qa2ws3ed');
 const passHashBoris = genPasswordHash('qweasdzxc');
 
