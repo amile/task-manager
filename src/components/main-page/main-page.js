@@ -34,12 +34,6 @@ class MainPage extends Component {
         }
     }
     render() {
-        console.log('history', this.props.history);
-        /* const taskForm = !this.state.showTaskEditor ? null : (
-            <TaskForm showedTaskId={this.state.showedTask}
-                createTask={ this.state.createTask }
-                showTaskEditor={ this.state.showTaskEditor }
-                onCloseTaskEditor={ this.onCloseTaskEditor }/>); */
         return (
             <div className='main-page'>
                 <ItemList 

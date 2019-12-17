@@ -29,7 +29,8 @@ export const defaultState = {
             assigned: [],
             tags: ['99'],
             comments: [],
-            history: [{user: '88', label: 'создал задачу', date: new Date() }]
+            history: [{user: '88', label: 'создал задачу', date: new Date() }],
+            files: [],
         }, 
         {
             id: '4', parentId: '7', label: 'Бальная оценка. Если полностью стереть значение модификатора и нажать клавишу Enter в консоли выводится ошибка 400, значение модификатора не изменяется', 
@@ -37,7 +38,8 @@ export const defaultState = {
             assigned: [],
             tags: [],
             comments: [],
-            history: [{user: '89', label: 'создал задачу', date: new Date() }]
+            history: [{user: '89', label: 'создал задачу', date: new Date() }],
+            files: [],
         },
         {
             id: '5', parentId: '10', label: 'Баги в сервисе "новости/объявления"', 
@@ -45,7 +47,8 @@ export const defaultState = {
             assigned: ['89'],
             tags: ['96'],
             comments: [],
-            history: [{user: '88', label: 'создал задачу', date: new Date() }]
+            history: [{user: '88', label: 'создал задачу', date: new Date() }],
+            files: [],
         },
         {
             id: '7',
@@ -57,7 +60,8 @@ export const defaultState = {
             assigned: ['89', '88', '89', '89'],
             tags: ['99', '98'],
             comments: ['25', '26'],
-            history: [{user: '88', label: 'создал задачу', date: new Date(2019, 11, 10) }]
+            history: [{user: '88', label: 'создал задачу', date: new Date(2019, 11, 10) }],
+            files: [],
         },
         {
             id: '8',
@@ -69,7 +73,8 @@ export const defaultState = {
             assigned: ['89', '88'],
             tags: ['99', '98'],
             comments: [],
-            history: [{user: '88', label: 'создал задачу', date: new Date(2019, 11, 11, 6, 4) }]
+            history: [{user: '88', label: 'создал задачу', date: new Date(2019, 11, 11, 6, 4) }],
+            files: [],
         },
         {
             id: '9',
@@ -81,7 +86,8 @@ export const defaultState = {
             assigned: ['89'],
             tags: ['96'],
             comments: [],
-            history: [{user: '89', label: 'создал задачу', date: new Date(2019, 11, 7, 15, 1) }]
+            history: [{user: '89', label: 'создал задачу', date: new Date(2019, 11, 7, 15, 1) }],
+            files: [],
         },
         {
             id: '30', parentId: '13', label: 'Ошибка сервера', 
@@ -89,7 +95,8 @@ export const defaultState = {
             assigned: [],
             tags: ['99'],
             comments: [],
-            history: [{user: '88', label: 'создал задачу', date: new Date() }]
+            history: [{user: '88', label: 'создал задачу', date: new Date() }],
+            files: [],
         },
     ],
     tags: [

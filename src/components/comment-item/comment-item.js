@@ -4,7 +4,7 @@ import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw, Composite
 import * as moment from 'moment';
 import 'moment/locale/ru';
 
-import { makeCommentCreatedByUserSelector } from '../../selectors';
+import { makeCommentCreatedByUserSelector, makeCommentFilesSelector } from '../../selectors';
 
 import './comment-item.sass';
 
@@ -21,7 +21,24 @@ class CommentItem extends Component {
         ]);
     }
     render() {
-        const { user, comment } = this.props;
+        const { user, comment, files } = this.props;
+        let imageList = null;
+        if (files) {
+            imageList = files.map((file) => {
+                const imageType = file.type.startsWith('image/');
+                const image = (!imageType) ? null : (<img className='file-img' src={ file.url } />);
+                return (
+                    <div className='file-wrapper'>
+                        { image }
+                        <div className='file-label'>
+                            <a className='file-label-link' href={ file.url } target='_blank'>{ file.name }</a>
+                            <a className='file-label-download' href={ file.url } target='_blank' download={ file.name }>Загрузить</a>
+                        </div>
+                    </div>
+                );
+            })
+
+        }
         console.log('comment files', comment.files)
         const label = EditorState.createWithContent(convertFromRaw(JSON.parse(comment.label)), this.decorator);
         return (
@@ -36,6 +53,9 @@ class CommentItem extends Component {
                     <div className='comment__date list__item-date'>{ moment(comment.date).format('DD MMMM YYYY, HH:mm') }</div>
                 </div>
                 <div className='comment__label'><Editor editorState={ label } readOnly={true} /></div>
+                <div>
+                    { imageList }
+                </div>
             </div>
         );
     }
@@ -67,9 +87,11 @@ function findLinkEntities(contentBlock, callback, contentState) {
 
 const makeMapStateToProps = () => {
     const commentCreatedByUserSelector = makeCommentCreatedByUserSelector();
+    const commentFilesSelector = makeCommentFilesSelector()
     const mapStateToProps = (state, props) => {
         return {
             user: commentCreatedByUserSelector(state, props),
+            files: commentFilesSelector(state, props)
         }
     }
     return mapStateToProps;  

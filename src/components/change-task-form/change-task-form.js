@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import * as moment from 'moment';
 import 'moment/locale/ru';
 
-import { getTaskTagsSelector, getAllTagsSelector, usersSelector, getTaskCommentsSelector } from '../../selectors';
+import { getTaskTagsSelector, getAllTagsSelector, usersSelector, getTaskCommentsSelector, 
+    getAllTaskFilesSelector } from '../../selectors';
 
 import CommentItem from '../comment-item/comment-item';
 import CommentForm from '../comment-form/comment-form';
@@ -217,7 +218,8 @@ class ChangeTaskForm extends Component {
         this.state = {
             tagFormVisible: false,
             assignedFormVisible: false,
-            historyVisible: false
+            historyVisible: false,
+            filesListVisible: false
         }
         this.onCloseTagForm = () => {
             this.setState({ tagFormVisible: false });
@@ -234,6 +236,9 @@ class ChangeTaskForm extends Component {
         this.onShowedHistory = () => {
             this.setState({ historyVisible: true });
         }
+        this.onShowedFiles = () => {
+            this.setState({ filesListVisible: true });
+        }
         this.onAddTag = (label, color) => {
             this.props.addTag(label, color);
             this.onCloseTagForm();
@@ -248,7 +253,8 @@ class ChangeTaskForm extends Component {
         }
     }
     render() {
-        const { task, assigned, user, users, taskTags, allTags, deleteTag, changeStatus, comments } = this.props;
+        const { task, assigned, user, users, taskTags, allTags, deleteTag, 
+            changeStatus, comments, files } = this.props;
         const addTagForm = this.state.tagFormVisible ? 
             <AddTagForm tags={ allTags } onClose={ this.onCloseTagForm } 
                 addTag={ this.onAddTag } updateTaskAddTag={ this.onUpdateTaskAddTag }/> : null;
@@ -280,6 +286,19 @@ class ChangeTaskForm extends Component {
                 </li>
             );
         });
+        let filesListContent, filesListTitle = null;
+        if (this.state.filesListVisible) {
+            filesListTitle = (<h3 className='task-form__title'>Файлы</h3>);
+            filesListContent = !files ? null : files.map((file, idx) => {
+                return (
+                    <li key={ idx } className='file-list__item file-label'>
+                        <a className='file-label-link' href={ file.url } target='_blank'>{ file.name }</a>
+                        <a className='file-label-download' href={ file.url } target='_blank' download={ file.name }>Загрузить</a>
+                        <span className='btn_delete file-btn_delete' onClick={() => {this.handleDeleteFile(file.name)} }>+</span>
+                    </li>
+                );
+            });
+        }
         const listComments = (!comments) ? null : comments.map((comment) => {
             return (
                 <li key={ comment.id } className='comment list__item'>
@@ -317,10 +336,20 @@ class ChangeTaskForm extends Component {
                         </div>
                     </div>
                 </section>
+                <section className='task-form__files'>
+                    <div className='task-form__container'>
+                        { filesListTitle }
+                        <ul className='files task-form__files'>
+                            { filesListContent }
+                        </ul>
+                    </div>
+                </section>
                 <section className='task-form__discussion'>
-                    <ul className='history'>
-                        { history }
-                    </ul>
+                    <div className='task-form__container'>
+                        <ul className='history'>
+                            { history }
+                        </ul>
+                    </div>
                     <div className='task-form__container'>
                         <ul className='list comment-list'>
                             { listComments }
@@ -335,7 +364,7 @@ class ChangeTaskForm extends Component {
                 
                 <section className='task-form__bottom-menu'>
                     <div className='task-form__container bottom-menu__container'>
-                        <div className='bottom-menu__item'>
+                        <div className='bottom-menu__item' onClick={ this.onShowedFiles }>
                             <span className='bottom-menu__item-icon bottom-menu__item-icon_files'></span>
                             Файлы
                         </div> 
@@ -359,6 +388,7 @@ const mapStateToProps = (state, props) => {
         allTags: getAllTagsSelector(state, props),
         users: usersSelector(state),
         comments: getTaskCommentsSelector(state, props),
+        files: getAllTaskFilesSelector(state, props)
     }   
 };
 

@@ -126,21 +126,22 @@ const addFile = (file, parentId) => {
     };
 };
 
-const updateTaskAddFile = (file, parentId) => {
+const updateTaskAddFile = (fileId, parentId) => {
     return {
         type: UPDATE_TASK_ADD_FILE,
         payload: {
-            file,
+            fileId,
             parentId
         }
     };
 };
 
-const updateCommentAddFile = (file, parentId) => {
+const updateCommentAddFile = (fileId, parentId) => {
+    console.log('action', fileId, parentId)
     return {
         type: UPDATE_COMMENT_ADD_FILE,
         payload: {
-            file: { ...file, id: createNewIndex()},
+            fileId,
             parentId
         }
     };

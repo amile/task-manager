@@ -1,3 +1,5 @@
+@import mixins
+
 html,
 body,
 #root, 
@@ -18,3 +20,8 @@ a:hover,
 a:visited
 	color: inherit
 	text-decoration: none
+
+.btn
+    &_delete
+        display: inline-block
+        @include rotate(45deg)

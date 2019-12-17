@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { isMemberExpression } from '@babel/types';
 
 export const projectsSelector = createSelector(
     state => state.projects,
@@ -153,3 +154,41 @@ export const makeCommentCreatedByUserSelector = () => {
         (userId, users) => users.find((user) => user.id === userId)
     );
 };
+
+export const getAllFilesSelector = createSelector(
+    state => state.files,
+    items => items
+);
+
+export const commentFilesId = (_, props) => props.comment.files;
+
+export const makeCommentFilesSelector = () => {
+    return createSelector(
+        commentFilesId,
+        getAllFilesSelector,
+        (commentFilesId, files) => (commentFilesId.length > 0) ? commentFilesId.map(
+            (id) => files.find((file) => id === file.id)
+        ) : null
+    );
+};
+
+export const taskCommentsFilesId = createSelector(
+    getTaskCommentsSelector,
+    items => (!items) ? [] : items.map(item => item.files).flat()
+);
+
+export const taskFilesId = (_, props) => props.task.files;
+
+export const getAllTaskFilesIdSelector = createSelector(
+    taskFilesId,
+    taskCommentsFilesId,
+    (filesId, commentFilesId) => [...filesId, ...commentFilesId]
+);
+
+export const getAllTaskFilesSelector = createSelector(
+        getAllTaskFilesIdSelector,
+        getAllFilesSelector,
+        (taskFilesId, files) => (taskFilesId.length > 0) ? taskFilesId.map(
+            (id) => files.find((file) => id === file.id)
+        ) : null
+);

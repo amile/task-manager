@@ -128,9 +128,9 @@ const updateTaskAddComment = (taskId, commentId, state) => {
     return updatedTasks;
 }
 
-const updateTaskAddFile = (taskId, file, state) => {
+const updateTaskAddFile = (taskId, fileId, state) => {
     const updatedTasks = findTask(taskId, state, 
-        (task) => {return { ...task, files: [ ...task.files, file ] }});
+        (task) => {return { ...task, files: [ ...task.files, fileId ] }});
     return updatedTasks;
 }
 
@@ -225,14 +225,14 @@ const reducer = (state = initialState, action) => {
         case UPDATE_TASK_ADD_FILE:
             return {
                 ...state,
-                tasks: updateTaskAddFile(action.payload.parentId, action.payload.file, state)
+                tasks: updateTaskAddFile(action.payload.parentId, action.payload.fileId, state)
         }
 
         case UPDATE_COMMENT_ADD_FILE:
+            console.log('reducer', action.payload.parentId, action.payload.fileId);
             return {
                 ...state,
-                comments: updateCommentAddFile(action.payload.parentId, action.payload.file.id, state),
-                files: [...state.files, action.payload.file]
+                comments: updateCommentAddFile(action.payload.parentId, action.payload.fileId, state)
         }
 
         default:

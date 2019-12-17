@@ -1,10 +1,12 @@
 import { all, put, takeEvery, select } from 'redux-saga/effects';
 
-import { projectLoaded, updateTaskAddTag, updateCommentAddFile } from './actions';
+import { projectLoaded, updateTaskAddTag, updateCommentAddFile, addFile, 
+    updateTaskAddFile } from './actions';
 
 import { defaultState } from './getDefaultState';
 
-import { ADD_GROUP, ADD_TAG, ADD_TASK, UPDATE_TASK_ADD_COMMENT } from './constants';
+import { ADD_GROUP, ADD_TAG, ADD_TASK, UPDATE_TASK_ADD_COMMENT, ADD_FILE } from './constants';
+import { yieldExpression } from '@babel/types';
 
 function* helloSagaSetInitialState() {
     yield window.localStorage.setItem('reduxState', JSON.stringify(defaultState))
@@ -43,14 +45,31 @@ function* watchAddNewTask() {
     yield takeEvery(ADD_TASK, pushNewTaskUrlToHistory);
 }
 
-function* putAddFilesToComment({ payload }) {
+function* putAddFiles({ payload }) {
     if (payload.files.length > 0) {
-        yield all(payload.files.map(file => put(updateCommentAddFile(file, payload.id))));
-    }   
+        yield all(payload.files.map(file => put(addFile(file, payload.id))));
+    }
 }
 
-function* watchAddNewComment() {
-    yield takeEvery(UPDATE_TASK_ADD_COMMENT, putAddFilesToComment);
+function* watchAddComment() {
+    yield takeEvery(UPDATE_TASK_ADD_COMMENT, putAddFiles);
+}
+
+function* putAddFilesToParent({ payload }) {
+    const data = yield select();
+    const parentIsComment = yield data.comments.find((comment) => comment.id === payload.parentId);
+    const parentIsTask = yield data.tasks.find((task) => task.id === payload.parentId);
+    if (parentIsComment) {
+        yield put(updateCommentAddFile(payload.file.id, payload.parentId));
+        
+    }
+    else if (parentIsTask) {
+        yield put(updateTaskAddFile(payload.file.id, payload.parentId));
+    }
+}
+
+function* watchAddFile() {
+    yield takeEvery(ADD_FILE, putAddFilesToParent);
 }
 
 export default function* rootSaga() {
@@ -60,6 +79,7 @@ export default function* rootSaga() {
         saveState(),
         watchAddNewTag(),
         watchAddNewTask(),
-        watchAddNewComment()
+        watchAddComment(),
+        watchAddFile()
     ]);
 }

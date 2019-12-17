@@ -62,7 +62,7 @@ class MenuLeftItem extends Component {
         const projectMenu = !this.state.showProjectMenu ? null : <ProjectMenu addGroup={ this.onShowAddGroupForm } />
         let itemClassNames = (!group.parentId) ? 'projects-list__item_project' : '';
         let labelClassNames = (!group.parentId) ? 'projects-list__item-label_project' : '';
-        itemClassNames = (showed === group.id) ? (itemClassNames + ' showed') : itemClassNames;
+        labelClassNames = (showed === group.id) ? (labelClassNames + ' showed') : labelClassNames;
         let listItems = null;
         const listItemsClassNames = (groups.length === 0) ? 'last' : null;
         const addGroupForm = !this.state.addGroupForm ? null : 
@@ -84,7 +84,7 @@ class MenuLeftItem extends Component {
                 <div className={`projects-list__item-label ${ labelClassNames }`} onClick={ this.onToggleActive }>
                     { icon }
                     { menuIcon }
-                    { group.label }
+                    <span className='projects-list__item-label-name'>{ group.label }</span>
                     { projectMenu }
                 </div>
                 { addGroupForm }
