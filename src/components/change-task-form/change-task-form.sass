@@ -5,7 +5,7 @@
         overflow: auto
 
     &__container
-        padding: 0 1rem
+        padding: 0 1.25rem
 
     &__task-info
         border-bottom: 1px solid #efefef
@@ -13,7 +13,23 @@
     &__discussion
         padding: 1rem 0
         border-bottom: 1px solid #efefef
-    
+        
+        & .history
+            margin-top: .5rem
+
+            &__item
+                padding: .375rem
+                font-size: .75rem
+                color: #7f7f7f
+
+                &-user
+                    margin-left: 1rem
+                    margin-right: .25rem
+                    font-weight: bold
+
+        & .DraftEditor-root
+            padding-left: 0
+            
     &__title
         margin-bottom: 1rem
         font-size: .875rem
@@ -67,6 +83,10 @@
                 color: #7f7f7f
                 vertical-align: middle
                 cursor: pointer
+                opacity: .6
+
+                &.active
+                    opacity: 1
 
                 &_menu
                     flex-grow: 1

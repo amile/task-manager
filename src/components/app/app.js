@@ -27,19 +27,27 @@ class App extends Component {
                 <TopBar />
                 <div className='app-wrapper'>
                     <MenuLeft />
-                    <Route
+                    {/* <Route
                         path='/'
-                        component={ MainPage }
-                    />
+                    /> */}
                     <Route
-                        path='/task/:id/:group?'
-                        render={ ({ match }) => {
-                            const { id, group } = match.params;
+                        path='/group/:groupId/'
+                        render={ ({ match, history }) => {
+                            const { groupId } = match.params;
                             return (
-                                <TaskForm itemId={ id } groupId={ group }/>
+                                <MainPage groupId={ groupId } history={ history } match={ match }/>
                             )
                         }}
                     />
+                        <Route
+                            path='/group/:groupId/task/:taskId/:parentId?'
+                            render={ ({ match, history }) => {
+                                const { taskId, parentId } = match.params;
+                                return (
+                                    <TaskForm itemId={ taskId } groupId={ parentId } history={ history } match={ match }/>
+                                )
+                            }}
+                        />
                     <Route
                         path='/login'
                         render={ () => {

@@ -1,15 +1,63 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as moment from 'moment';
+import Datetime from 'react-datetime';
 import 'moment/locale/ru';
 
 import { getTaskTagsSelector, getAllTagsSelector, usersSelector, getTaskCommentsSelector, 
     getAllTaskFilesSelector } from '../../selectors';
+import { statusList } from '../../utils';
 
 import CommentItem from '../comment-item/comment-item';
 import CommentForm from '../comment-form/comment-form';
 
 import './change-task-form.sass';
+import 'react-datetime/css/react-datetime.css'
+
+moment.locale('ru', {
+    calendar : {
+        lastDay : '[Вчера]',
+        sameDay : '[Сегодня]',
+        nextDay : '[Завтра]',
+        lastWeek : 'D MMM',
+        nextWeek : 'D MMM',
+        sameElse : 'D MMM'
+    }
+});
+
+class DateTimePicker extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: this.props.value
+        };
+        this.onChange = (date) => {
+            this.setState({ value: date});
+
+        };
+        this.onBlur = () => {
+            if (this.state.value._isAMomentObject){
+                this.props.updateTaskAddDateDue(this.state.value);
+            }
+            else {
+                this.setState({ value: 'Установить дату'});
+                this.props.updateTaskAddDateDue(null);
+            }
+            console.log('blurrr', this.state.value)
+        };
+    }
+    render() {
+        // const formatValue = `${this.state.value.calendar()} ${this.state.value.format('H:mm')}`
+        return (
+            
+            <div className='date-time-picker'>
+                <Datetime onChange={ this.onChange } value={ this.state.value } 
+                    defaultText='Yfpyfxbnm lfne' dateFormat='D MMM' onBlur={ this.onBlur }/>
+            </div>
+        )
+    }
+
+}
 
 
 class AddTagForm extends Component {
@@ -42,7 +90,12 @@ class AddTagForm extends Component {
         };
         this.onShowSelectList = () => {
             this.setState({ showSelectList: true });
-        }
+        };
+        this.onToggleSelectList = () => {
+            this.setState((state) => {
+                return { showSelectList: !state.showSelectList }
+            });
+        };
         this.searchTags = () => {
             if (this.state.value === '') { return this.props.tags }
             const filterTags = this.props.tags.filter((item) => {
@@ -75,31 +128,39 @@ class AddTagForm extends Component {
             );
         });
         let filteredTags, listTags, newTag;
+        let selectListIconClassNames = 'tag-form__select-list-icon select-list__icon';
         if (this.state.showSelectList) {
             newTag = (this.state.value.length === 0) ? '' :
-                (<div key='new' className='tag-form__select-list-item' onClick={ (e) => {  this.onSelectValue(false) }}>
+                (<div key='new' className='select-list__item select-list__item_active' 
+                    onClick={ (e) => {  this.onSelectValue(false) }}>
                     { this.state.value } (new)
                 </div>);
             filteredTags = (this.props.tags && (this.props.tags.length > 0)) ? this.searchTags() : null;
             listTags = (!filteredTags || (filteredTags.length < 1)) ? null : this.searchTags().map((tag) => {
                 if (tag.label === this.state.value) { newTag = '' }
+                const tagAdded = !this.props.taskTags ? null : this.props.taskTags.find((taskTag) => taskTag.id === tag.id);
+                const itemClassNames = !tagAdded ? 'select-list__item select-list__item_active' : 'select-list__item';
+                const handleFunction = !tagAdded ? () => { this.onSelectValue(tag) } : () => {};
                 return (
-                    <div key={ tag.id } className='tag-form__select-list-item' onClick={ () => { this.onSelectValue(tag) }}>
+                    <div key={ tag.id } className={ itemClassNames } onClick={ handleFunction }>
                         { tag.label }
+                        <span className='select-list__item-icon'></span>
                     </div>
                 )
             });
+            selectListIconClassNames += ' select-list__icon_hide'
         }
-        
+        let selectListClassNames = this.state.showSelectList ? 'tag-form__select-list' : 'tag-form__select-list display_none';
         return (
             <form className='tag-form' onSubmit={ this.onSubmitTag }>
                 <span className='tag-form__close' onClick={ this.props.onClose }>+</span>
                 
                 <div className='tag-form__select-wrapper'>
                     <input type='text' className='tag-form__input' value={ this.state.value } 
-                        placeholder='New tag' onFocus={ this.onShowSelectList } 
+                        placeholder='Новый тег' onFocus={ this.onShowSelectList } 
                         onChange={ this.onChangeValue } />
-                    <div className='tag-form__select-list'>
+                    <span className={ selectListIconClassNames } onClick={ this.onToggleSelectList }></span>
+                    <div className={ selectListClassNames }>
                         { newTag }
                         { listTags }
                     </div>
@@ -133,6 +194,11 @@ class AddAssignedForm extends Component {
         this.onShowSelectList = () => {
             this.setState({ showSelectList: true });
         };
+        this.onToggleSelectList = () => {
+            this.setState((state) => {
+                return { showSelectList: !state.showSelectList }
+            })
+        }
         this.searchUsers = () => {
             if (this.state.value === '') { return this.props.users }
             const filterUsers = this.props.users.filter((item) => {
@@ -151,18 +217,33 @@ class AddAssignedForm extends Component {
                 }
             );
         };
+        this.onDeleteAssignedUser = (userId) => {
+            this.props.updateTaskDeleteAssigned(userId);
+        }
     }
     render() {
         let listUsers, filteredUsers = null;
+        let selectListIconClassNames = 'assigned-form__select-list-icon select-list__icon';
         if (this.state.showSelectList) {
-            filteredUsers = (this.props.users && (this.props.users.length > 0)) ? this.searchUsers() : null;
-            listUsers = (!filteredUsers || (filteredUsers.length < 1)) ? null : filteredUsers.map((user) => {
-                return (
-                    <div key={ user.id } className='assigned-form__select-list-item' onClick={ () => { this.onSelectValue(user) }}>
-                        { user.lastName + ' ' + user.firstName }
-                    </div>
-                )
+            filteredUsers = (this.props.users && (this.props.users.length > 0)) 
+                ? this.searchUsers() 
+                : null;
+            listUsers = (!filteredUsers || (filteredUsers.length < 1)) 
+                ? null 
+                : filteredUsers.map((user) => {
+                    const userAssigned = !this.props.assigned ? null : this.props.assigned.find((assignedUser) => assignedUser.id === user.id);
+                    const itemClassNames = !userAssigned 
+                        ? 'assigned-form__select-list-item select-list__item select-list__item_active' 
+                        : 'assigned-form__select-list-item select-list__item';
+                    const handleFunction = !userAssigned ? () => { this.onSelectValue(user) } : () => {};
+                    return (
+                        <div key={ user.id } className={ itemClassNames } onClick={ handleFunction }>
+                            { user.lastName + ' ' + user.firstName }
+                            <span className='select-list__item-icon' onClick={ () => { this.onDeleteAssignedUser(user.id) } }></span>
+                        </div>
+                    )
             });
+            selectListIconClassNames += ' select-list__icon_hide';
         }
         
         return (
@@ -173,9 +254,13 @@ class AddAssignedForm extends Component {
                     <input type='text' className='assigned-form__input' value={ this.state.value } 
                         placeholder='Введите имя' onFocus={ this.onShowSelectList } 
                         onChange={ this.onChangeValue } />
-                    <div className='assigned-form__select-list'>
-                        { listUsers }
+                    <span className={ selectListIconClassNames } onClick={ this.onToggleSelectList }></span>
+                    <div className='assigned-form__select-list-container'>
+                        <div className='assigned-form__select-list'>
+                            { listUsers }
+                        </div>
                     </div>
+                        
                 </div>
                 <input type='submit' className='assigned-form__add' value='Добавить'/>
             </form>
@@ -198,14 +283,15 @@ class StatusForm extends Component {
     render() {
         const selectClassNames = 'status-form__select status-form__select_' + this.state.status;
         const selectIconClassNames = 'status-form__select-icon status-form__select-icon_' + this.state.status;
+        const options = Object.keys(statusList).map((key) => {
+            return (<option value={ key }>{ statusList[key] }</option>);
+        });
+        console.log(options);
         return (
             <form className='status-form'>
                 <span className={ selectIconClassNames }></span>
                 <select className={ selectClassNames } value={ this.state.status } onChange={ this.changeStatus }>
-                    <option value='acceptance'>Приемка</option>
-                    <option value='process'>В работе</option>
-                    <option value='testing'>Тестирование</option>
-                    <option value='done'>Выполнено</option>
+                    { options }
                 </select>
             </form>
         );
@@ -233,8 +319,10 @@ class ChangeTaskForm extends Component {
         this.onShowAssignedForm = () => {
             this.setState({ assignedFormVisible: true });
         }
-        this.onShowedHistory = () => {
-            this.setState({ historyVisible: true });
+        this.onToggleShowedHistory = () => {
+            this.setState((state) => { 
+                return {historyVisible: !state.historyVisible } 
+            });
         }
         this.onShowedFiles = () => {
             this.setState({ filesListVisible: true });
@@ -251,12 +339,16 @@ class ChangeTaskForm extends Component {
             this.props.updateTaskAddAssigned(userId);
             this.onCloseAssignedForm();
         }
+        this.updateTaskDeleteAssigned = (userId) => {
+            this.props.updateTaskDeleteAssigned(userId);
+            this.onCloseAssignedForm();
+        }
     }
     render() {
         const { task, assigned, user, users, taskTags, allTags, deleteTag, 
             changeStatus, comments, files } = this.props;
         const addTagForm = this.state.tagFormVisible ? 
-            <AddTagForm tags={ allTags } onClose={ this.onCloseTagForm } 
+            <AddTagForm taskTags={taskTags} tags={ allTags } onClose={ this.onCloseTagForm } 
                 addTag={ this.onAddTag } updateTaskAddTag={ this.onUpdateTaskAddTag }/> : null;
         const tagsList = (!taskTags) ? null : taskTags.map((tag) => {
             const tagClassNames = 'tag_' + tag.color;
@@ -267,12 +359,25 @@ class ChangeTaskForm extends Component {
                 </div>
             );
         });
+        const dateDue = !task.dateDue ? 'Установить дату' : `${ task.dateDue.calendar() } ${ task.dateDue.format('H:mm') }`
         const addAssignedForm = this.state.assignedFormVisible ? 
-            <AddAssignedForm users={ users } onClose={ this.onCloseAssignedForm } 
-                updateTaskAddAssigned={ this.updateTaskAddAssigned }/> : null;
-        const assignedUsers = (!assigned) ? null : assigned.map((user) => {
+            <AddAssignedForm users={ users } assigned={ assigned } onClose={ this.onCloseAssignedForm } 
+                updateTaskAddAssigned={ this.updateTaskAddAssigned }
+                updateTaskDeleteAssigned={ this.updateTaskDeleteAssigned }/> : null;
+
+        let assignedRest = null;
+        let assignedUsersClassNames = 'task-form__assigned-item user-icon';
+        if (assigned && (assigned.length > 3)) { 
+            assignedRest = (
+                <li key={ user.id } className='task-form__assigned-item user-icon user-icon_rest'>
+                    + { assigned.length - 3 }
+                </li>
+            );
+            assignedUsersClassNames += ' task-form__assigned-item_align'
+        }
+        const assignedUsers = (!assigned) ? null : assigned.slice(0, 3).map((user) => {
             return (
-                <li key={ user.id } className='task-form__assigned-item user-icon'>
+                <li key={ user.id } className={ assignedUsersClassNames }>
                     { user.firstName.slice(0, 1) + user.lastName.slice(0, 1) }
                 </li>
             );
@@ -280,12 +385,13 @@ class ChangeTaskForm extends Component {
         const history = !this.state.historyVisible ? null : task.history.map((item, idx) => {
             return (
                 <li key={ idx } className='history__item'>
-                    <span className='history__item-date'>{ item.date }</span>
-                    <span className='history__item-user'>{`${ item.user.firstName } ${ item.user.lastName.slice(0, 1) }.`}</span>
+                    <span className='history__item-date'>{ moment(item.date).format('DD MMMM YYYY, H:mm') }</span>
+                    <span className='history__item-user'>{ item.user }</span>
                     { item.label }
                 </li>
             );
         });
+        const activeMenuHistory = !this.state.historyVisible ? '' : 'active'
         let filesListContent, filesListTitle = null;
         if (this.state.filesListVisible) {
             filesListTitle = (<h3 className='task-form__title'>Файлы</h3>);
@@ -313,7 +419,7 @@ class ChangeTaskForm extends Component {
                         <div className='task-form__created-info'>
                             <div className='task-form__created-by'>{`${ user.lastName } ${ user.firstName.slice(0, 1) }.`}</div>
                             <div className='task-form__created-date'>
-                                { moment(task.dateCreated).format('DD MMMM YYYY, h:mm') }
+                                { moment(task.dateCreated).format('DD MMMM YYYY, HH:mm') }
                             </div>
                         </div>
                         <div className='task-form__label'>{ task.label }</div>
@@ -326,8 +432,13 @@ class ChangeTaskForm extends Component {
                             <div className='task-form__status'>
                                 <StatusForm status={ task.status } changeStatus={ changeStatus }/>
                             </div>
+                            <div className='task-form__date-due'>
+                                <span className='date-due__calendar-icon'></span>
+                                <DateTimePicker value={ dateDue } updateTaskAddDateDue={ this.props.updateTaskAddDateDue }/>
+                            </div>
                             <ul className='task-form__assigned-list'>
                                 { assignedUsers }
+                                { assignedRest }
                                 <li key='add' className='user-icon task-form__assigned-item task-form__assigned-item_add' 
                                     onClick={ this.onShowAssignedForm }>+
                                 </li>
@@ -364,11 +475,11 @@ class ChangeTaskForm extends Component {
                 
                 <section className='task-form__bottom-menu'>
                     <div className='task-form__container bottom-menu__container'>
-                        <div className='bottom-menu__item' onClick={ this.onShowedFiles }>
+                        <div className='bottom-menu__item' onClick={ () => {} }>
                             <span className='bottom-menu__item-icon bottom-menu__item-icon_files'></span>
                             Файлы
                         </div> 
-                        <div className='bottom-menu__item'  onClick={ this.onShowedHistory }>
+                        <div className={`bottom-menu__item ${ activeMenuHistory }`}  onClick={ this.onToggleShowedHistory }>
                             <span className='bottom-menu__item-icon bottom-menu__item-icon_history'></span>
                             История
                         </div>

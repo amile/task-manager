@@ -6,7 +6,9 @@ export const projectsSelector = createSelector(
     items => items
 );
 
-export const showedGroupID = state => state.showedGroup;
+export const showedGroupID_old = state => state.showedGroup;
+
+export const getGroupId = (_, props) => props.groupId;
 
 export const groupsSelector = createSelector(
     state => state.groups,
@@ -14,7 +16,7 @@ export const groupsSelector = createSelector(
 );
 
 export const showedGroupSelector = createSelector(
-    showedGroupID,
+    getGroupId,
     groupsSelector,
     (groupId, groups) => groups.find( (group) => group.id === groupId )
 );

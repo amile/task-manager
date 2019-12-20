@@ -34,7 +34,6 @@ class ItemList extends Component {
                 </ConnectedGroupItem>
             </ul>
         );
-        console.log('activeGroup', this.state.activeGroup)
         return (
         
             <div className='item-list-wrapper'>
@@ -44,9 +43,9 @@ class ItemList extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (props, state) => {
     return {
-        group: showedGroupSelector(state),
+        group: showedGroupSelector(props, state),
     }
 };
 

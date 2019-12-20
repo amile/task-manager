@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router-dom';
 
 import { addProject, setShowedGroup, addGroup } from '../../actions';
 import { projectsSelector } from '../../selectors';
@@ -21,7 +22,8 @@ class MenuLeft extends Component {
         };
         this.onToggleShowed = (id) => {
             this.setState({ showedGroup: id });
-            this.props.setShowedGroup(id);
+            // this.props.setShowedGroup(id);
+            this.props.history.push(`/group/${ id }`)
         }
         this.onAddProject = () => {
             this.setState({ showAddProjectForm: true })
@@ -41,7 +43,7 @@ class MenuLeft extends Component {
     }
     
     render() {
-        console.log(this.state.showedGroup);
+        console.log(this.props.history);
         const level = 0;
         const listProjects = this.props.projects.map((project) => {
             return <ConnectedMenuLeftItem group={ project } level={ level } 
@@ -84,4 +86,4 @@ const mapDispatchToProps = (dispatch) => {
         addGroup: bindActionCreators(addGroup, dispatch)
     }
 };
-export default connect(mapStateToProps, mapDispatchToProps)(MenuLeft);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MenuLeft));

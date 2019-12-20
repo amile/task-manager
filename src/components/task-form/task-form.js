@@ -5,7 +5,8 @@ import { withRouter } from 'react-router-dom';
 
 import { showedTaskSelector, taskCreatedByUserSelector, makeTaskAssignedUsersSelector } from '../../selectors';
 import { addTask, addTag, updateTaskAddTag, updateTaskDeleteTag, updateTaskChangeStatus,
-            updateTaskAddAssigned, updateTaskAddComment } from '../../actions';
+            updateTaskAddAssigned, updateTaskDeleteAssigned, updateTaskAddComment,
+            updateTaskAddDateDue } from '../../actions';
 
 import CreateTaskForm from '../create-task-form/create-task-form';
 import ChangeTaskForm from '../change-task-form/change-task-form';
@@ -21,8 +22,9 @@ class TaskForm extends Component {
             show: false
         }
         this.onClose = () => {
+            const path = `/group/${ this.props.match.params.groupId }`;
             this.setState({ close: true, show: false });
-            setTimeout(() => {this.props.history.push('/')}, 1000);
+            setTimeout(() => {this.props.history.push(`${ path }`)}, 1000);
         }
         this.addTag = (label, color) => {
             this.props.addTag(this.props.itemId, { label, color });
@@ -31,9 +33,13 @@ class TaskForm extends Component {
             this.props.updateTaskAddTag(this.props.itemId, tagId);
         }
         this.addNewItem = (e) => {
-            const { groupId, history } = this.props;
-            this.props.addTask(e, groupId, history);
+            const { groupId, history, match } = this.props;
+            const path = `/group/${ match.params.groupId }`;
+            this.props.addTask(e, groupId, history, path);
         }
+        this.updateTaskAddDateDue = (date) => {
+            this.props.updateTaskAddDateDue(this.props.itemId, date);
+        };
         this.updateTaskDeleteTag = (tagId) => {
             this.props.updateTaskDeleteTag(this.props.itemId, tagId);
         };
@@ -43,8 +49,10 @@ class TaskForm extends Component {
         this.updateTaskAddAssigned = (userId) => {
             this.props.updateTaskAddAssigned(this.props.itemId, userId);
         };
+        this.updateTaskDeleteAssigned = (userId) => {
+            this.props.updateTaskDeleteAssigned(this.props.itemId, userId);
+        };
         this.addComment = (label, files) => {
-            console.log(label);
             this.props.updateTaskAddComment(this.props.itemId, label, files);
         };
     }
@@ -57,7 +65,9 @@ class TaskForm extends Component {
             <ChangeTaskForm task={ task } user={ user } assigned={ assigned } 
                 addTag={ this.addTag } updateTaskAddTag={ this.updateTaskAddTag } 
                 deleteTag={ this.updateTaskDeleteTag } changeStatus={ this.updateTaskChangeStatus }
-                updateTaskAddAssigned={ this.updateTaskAddAssigned } addComment={ this.addComment }/>
+                updateTaskAddAssigned={ this.updateTaskAddAssigned } 
+                updateTaskDeleteAssigned={ this.updateTaskDeleteAssigned }
+                updateTaskAddDateDue={ this.updateTaskAddDateDue } addComment={ this.addComment }/>
         let classNames = this.state.close ? 'task-form_close' : '';
         if (this.state.show) { classNames = 'task-form_show' }
         return (
@@ -96,7 +106,9 @@ const mapDispatchToProps = (dispatch) => {
         updateTaskAddTag: bindActionCreators(updateTaskAddTag, dispatch),
         updateTaskDeleteTag: bindActionCreators(updateTaskDeleteTag, dispatch),
         updateTaskChangeStatus: bindActionCreators(updateTaskChangeStatus, dispatch),
+        updateTaskAddDateDue: bindActionCreators(updateTaskAddDateDue, dispatch),
         updateTaskAddAssigned: bindActionCreators(updateTaskAddAssigned, dispatch),
+        updateTaskDeleteAssigned: bindActionCreators(updateTaskDeleteAssigned, dispatch),
         updateTaskAddComment: bindActionCreators(updateTaskAddComment, dispatch),
     }
 };

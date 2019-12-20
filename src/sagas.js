@@ -37,8 +37,8 @@ function* watchAddNewTag() {
     yield takeEvery(ADD_TAG, putTaskAddTag);
 }
 
-function* pushNewTaskUrlToHistory({ payload, history }) {
-    yield history.push(`/task/${ payload.id }`);
+function* pushNewTaskUrlToHistory({ payload, history, path }) {
+    yield history.push(`${ path }/task/${ payload.id }`);
 }
 
 function* watchAddNewTask() {

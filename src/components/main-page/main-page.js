@@ -21,7 +21,8 @@ class MainPage extends Component {
             createTask: true
         };
         this.addNewTask = (groupId) => {
-            this.props.history.push(`/task/new/${ groupId }`);
+            const { match } = this.props;
+            this.props.history.push(`${ match.url }/task/new/${ groupId }`);
         };
         this.addNewGroup = (value, id) => {
             if (value.length > 0) {
@@ -30,13 +31,17 @@ class MainPage extends Component {
             this.setState({ addNew: false });
         };
         this.showTaskEditor = (taskId) => {
-            this.props.history.push(`/task/${ taskId }`);
+            const { match } = this.props;
+            this.props.history.push(`${ match.url }/task/${ taskId }`);
         }
     }
     render() {
+        console.log('history', this.props.match);
+        const { groupId } = this.props;
         return (
             <div className='main-page'>
                 <ItemList 
+                    groupId={ groupId }
                     addNewGroup={ this.addNewGroup }
                     addNewTask={ this.addNewTask }
                     showTaskEditor={ this.showTaskEditor }/>

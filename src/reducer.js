@@ -2,8 +2,8 @@
 import initialState from './getDefaultState';
 import { STATE_LOADED, ADD_PROJECT, ADD_GROUP, ADD_TAG, ADD_TASK, SET_SHOWED_GROUP,
     UPDATE_TASK_ADD_TAG, UPDATE_TASK_DELETE_TAG, UPDATE_TASK_CHANGE_STATUS,
-    UPDATE_TASK_ADD_ASSIGNED, UPDATE_TASK_ADD_COMMENT, ADD_FILE, UPDATE_TASK_ADD_FILE,
-    UPDATE_COMMENT_ADD_FILE } from './constants';
+    UPDATE_TASK_ADD_ASSIGNED, UPDATE_TASK_DELETE_ASSIGNED, UPDATE_TASK_ADD_COMMENT, 
+    UPDATE_TASK_ADD_DATE_DUE, ADD_FILE, UPDATE_TASK_ADD_FILE, UPDATE_COMMENT_ADD_FILE } from './constants';
 
 
 const findGroup = (id, list, newItem, changeList) => {
@@ -51,18 +51,23 @@ const oldupdateTaskAddTag = (taskId, tagId, state) => {
     return updatedTasks
 }
 
-const createNewTask = ({id, label, parentId, dateCreated}, state) => {
+const createNewTask = ({id, label, parentId, dateCreated, action}, state) => {
+    const currentUser = state.users.find((user) => {
+        return state.currentUser === user.id
+    });
     return {
         id,
         parentId,
         label,
         dateCreated,
-        user: state.currentUser,
+        user: currentUser.id,
+        dateDue: null,
         status: 'acceptance',
         assigned: [],
         tags: [],
         comments: [],
-        history: [{user: state.currentUser, label: 'создал задачу', date: dateCreated}]
+        files: [],
+        history: [{ user: `${ currentUser.firstName } ${ currentUser.lastName.slice(0, 1) }.`, label: action, date: dateCreated }]
     };
 }
 
@@ -110,9 +115,16 @@ const updateTaskDeleteTag = (taskId, tagId, state) => {
     return updatedTasks;
 }
 
-const updateTaskChangeStatus = (taskId, status, state) => {
+const updateTaskChangeStatus = ({taskId, status, date, action}, state) => {
+    const currentUser = state.users.find((user) => {
+        return state.currentUser === user.id
+    });
     const updatedTasks = findTask(taskId, state, 
-        (task) => {return { ...task, status: status }});
+        (task) => {
+            return { ...task, status: status, history: 
+                [ ...task.history, { date: date, user: `${ currentUser.firstName } ${ currentUser.lastName.slice(0, 1) }.`, label: action}] 
+            }
+        });
     return updatedTasks
 }
 
@@ -122,9 +134,39 @@ const updateTaskAddAssigned = (taskId, userId, state) => {
     return updatedTasks;
 }
 
+const updateTaskDeleteAssigned = ({taskId, userId, date, action}, state) => {
+    const currentUser = state.users.find((user) => {
+        return state.currentUser === user.id
+    });
+    const deletedUser = state.users.find((user) => {
+        return userId === user.id
+    });
+    const updatedTasks = findTask(taskId, state, 
+        (task) => {
+            const userIdx = task.assigned.findIndex((item) => item === userId);
+            console.log(userIdx);
+            return { ...task, 
+                assigned: [ ...task.assigned.slice(0, userIdx), ...task.assigned.slice(userIdx + 1) ],
+                history: [ ...task.history, 
+                    { 
+                        date: date, 
+                        user: `${ currentUser.firstName } ${ currentUser.lastName.slice(0, 1) }.`, 
+                        label: action + ` ${ deletedUser.firstName } ${ deletedUser.lastName.slice(0, 1) }.`
+                    } ]
+            }
+        });
+    return updatedTasks;
+}
+
 const updateTaskAddComment = (taskId, commentId, state) => {
     const updatedTasks = findTask(taskId, state, 
         (task) => {return { ...task, comments: [ ...task.comments, commentId ] }});
+    return updatedTasks;
+}
+
+const updateTaskAddDateDue = ({taskId, date}, state) => {
+    const updatedTasks = findTask(taskId, state, 
+        (task) => {return { ...task, dateDue: date }});
     return updatedTasks;
 }
 
@@ -198,13 +240,20 @@ const reducer = (state = initialState, action) => {
         case UPDATE_TASK_CHANGE_STATUS:
             return {
                 ...state,
-                tasks: updateTaskChangeStatus(action.payload.taskId, action.payload.status, state),
+                tasks: updateTaskChangeStatus(action.payload, state),
             };
         
         case UPDATE_TASK_ADD_ASSIGNED:
             return {
                 ...state,
                 tasks: updateTaskAddAssigned(action.payload.taskId, action.payload.userId, state),
+            }
+
+        case UPDATE_TASK_DELETE_ASSIGNED:
+            console.log('reducer', action.payload.userId)
+            return {
+                ...state,
+                tasks: updateTaskDeleteAssigned(action.payload, state),
             }
 
         case UPDATE_TASK_ADD_COMMENT:
@@ -226,6 +275,12 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 tasks: updateTaskAddFile(action.payload.parentId, action.payload.fileId, state)
+        }
+
+        case UPDATE_TASK_ADD_DATE_DUE:
+            return {
+                ...state,
+                tasks: updateTaskAddDateDue(action.payload, state)
         }
 
         case UPDATE_COMMENT_ADD_FILE:

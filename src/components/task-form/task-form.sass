@@ -13,10 +13,10 @@
 .task-form
     position: absolute
     z-index: 10
-    width: 30em
+    width: 37.5em
     top: 0
     bottom: 0
-    right: -30rem
+    right: -37.5rem
     padding-bottom: 2.75rem
     background-color: #fff
     border-left: 1px solid #efefef
@@ -71,40 +71,71 @@
     &__status
         flex: 0 1 auto
 
-    &__assigned-list
-        flex: 1 1 auto
+    &__date-due
         position: relative
+        flex: 1 0 auto
+        font-size: .875rem
+        text-align: center
+
+        & .date-due__calendar-icon
+            display: inline-block
+            width: 20px
+            height: 20px
+            margin-right: .5rem
+            vertical-align: middle
+            background: url('./calendar-icon.svg') no-repeat 0 0
+            cursor: pointer
+
+    &__assigned-list
+        flex: 0 0 auto
+        position: relative
+        padding-left: .5rem
         text-align: right
 
     &__assigned-item
         margin-right: 0
         margin-left: 5px
 
+        &_align
+            border: 1px solid #fff
+            margin-left: -5px
+
         &_add.user-icon
             font-size: .9rem
             color: #6d6d6d
             background-color: #efefef
+            cursor: pointer
+
+        &.user-icon_rest
+            width: auto
+            margin-left: 0
+            font-size: .75rem
+            color: #6d6d6d
+            background-color: transparent
 
 .tag-form
     position: absolute
-    z-index: 1
-    top: 110%
+    z-index: 2
+    top: 115%
     left: 0 
-    width: 12rem
+    width: 13rem
     min-height: 7.5rem
-    padding: 10px
+    padding: .875rem
     text-align: center
+    font-size: .875rem
     color: #9ca3b5
     background-color: #fff
-    box-shadow: 0px 0px 4px 0px rgba(74,141,228,.7)
+    border-radius: 3px
+    box-shadow: 0 0 5px rgba(0,0,0,.5)
 
     &__close
         position: absolute
         top: 5px
         right: 5px
         line-height: 1rem
-        font-size: 1.5rem
+        font-size: 1.25rem
         color: #9ca3b5
+        cursor: pointer
         transform: rotate(45deg)
 
     &__select-wrapper
@@ -116,6 +147,7 @@
         left: 0
         top: 2.5rem
         width: 100%
+        min-height: 3.5rem
         max-height: 6rem
         overflow: auto
         padding-bottom: 10px
@@ -123,9 +155,6 @@
         line-height: 1.2
         text-align: left
         background-color: #fff
-
-        &-item
-            padding: 5px 6px
      
     &__add
         display: inline-block
@@ -140,6 +169,7 @@
         width: 100%
         margin: .5rem 0
         padding: 5px
+        padding-right: 1rem
         color: #9ca3b5
         border: 1px solid #eff0f2
     
@@ -148,7 +178,7 @@
 
     & .list-color
         text-align: center
-        margin: .5rem 0
+        margin: .75rem 0
         padding: .6rem
         border-top: 1px solid #eff0f2
 
@@ -181,9 +211,9 @@
     z-index: 2
     top: 110%
     right: 0 
-    width: 12rem
+    width: 13rem
     min-height: 7.5rem
-    padding: 10px
+    padding: .875rem
     text-align: left
     color: #9ca3b5
     background-color: #fff
@@ -194,8 +224,8 @@
         top: 5px
         right: 5px
         line-height: 1rem
-        font-size: 1.5rem
-        // color: #9ca3b5
+        font-size: 1.25rem
+        cursor: pointer
         transform: rotate(45deg)
 
     &__select-wrapper
@@ -205,18 +235,35 @@
     &__select-list
         position: absolute
         left: 0
-        top: 2.5rem
+        top: 2.1875rem
         width: 100%
-        max-height: 5rem
+        max-height: 15rem
         overflow: auto
-        padding-bottom: 10px
         font-size: .875rem
         line-height: 1.2
         text-align: left
         background-color: #fff
+        border-bottom: 1px solid #eff0f2
 
         &-item
-            padding: 5px 6px
+            padding: 5px .625rem
+            border-left: 1px solid #eff0f2
+            border-right: 1px solid #eff0f2
+
+            &:first-child
+                padding-top: .75rem
+
+                & .select-list__item-icon
+                    top: .875rem
+
+            &:last-child
+                padding-bottom: 1rem
+
+        & .select-list__item:hover
+            & .select-list__item-icon
+                cursor: pointer
+                background: url('./close-outline-icon.svg') no-repeat 0 0 
+
      
     &__add
         display: inline-block
@@ -229,8 +276,68 @@
         border: 1px solid #eff0f2
 
     &__input
+        position: relative
+        z-index: 1
         width: 100%
         margin: .5rem 0
-        padding: 5px
+        padding: 5px .625rem
         color: #9ca3b5
         border: 1px solid #eff0f2
+
+.display_none
+    display: none
+
+.select-list__item
+    position: relative
+    padding: 5px 1rem 5px .625rem
+    opacity: .7
+
+    &:hover
+        opacity: .7
+    
+    &_active
+        opacity: 1
+        & .select-list__item-icon
+            display: none
+
+    &-icon
+        position: absolute
+        top: .5625rem
+        right: .375rem
+        width: 10px
+        height: 10px
+        background: url('./checkmark-icon.svg') no-repeat 0 0
+        transition: all .3s ease-in-out
+
+.select-list__icon
+            position: absolute
+            z-index: 5
+            top: .875rem
+            right: .315rem
+            width: 15px
+            height: 15px
+            background: url('./cheveron-down-icon.svg') no-repeat -3px -3px
+            opacity: .7
+            cursor: pointer
+
+            &_hide
+                transform: rotate(180deg)
+
+.date-time-picker
+    display: inline-block
+    vertical-align: middle
+
+    input
+        border: none
+        width: 8rem
+        cursor: pointer
+
+    .rdtPicker td.rdtActive,
+    .rdtPicker td.rdtActive:hover,
+        background-color: #4a8de4
+
+    .rdtPicker td.rdtToday:before
+        border-bottom-color: #4a8de4
+
+    .rdtPicker td.rdtActive.rdtToday:before
+        border-bottom-color: #fff
