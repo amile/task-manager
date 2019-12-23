@@ -15,8 +15,8 @@ import './task-form.sass';
 
 
 class TaskForm extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             close: false,
             show: false

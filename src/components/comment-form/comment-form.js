@@ -24,6 +24,7 @@ class CommentForm extends Component {
         }
         this.onChange = (editorState) => {
             this.setState({ editorState });
+            console.log('change', editorState)
         };
         this.onBlur = () => {
             console.log('blur');
@@ -37,6 +38,7 @@ class CommentForm extends Component {
         this.onSubmit = () => {
             const { editorState, files } = this.state;
             const raw = convertToRaw(editorState.getCurrentContent());
+            console.log('submit comment', raw)
             const rawJSON = JSON.stringify(raw);
             this.setState(
                 { 
@@ -51,6 +53,7 @@ class CommentForm extends Component {
             this.setState({
                 comment: { text: e.target.value }
             });
+            console.log('change comment', this.state.comment)
         };
         this.handleKeyCommand = command => {
             const { editorState } = this.state;
@@ -94,7 +97,6 @@ class CommentForm extends Component {
             
         }
         this.handleUploadFile = (e) => {
-            console.log('onchange', e.target.files);
             e.preventDefault();
             const reader = new FileReader();
             const file = e.target.files[0];
@@ -106,7 +108,6 @@ class CommentForm extends Component {
                         files: [...state.files, {name: file.name, url: reader.result, type: file.type}]
                     }
             });
-                console.log('onchange', reader.result);
             }
             reader.readAsDataURL(file)
         }
@@ -155,7 +156,7 @@ class CommentForm extends Component {
                 </div>
             );
         });
-        const comment = (this.state.comment) ? EditorState.createWithContent(convertFromRaw(JSON.parse(this.state.comment)), this.decorator) : this.state.editorState;
+        const comment = EditorState.createEmpty(this.decorator);
         return (
             <div className='comment-form'>
                 <div className='comment-form__nav-bar'>
@@ -184,7 +185,7 @@ class CommentForm extends Component {
                     </button> 
                 </div>
                 <div className='comment-form__editor-wrapper'>
-                    <Editor editorState={ this.state.editorState } onChange={ this.onChange } onBlur={ this.onBlur }
+                    <Editor editorState={ this.state.editorState } onChange={ this.onChange }
                         placeholder='Напишите комментарий' handleKeyCommand={ this.handleKeyCommand } onFocus={ this.onFocus }/>
                     { linkForm }
                     <div className='comment-form__files-wrapper'>
@@ -196,7 +197,7 @@ class CommentForm extends Component {
                 </div>
                 <div>
                     { imageList }
-
+                    <Editor editorState={ comment } readOnly/>
                 </div>
             </div>    
         );

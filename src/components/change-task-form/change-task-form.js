@@ -287,8 +287,8 @@ class StatusForm extends Component {
 }
 
 class ChangeTaskForm extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             tagFormVisible: false,
             assignedFormVisible: false,
@@ -393,7 +393,7 @@ class ChangeTaskForm extends Component {
                 );
             });
         }
-        const listComments = (!comments) ? null : comments.map((comment) => {
+        const listComments = (!comments) ? (<li className='task-form__title list__item'>Комментариев нет</li>) : comments.map((comment) => {
             return (
                 <li key={ comment.id } className='comment list__item'>
                     <CommentItem comment={ comment } />
