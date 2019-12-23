@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import TextareaAutosize from 'react-autosize-textarea';
 
 import './create-task-form.sass';
 
@@ -28,9 +29,7 @@ class CreateTaskForm extends Component {
         return (
             <div className='task-form__container'>
                 <form className='create-task-form' onSubmit={ this.addNewValue } >
-                    <textarea className='create-task-form__text' rows='1' placeholder='Введите описание задачи…'
-                        onChange={ this.onChangeValue } value={ this.state.newValue }>
-                    </textarea>
+                    <TextareaAutosize placeholder='Введите описание задачи…' onChange={ this.onChangeValue } value={ this.state.newValue }/>
                     <div className='create-task-form__btn-wrapper'>
                         <input className='btn create-task-form__btn' type='submit' value='Создать'/>
                     </div>

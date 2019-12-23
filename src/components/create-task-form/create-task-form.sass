@@ -1,24 +1,20 @@
 .create-task-form
     text-align: right
 
-    & textarea::placeholder
-        color: #9ca3b5
-    
-    & input
-        cursor: pointer
-
-    &__text
+    & textarea
         width: 100%
         margin-top: 2rem
         padding: .75rem
         font-size: .875rem
+        line-height: 1.5
         border: none
         box-shadow: 0px 0px 4px 0px rgba(74,141,228,.7)
 
-        &:focus
-            box-shadow: 0px 0px 4px 0px rgba(74,141,228,.7)
-
-
+        &::placeholder
+            color: #9ca3b5
+    
+    & input
+        cursor: pointer
 
     &__btn
         color: #9ca3b5
