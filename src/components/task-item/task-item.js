@@ -14,7 +14,9 @@ moment.locale('ru', {
     calendar : {
         lastDay : '[Вчера]',
         sameDay : '[Сегодня]',
+        nextDay : '[Завтра]',
         lastWeek : 'D MMM',
+        nextWeek : 'D MMM',
         sameElse : 'D MMM'
     }
 });
@@ -30,7 +32,7 @@ class TaskItem extends Component {
                 </li>
             );
         })
-        const restUsers = (!assigned || (assigned.length < 3)) ? null : (
+        const restUsers = (!assigned || (assigned.length < 4)) ? null : (
             <li key='rest' className='user-icon user-icon_rest task-item__user-icon'>
                 +{ assigned.length - 3 }
             </li>
@@ -43,7 +45,13 @@ class TaskItem extends Component {
             );
         });
         const comments = (task.comments && task.comments.length) ? task.comments.length : null;
-        console.log(moment(new Date()).calendar());
+        const dateDue = (!task.dateDue) ? null 
+            : ( <div className='task-item__date'>
+                    { moment(task.dateDue).calendar() }
+                    <span className='task-item__date-time'>                        
+                        { moment(task.dateDue).format('H:mm') }
+                    </span>
+                </div>);
         return (
             <Fragment>
                 <div className='task-item__label'>
@@ -58,12 +66,7 @@ class TaskItem extends Component {
                     { assignedList }
                     { restUsers }
                 </ul>
-                <div className='task-item__date'>
-                    { moment(task.dateCreated).calendar() }
-                    <span className='task-item__date-time'>                        
-                        { moment(task.dateCreated).format('H:mm') }
-                    </span>
-                </div>
+                { dateDue }
             </Fragment>
         );
     }

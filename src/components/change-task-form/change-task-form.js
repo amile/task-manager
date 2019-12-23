@@ -14,17 +14,6 @@ import CommentForm from '../comment-form/comment-form';
 import './change-task-form.sass';
 import 'react-datetime/css/react-datetime.css'
 
-moment.locale('ru', {
-    calendar : {
-        lastDay : '[Вчера]',
-        sameDay : '[Сегодня]',
-        nextDay : '[Завтра]',
-        lastWeek : 'D MMM',
-        nextWeek : 'D MMM',
-        sameElse : 'D MMM'
-    }
-});
-
 class DateTimePicker extends Component {
     constructor(props) {
         super(props);
@@ -43,7 +32,6 @@ class DateTimePicker extends Component {
                 this.setState({ value: 'Установить дату'});
                 this.props.updateTaskAddDateDue(null);
             }
-            console.log('blurrr', this.state.value)
         };
     }
     render() {
@@ -52,7 +40,7 @@ class DateTimePicker extends Component {
             
             <div className='date-time-picker'>
                 <Datetime onChange={ this.onChange } value={ this.state.value } 
-                    defaultText='Yfpyfxbnm lfne' dateFormat='D MMM' onBlur={ this.onBlur }/>
+                    dateFormat='D MMM' onBlur={ this.onBlur }/>
             </div>
         )
     }

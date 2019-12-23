@@ -61,7 +61,7 @@ class TaskForm extends Component {
     };
     render() {
         const { itemId, groupId, task, user, assigned } = this.props;
-        const content = (itemId === 'new') ? <CreateTaskForm addNewItem={ this.addNewItem }/> : 
+        const content = (itemId === 'new') ? <CreateTaskForm addNewItem={ this.addNewItem } onClose={ this.onClose }/> : 
             <ChangeTaskForm task={ task } user={ user } assigned={ assigned } 
                 addTag={ this.addTag } updateTaskAddTag={ this.updateTaskAddTag } 
                 deleteTag={ this.updateTaskDeleteTag } changeStatus={ this.updateTaskChangeStatus }
