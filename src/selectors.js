@@ -1,12 +1,9 @@
 import { createSelector } from 'reselect';
-import { isMemberExpression } from '@babel/types';
 
 export const projectsSelector = createSelector(
     state => state.projects,
     items => items
 );
-
-export const showedGroupID_old = state => state.showedGroup;
 
 export const getGroupId = (_, props) => props.groupId;
 

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js';
+import { Editor, EditorState, convertFromRaw, CompositeDecorator } from 'draft-js';
 import * as moment from 'moment';
-import 'moment/locale/ru';
+//import 'moment/locale/ru';
 
 import { makeCommentCreatedByUserSelector, makeCommentFilesSelector } from '../../selectors';
 
 import './comment-item.sass';
 
-moment.locale('ru');
+moment.updateLocale('ru');
 
 class CommentItem extends Component {
     constructor() {
@@ -26,7 +26,7 @@ class CommentItem extends Component {
         if (files) {
             imageList = files.map((file) => {
                 const imageType = file.type.startsWith('image/');
-                const image = (!imageType) ? null : (<img className='file-img' src={ file.url } />);
+                const image = (!imageType) ? null : (<img className='file-img' src={ file.url } alt='' />);
                 return (
                     <div className='file-wrapper'>
                         { image }

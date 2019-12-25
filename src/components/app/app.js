@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import '../../styles/styles';
 import './app.sass';
 
-import MainPage from '../main-page/main-page';
+import ItemList from '../item-list/item-list';
 import LoginPage from '../login-page/login-page';
 import MenuLeft from '../menu-left/menu-left';
 import TaskForm from '../task-form/task-form';
@@ -30,15 +30,16 @@ class App extends Component {
                     {/* <Route
                         path='/'
                     /> */}
-                    <Route
-                        path='/group/:groupId/'
-                        render={ ({ match, history }) => {
-                            const { groupId } = match.params;
-                            return (
-                                <MainPage groupId={ groupId } history={ history } match={ match }/>
-                            )
-                        }}
-                    />
+                    <div className='main-page'>
+                        <Route
+                            path='/group/:groupId/'
+                            render={ ({ match, history }) => {
+                                const { groupId } = match.params;
+                                return (
+                                    <ItemList groupId={ groupId } history={ history } match={ match }/>
+                                )
+                            }}
+                        />
                         <Route
                             path='/group/:groupId/task/:taskId/:parentId?'
                             render={ ({ match, history }) => {
@@ -48,6 +49,7 @@ class App extends Component {
                                 )
                             }}
                         />
+                    </div>
                     <Route
                         path='/login'
                         render={ () => {

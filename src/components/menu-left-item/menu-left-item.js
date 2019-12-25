@@ -25,12 +25,10 @@ class MenuLeftItem extends Component {
             this.setState({ showProjectMenu: false });
         };
         this.onToggleActive = () => {
-            if ((this.props.level === this.props.maxLevel) 
-                || (this.props.groups.length === 0)) {
-                    this.props.onToggleShowed(this.props.group.id);    
-            } else if (this.props.groups.length > 0) {
-                this.setState((state) => {
-                    return { open: !state.open }
+            if ((this.props.level < this.props.maxLevel) 
+                && (this.props.groups.length > 0)) {
+                    this.setState((state) => {
+                        return { open: !state.open }
                 });
             }
         };
@@ -54,7 +52,7 @@ class MenuLeftItem extends Component {
     }
 
     render() {
-        let { level, maxLevel, showed, onToggleShowed, group, groups, history } = this.props;
+        let { level, maxLevel, group, groups, history } = this.props;
         const pathName = history ? history.location.pathname.split('/') : null;
         const showedGroupId = (pathName && (pathName.length > 2)) ? pathName[2] : '';
         let iconClassNames = (this.state.open) ? 'icon active' : 'icon';
@@ -86,8 +84,7 @@ class MenuLeftItem extends Component {
                     })}
                 </ul>   
             );
-        }
-        
+        }    
         return(
                 <div>
                     <div className={`projects-list__item-label ${ labelClassNames }`} >

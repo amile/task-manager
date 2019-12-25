@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import { addProject, setShowedGroup, addGroup } from '../../actions';
 import { projectsSelector } from '../../selectors';
 
 import AddForm from '../add-form/add-form';
 import ConnectedMenuLeftItem from '../menu-left-item/menu-left-item';
-import ProjectMenu from '../project-menu/project-menu';
 
 import './menu-left.sass';
 

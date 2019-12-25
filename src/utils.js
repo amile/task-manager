@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import 'moment/locale/ru';
 
 
-moment.locale('ru', {
+moment.updateLocale('ru', {
     calendar : {
         lastDay : '[Вчера]',
         sameDay : '[Сегодня]',
@@ -33,8 +33,8 @@ export const genFileHash = (file) => {
     return hash;
 }
 
-const passHashDimon = genPasswordHash('1qa2ws3ed');
-const passHashBoris = genPasswordHash('qweasdzxc');
+// const passHashDimon = genPasswordHash('1qa2ws3ed');
+// const passHashBoris = genPasswordHash('qweasdzxc');
 
 export const comparePasswordHash = (pass, hash) => {
     return bcript.compare(pass, hash);

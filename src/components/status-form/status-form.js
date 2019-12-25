@@ -19,7 +19,7 @@ class StatusForm extends Component {
         const selectClassNames = 'status-form__select status-form__select_' + this.state.status;
         const selectIconClassNames = 'status-form__select-icon status-form__select-icon_' + this.state.status;
         const options = Object.keys(statusList).map((key) => {
-            return (<option value={ key }>{ statusList[key] }</option>);
+            return (<option key={ key } value={ key }>{ statusList[key] }</option>);
         });
         console.log(options);
         return (
