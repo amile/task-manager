@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import { addProject, setShowedGroup, addGroup } from '../../actions';
 import { projectsSelector } from '../../selectors';
@@ -16,15 +16,9 @@ class MenuLeft extends Component {
     constructor() {
         super();
         this.state = {
-            showedGroup: null,
             maxLevel: 3,
             showAddProjectForm: false
         };
-        this.onToggleShowed = (id) => {
-            this.setState({ showedGroup: id });
-            // this.props.setShowedGroup(id);
-            this.props.history.push(`/group/${ id }`)
-        }
         this.onAddProject = () => {
             this.setState({ showAddProjectForm: true })
         }
@@ -43,12 +37,14 @@ class MenuLeft extends Component {
     }
     
     render() {
-        console.log(this.props.history);
         const level = 0;
-        const listProjects = this.props.projects.map((project) => {
-            return <ConnectedMenuLeftItem group={ project } level={ level } 
-                maxLevel={ this.state.maxLevel } showed={ this.state.showedGroup } 
-                onToggleShowed={ this.onToggleShowed } addGroup={ this.addGroup }/>
+        const listProjects = (this.props.projects.length === 0) ? null : this.props.projects.map((project) => {
+            return (
+                <li key={ project.id } className='list-item projects-list__item projects-list__item_project'>
+                    <ConnectedMenuLeftItem group={ project } level={ level } 
+                        maxLevel={ this.state.maxLevel } addGroup={ this.addGroup }/>
+                </li>
+            );
         });
         const addForm = this.state.showAddProjectForm ? <AddForm project={ true } addNewItem={ this.onSubmitProject }
             onCloseForm={ this.onCloseAddProjectForm }/> : null;

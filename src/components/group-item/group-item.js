@@ -114,8 +114,5 @@ const makeMapStateToProps = () => {
     }
     return mapStateToProps;
 };
-const mapDispatchToProps = (dispatch) => {
-    
-};
-const ConnectedGroupItem = connect(makeMapStateToProps, mapDispatchToProps)(GroupItem);
+const ConnectedGroupItem = connect(makeMapStateToProps)(GroupItem);
 export default ConnectedGroupItem;
