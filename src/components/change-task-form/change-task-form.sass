@@ -1,4 +1,5 @@
-            
+@import '../../styles/mixins'
+
 .task-form
     &__body
         height: calc(100% - 2.75rem)
@@ -47,7 +48,7 @@
         &-delete
             display: inline-block
             margin-left: .5rem
-            transform: rotate(45deg) translateY(-2px)
+            @include transform(rotate(45deg) translateY(-2px))
             cursor: pointer
         
         &_add
@@ -109,45 +110,7 @@
                     &_menu
                         margin: 0
                         background: url('./menu-icon-circle.svg') no-repeat 0 0
-                        transform: rotate(90deg)            
-
-.status-form
-    &__select
-        padding: 0 5px
-        -webkit-appearance: none
-        -moz-appearance: none
-        appearance: none
-        background-color: #fff
-        border: none
-
-    &__select-icon
-        display: inline-block
-        width: 10px
-        height: 10px
-        margin-right: 1rem
-        border-radius: 50%
-
-    &__select
-        cursor: pointer
-        
-        &_testing
-            color: #f99412
-        &_acceptance
-            color: #a18f77
-        &_process
-            color: #77a180
-        &_done
-            color: #8f739f
-
-    &__select-icon
-        &_testing
-            background-color: #f99412
-        &_acceptance
-            background-color: #a18f77
-        &_process
-            background-color: #77a180
-        &_done
-            background-color: #8f739f
+                        @include rotate(90deg)
 
 .list
     &__item

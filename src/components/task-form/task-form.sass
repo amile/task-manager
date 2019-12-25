@@ -210,84 +210,6 @@
             &_yellow
                 background-color: #F7DC6F 
 
-.assigned-form
-    position: absolute
-    z-index: 2
-    top: 110%
-    right: 0 
-    width: 13rem
-    min-height: 7.5rem
-    padding: .875rem
-    text-align: left
-    color: #9ca3b5
-    background-color: #fff
-    box-shadow: 0 0 5px rgba(0,0,0,.5)
-
-    &__close
-        position: absolute
-        top: 5px
-        right: 5px
-        line-height: 1rem
-        font-size: 1.25rem
-        cursor: pointer
-        transform: rotate(45deg)
-
-    &__select-wrapper
-        position: relative
-        margin-top: .5rem
-
-    &__select-list
-        position: absolute
-        left: 0
-        top: 2.1875rem
-        width: 100%
-        max-height: 15rem
-        overflow: auto
-        font-size: .875rem
-        line-height: 1.2
-        text-align: left
-        background-color: #fff
-        border-bottom: 1px solid #eff0f2
-
-        &-item
-            padding: 5px .625rem
-            border-left: 1px solid #eff0f2
-            border-right: 1px solid #eff0f2
-
-            &:first-child
-                padding-top: .75rem
-
-                & .select-list__item-icon
-                    top: .875rem
-
-            &:last-child
-                padding-bottom: 1rem
-
-        & .select-list__item:hover
-            & .select-list__item-icon
-                cursor: pointer
-                background: url('./close-outline-icon.svg') no-repeat 0 0 
-
-     
-    &__add
-        display: inline-block
-        margin-top: .7rem
-        padding: 3px 10px
-        line-height: 1rem
-        font-size: .8rem
-        color: #9ca3b5
-        background-color: #fff
-        border: 1px solid #eff0f2
-
-    &__input
-        position: relative
-        z-index: 1
-        width: 100%
-        margin: .5rem 0
-        padding: 5px .625rem
-        color: #9ca3b5
-        border: 1px solid #eff0f2
-
 .display_none
     display: none
 
@@ -326,22 +248,3 @@
 
             &_hide
                 transform: rotate(180deg)
-
-.date-time-picker
-    display: inline-block
-    vertical-align: middle
-
-    input
-        border: none
-        width: 8rem
-        cursor: pointer
-
-    .rdtPicker td.rdtActive,
-    .rdtPicker td.rdtActive:hover,
-        background-color: #4a8de4
-
-    .rdtPicker td.rdtToday:before
-        border-bottom-color: #4a8de4
-
-    .rdtPicker td.rdtActive.rdtToday:before
-        border-bottom-color: #fff

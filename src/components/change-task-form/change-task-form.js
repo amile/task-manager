@@ -5,11 +5,12 @@ import 'moment/locale/ru';
 
 import { getTaskTagsSelector, getAllTagsSelector, usersSelector, getTaskCommentsSelector, 
     getAllTaskFilesSelector } from '../../selectors';
-import { statusList, getCalendarDate, getTime } from '../../utils';
 
 import CommentItem from '../comment-item/comment-item';
 import CommentForm from '../comment-form/comment-form';
+import StatusForm from '../status-form/status-form';
 import DateTimePicker from '../date-time-picker/date-time-picker';
+import AddAssignedForm from '../add-assigned-form/add-assigned-form';
 
 import './change-task-form.sass';
 
@@ -122,130 +123,6 @@ class AddTagForm extends Component {
                     { listColors }
                 </div>
                 <input type='submit' className='tag-form__add' value='Добавить'/>
-            </form>
-        );
-    }
-}
-
-class AddAssignedForm extends Component {
-    constructor() {
-        super();
-        this.state = {
-            value: '',
-            showSelectList: false,
-            selectedValue: ''
-        };
-        this.onChangeValue = (e) => {
-            this.setState({ value: e.target.value });
-        };
-        this.onSubmitAssigned = (e) => {
-            e.preventDefault();
-            if (this.state.value === this.state.selectedValue.fullName) {
-                this.props.updateTaskAddAssigned(this.state.selectedValue.id);
-            }
-        };
-        this.onShowSelectList = () => {
-            this.setState({ showSelectList: true });
-        };
-        this.onToggleSelectList = () => {
-            this.setState((state) => {
-                return { showSelectList: !state.showSelectList }
-            })
-        }
-        this.searchUsers = () => {
-            if (this.state.value === '') { return this.props.users }
-            const filterUsers = this.props.users.filter((item) => {
-                const fullName = item.lastName + ' ' + item.firstName;
-                return fullName.toLowerCase().indexOf(this.state.value.toLowerCase()) > -1;
-            });
-            return filterUsers;
-        };
-        this.onSelectValue = (user) => {
-            const fullName = user.lastName + ' ' + user.firstName;
-            this.setState(
-                { 
-                    value: fullName,
-                    selectedValue: {id: user.id, fullName},
-                    showSelectList: false 
-                }
-            );
-        };
-        this.onDeleteAssignedUser = (userId) => {
-            this.props.updateTaskDeleteAssigned(userId);
-        }
-    }
-    render() {
-        let listUsers, filteredUsers = null;
-        let selectListIconClassNames = 'assigned-form__select-list-icon select-list__icon';
-        if (this.state.showSelectList) {
-            filteredUsers = (this.props.users && (this.props.users.length > 0)) 
-                ? this.searchUsers() 
-                : null;
-            listUsers = (!filteredUsers || (filteredUsers.length < 1)) 
-                ? null 
-                : filteredUsers.map((user) => {
-                    const userAssigned = !this.props.assigned ? null : this.props.assigned.find((assignedUser) => assignedUser.id === user.id);
-                    const itemClassNames = !userAssigned 
-                        ? 'assigned-form__select-list-item select-list__item select-list__item_active' 
-                        : 'assigned-form__select-list-item select-list__item';
-                    const handleFunction = !userAssigned ? () => { this.onSelectValue(user) } : () => {};
-                    return (
-                        <div key={ user.id } className={ itemClassNames } onClick={ handleFunction }>
-                            { user.lastName + ' ' + user.firstName }
-                            <span className='select-list__item-icon' onClick={ () => { this.onDeleteAssignedUser(user.id) } }></span>
-                        </div>
-                    )
-            });
-            selectListIconClassNames += ' select-list__icon_hide';
-        }
-        
-        return (
-            <form className='assigned-form' onSubmit={ this.onSubmitAssigned }>
-                <span className='assigned-form__close' onClick={ this.props.onClose }>+</span>
-                
-                <div className='assigned-form__select-wrapper'>
-                    <input type='text' className='assigned-form__input' value={ this.state.value } 
-                        placeholder='Введите имя' onFocus={ this.onShowSelectList } 
-                        onChange={ this.onChangeValue } />
-                    <span className={ selectListIconClassNames } onClick={ this.onToggleSelectList }></span>
-                    <div className='assigned-form__select-list-container'>
-                        <div className='assigned-form__select-list'>
-                            { listUsers }
-                        </div>
-                    </div>
-                        
-                </div>
-                <input type='submit' className='assigned-form__add' value='Добавить'/>
-            </form>
-        );
-    }
-}
-
-
-class StatusForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            status: this.props.status
-        }
-        this.changeStatus = (e) => {
-            this.props.changeStatus(e.target.value);
-            this.setState({ status: e.target.value });
-        }; 
-    }
-    render() {
-        const selectClassNames = 'status-form__select status-form__select_' + this.state.status;
-        const selectIconClassNames = 'status-form__select-icon status-form__select-icon_' + this.state.status;
-        const options = Object.keys(statusList).map((key) => {
-            return (<option value={ key }>{ statusList[key] }</option>);
-        });
-        console.log(options);
-        return (
-            <form className='status-form'>
-                <span className={ selectIconClassNames }></span>
-                <select className={ selectClassNames } value={ this.state.status } onChange={ this.changeStatus }>
-                    { options }
-                </select>
             </form>
         );
     }

@@ -1,0 +1,38 @@
+@import '../../styles/variables'
+@import '../../styles/mixins'
+
+.status-form
+    &__select
+        padding: 0 5px
+        background-color: #fff
+        border: none
+        @include appearance(none)
+
+    &__select-icon
+        display: inline-block
+        width: 10px
+        height: 10px
+        margin-right: 1rem
+        border-radius: 50%
+
+    &__select
+        cursor: pointer
+        
+        &_testing
+            color: $status-testing-color
+        &_acceptance
+            color: $status-acceptance-color
+        &_process
+            color: $status-process-color
+        &_done
+            color: $status-done-color
+
+    &__select-icon
+        &_testing
+            background-color: $status-testing-color
+        &_acceptance
+            background-color: $status-acceptance-color
+        &_process
+            background-color: $status-process-color
+        &_done
+            background-color: $status-done-color
