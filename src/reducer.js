@@ -19,6 +19,12 @@ const findGroup = (id, list, newItem, changeList) => {
     return newList;
 }
 
+const getCurrentUser = (state) => {
+    return state.users.find((user) => {
+        return state.currentUser === user.id
+    });
+};
+
 const changeGroupList = (item, newItem) => {
     const groupsNew = [...item.groups, newItem];
     return { ...item, groups: groupsNew};
@@ -128,9 +134,24 @@ const updateTaskChangeStatus = ({taskId, status, date, action}, state) => {
     return updatedTasks
 }
 
-const updateTaskAddAssigned = (taskId, userId, state) => {
+const updateTaskAddAssigned = ({taskId, userId, date, action}, state) => {
+    const currentUser = getCurrentUser(state);
+    const assignedUser = state.users.find((user) => {
+        return userId === user.id
+    });
     const updatedTasks = findTask(taskId, state, 
-        (task) => {return { ...task, assigned: [ ...task.assigned, userId ] }});
+        (task) => {
+            return { ...task, 
+                assigned: [ ...task.assigned, userId ],
+                history: [ ...task.history, 
+                    { 
+                        date: date, 
+                        user: `${ currentUser.firstName } ${ currentUser.lastName.slice(0, 1) }.`, 
+                        label: action + ` ${ assignedUser.firstName } ${ assignedUser.lastName.slice(0, 1) }.`
+                    }
+                ]
+            }
+        });
     return updatedTasks;
 }
 
@@ -152,7 +173,8 @@ const updateTaskDeleteAssigned = ({taskId, userId, date, action}, state) => {
                         date: date, 
                         user: `${ currentUser.firstName } ${ currentUser.lastName.slice(0, 1) }.`, 
                         label: action + ` ${ deletedUser.firstName } ${ deletedUser.lastName.slice(0, 1) }.`
-                    } ]
+                    } 
+                ]
             }
         });
     return updatedTasks;
@@ -164,9 +186,21 @@ const updateTaskAddComment = (taskId, commentId, state) => {
     return updatedTasks;
 }
 
-const updateTaskAddDateDue = ({taskId, date}, state) => {
+const updateTaskAddDateDue = ({taskId, dateDue, date, action}, state) => {
+    const currentUser = getCurrentUser(state);
     const updatedTasks = findTask(taskId, state, 
-        (task) => {return { ...task, dateDue: date }});
+        (task) => {
+            return { ...task, 
+                dateDue: dateDue,
+                history: [ ...task.history, 
+                    { 
+                        date: date, 
+                        user: `${ currentUser.firstName } ${ currentUser.lastName.slice(0, 1) }.`, 
+                        label: action
+                    }
+                ]
+            }
+        });
     return updatedTasks;
 }
 
@@ -246,7 +280,7 @@ const reducer = (state = initialState, action) => {
         case UPDATE_TASK_ADD_ASSIGNED:
             return {
                 ...state,
-                tasks: updateTaskAddAssigned(action.payload.taskId, action.payload.userId, state),
+                tasks: updateTaskAddAssigned(action.payload, state),
             }
 
         case UPDATE_TASK_DELETE_ASSIGNED:

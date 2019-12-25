@@ -76,7 +76,7 @@ export const defaultState = {
             dateCreated: new Date(2019, 11, 11, 6, 4),
             user: '88',
             status: 'done',
-            dateDue: null,
+            dateDue: new Date(2019, 11, 11),
             assigned: ['89', '88'],
             tags: ['99', '98'],
             comments: [],

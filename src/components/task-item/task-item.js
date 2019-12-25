@@ -1,25 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
-import * as moment from 'moment';
-import 'moment/locale/ru';
-
 import { makeTaskAssignedUsersSelector, taskAssignedUsersIdSelector,
     getTaskTagsSelector } from '../../selectors';
-import { formatStatus } from '../../utils';
+import { formatStatus, getCalendarDate, getTime } from '../../utils';
 
 import './task-item.sass';
-
-moment.locale('ru', {
-    calendar : {
-        lastDay : '[Вчера]',
-        sameDay : '[Сегодня]',
-        nextDay : '[Завтра]',
-        lastWeek : 'D MMM',
-        nextWeek : 'D MMM',
-        sameElse : 'D MMM'
-    }
-});
 
 class TaskItem extends Component {
     render() {
@@ -47,9 +33,9 @@ class TaskItem extends Component {
         const comments = (task.comments && task.comments.length) ? task.comments.length : null;
         const dateDue = (!task.dateDue) ? null 
             : ( <div className='task-item__date'>
-                    { moment(task.dateDue).calendar() }
+                    { getCalendarDate(task.dateDue) }
                     <span className='task-item__date-time'>                        
-                        { moment(task.dateDue).format('H:mm') }
+                        { getTime(task.dateDue) }
                     </span>
                 </div>);
         return (

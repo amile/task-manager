@@ -67,7 +67,7 @@ const Link = (props) => {
   
     return (
         <a href={url} title={url} className="ed-link">
-            {props.children}
+            { props.children }
         </a>
     );
 };

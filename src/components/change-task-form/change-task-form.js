@@ -1,52 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as moment from 'moment';
-import Datetime from 'react-datetime';
 import 'moment/locale/ru';
 
 import { getTaskTagsSelector, getAllTagsSelector, usersSelector, getTaskCommentsSelector, 
     getAllTaskFilesSelector } from '../../selectors';
-import { statusList } from '../../utils';
+import { statusList, getCalendarDate, getTime } from '../../utils';
 
 import CommentItem from '../comment-item/comment-item';
 import CommentForm from '../comment-form/comment-form';
+import DateTimePicker from '../date-time-picker/date-time-picker';
 
 import './change-task-form.sass';
-import 'react-datetime/css/react-datetime.css'
-
-class DateTimePicker extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: this.props.value
-        };
-        this.onChange = (date) => {
-            this.setState({ value: date});
-
-        };
-        this.onBlur = () => {
-            if (this.state.value._isAMomentObject){
-                this.props.updateTaskAddDateDue(this.state.value);
-            }
-            else {
-                this.setState({ value: 'Установить дату'});
-                this.props.updateTaskAddDateDue(null);
-            }
-        };
-    }
-    render() {
-        // const formatValue = `${this.state.value.calendar()} ${this.state.value.format('H:mm')}`
-        return (
-            
-            <div className='date-time-picker'>
-                <Datetime onChange={ this.onChange } value={ this.state.value } 
-                    dateFormat='D MMM' onBlur={ this.onBlur }/>
-            </div>
-        )
-    }
-
-}
-
 
 class AddTagForm extends Component {
     constructor() {
@@ -347,7 +312,6 @@ class ChangeTaskForm extends Component {
                 </div>
             );
         });
-        const dateDue = !task.dateDue ? 'Установить дату' : `${ task.dateDue.calendar() } ${ task.dateDue.format('H:mm') }`
         const addAssignedForm = this.state.assignedFormVisible ? 
             <AddAssignedForm users={ users } assigned={ assigned } onClose={ this.onCloseAssignedForm } 
                 updateTaskAddAssigned={ this.updateTaskAddAssigned }
@@ -422,7 +386,7 @@ class ChangeTaskForm extends Component {
                             </div>
                             <div className='task-form__date-due'>
                                 <span className='date-due__calendar-icon'></span>
-                                <DateTimePicker value={ dateDue } updateTaskAddDateDue={ this.props.updateTaskAddDateDue }/>
+                                <DateTimePicker value={ task.dateDue } updateTaskAddDateDue={ this.props.updateTaskAddDateDue }/>
                             </div>
                             <ul className='task-form__assigned-list'>
                                 { assignedUsers }

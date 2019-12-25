@@ -1,5 +1,28 @@
 import bcript from 'bcryptjs';
 
+import * as moment from 'moment';
+import 'moment/locale/ru';
+
+
+moment.locale('ru', {
+    calendar : {
+        lastDay : '[Вчера]',
+        sameDay : '[Сегодня]',
+        nextDay : '[Завтра]',
+        lastWeek : 'D MMM',
+        nextWeek : 'D MMM',
+        sameElse : 'D MMM'
+    }
+});
+
+export const getCalendarDate = (date) => {
+    return moment(date).calendar();
+}
+
+export const getTime = (date) => {
+    return moment(date).format('H:mm');
+}
+
 export const genPasswordHash = (pass) => {
     const hash = bcript.hashSync(pass, 8);
     return hash;

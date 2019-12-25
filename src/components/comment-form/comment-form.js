@@ -3,6 +3,16 @@ import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw, Composite
 
 import './comment-form.sass';
 
+const CommentFormButton = ({type, active, onClick}) => {
+    const activeClassName = active ? 'active' : '';
+    return (
+        <button 
+            className={`comment-form__btn comment-form__btn_${ type } ${ activeClassName }`} 
+            onClick={ () => onClick(type) }>
+        </button>
+    )
+}
+
 class CommentForm extends Component {
     constructor(props) {
         super(props);
@@ -16,15 +26,12 @@ class CommentForm extends Component {
             showLinkForm: false,
             showSubmitButton: false,
             linkValue: '',
-            comment: null,
             editorState: EditorState.createEmpty(this.decorator),
             files: [],
             filePreviewUrl: null
-
         }
         this.onChange = (editorState) => {
             this.setState({ editorState });
-            console.log('change', editorState)
         };
         this.onBlur = () => {
             console.log('blur');
@@ -38,22 +45,20 @@ class CommentForm extends Component {
         this.onSubmit = () => {
             const { editorState, files } = this.state;
             const raw = convertToRaw(editorState.getCurrentContent());
-            console.log('submit comment', raw)
-            const rawJSON = JSON.stringify(raw);
+            const blockMapHasText = raw.blocks.filter((item) => {
+                return item.text.length > 0;
+            });
+            
             this.setState(
-                { 
-                    comment: rawJSON, 
+                {
                     editorState: EditorState.createEmpty(this.decorator),
                     showSubmitButton: false,
                     files: []
                 });
-            this.props.addComment(rawJSON, files);
-        };
-        this.onChangeComment = (e) => {
-            this.setState({
-                comment: { text: e.target.value }
-            });
-            console.log('change comment', this.state.comment)
+            if ((blockMapHasText.length > 0) || (files.length > 0)) {
+                const rawJSON = JSON.stringify(raw);
+                this.props.addComment(rawJSON, files);
+            }
         };
         this.handleKeyCommand = command => {
             const { editorState } = this.state;
@@ -137,11 +142,13 @@ class CommentForm extends Component {
             })
 
         }
-
+        const inlineStyles = this.state.editorState.getCurrentInlineStyle();
+        console.log('block type', this.state.editorState
+            .getCurrentInlineStyle().has('BOLD'));
         const linkForm = (!this.state.showLinkForm) ? null : (
             <form className='link-form' onSubmit={ this.onSubmitLink }>
                 <input type='text' className='tag-form__input link-form__input' value={ this.state.value } 
-                        placeholder='Введите ссылку' onChange={ this.onChangeLinkValue } />
+                        placeholder='http://' onChange={ this.onChangeLinkValue } />
                 <span className='tag-form__close link-form__btn link-form__btn_add' onClick={ this.onSubmitLink }>+</span>
                 <span className='tag-form__close link-form__btn link-form__btn_close' onClick={ this.onCloseLinkForm }>+</span>
             </form>
@@ -160,13 +167,9 @@ class CommentForm extends Component {
         return (
             <div className='comment-form'>
                 <div className='comment-form__nav-bar'>
-                    <button className='comment-form__btn comment-form__btn_bold' 
-                        onClick={() => this.handleKeyCommand('bold')}></button>
-                    <button className='comment-form__btn comment-form__btn_italic' 
-                        onClick={() => this.handleKeyCommand('italic')}></button>
-                    <button className='comment-form__btn comment-form__btn_underline' 
-                        onClick={() => this.handleKeyCommand('underline')}>
-                    </button>
+                    <CommentFormButton type='bold' active={ inlineStyles.has('bold'.toUpperCase()) } onClick={ this.handleKeyCommand }/>
+                    <CommentFormButton type='italic' active={ inlineStyles.has('italic'.toUpperCase()) } onClick={ this.handleKeyCommand }/>
+                    <CommentFormButton type='underline' active={ inlineStyles.has('underline'.toUpperCase()) } onClick={ this.handleKeyCommand }/>
                     <button className='comment-form__btn comment-form__btn_ul' 
                         onClick={(e) => this.toggleBlockType('unordered-list-item')}></button>
                     <button className='comment-form__btn comment-form__btn_ol' 
@@ -206,7 +209,7 @@ class CommentForm extends Component {
 
 const Link = (props) => {
     const { url } = props.contentState
-      .getEntity(props.entityKey).getData();
+        .getEntity(props.entityKey).getData();
   
     return (
         <a href={url} title={url} className="ed-link">

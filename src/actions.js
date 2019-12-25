@@ -3,7 +3,7 @@ import { STATE_LOADED, ADD_PROJECT, ADD_GROUP, ADD_TASK, ADD_TAG, SET_SHOWED_GRO
     UPDATE_TASK_ADD_ASSIGNED, UPDATE_TASK_DELETE_ASSIGNED, UPDATE_TASK_ADD_COMMENT, ADD_FILE, 
     UPDATE_TASK_ADD_DATE_DUE, UPDATE_TASK_ADD_FILE, UPDATE_COMMENT_ADD_FILE } from './constants';
 
-import { createNewIndex, statusList } from './utils';
+import { createNewIndex, statusList, getCalendarDate, getTime } from './utils';
 
 const projectLoaded = (data) => {
     return {
@@ -134,12 +134,17 @@ const updateTaskAddComment = (parentId, label, files) => {
     };
 };
 
-const updateTaskAddDateDue = (taskId, date) => {
+const updateTaskAddDateDue = (taskId, dateDue) => {
+    const action = dateDue 
+        ? `установил(а) дату исполнения: ${ getCalendarDate(dateDue) } ${ getTime(dateDue) }`
+        : 'удалил(а) дату исполнения'
     return {
         type: UPDATE_TASK_ADD_DATE_DUE,
         payload: {
             taskId,
-            date
+            dateDue,
+            date: new Date(),
+            action: action
         }
     };
 };
