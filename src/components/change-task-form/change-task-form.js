@@ -297,6 +297,11 @@ class ChangeTaskForm extends Component {
             this.onCloseAssignedForm();
         }
     }
+    componentDidUpdate(prevProps) {
+        if (this.props.task.id !== prevProps.task.id) {
+          this.setState({ historyVisible: false });
+        }
+      }
     render() {
         const { task, assigned, user, users, taskTags, allTags, deleteTag, 
             changeStatus, comments, files } = this.props;

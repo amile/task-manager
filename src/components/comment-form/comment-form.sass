@@ -1,3 +1,5 @@
+@import '../../styles/mixins'
+
 .comment-form
     padding: 1rem 0
     font-size: .875rem
@@ -8,7 +10,6 @@
         width: 100%
         min-height: 5.5rem
         padding: 1rem 0 2rem
-        // outline: 1px solid tomato
 
     &__files-wrapper
         margin-top: 1.5rem
@@ -41,9 +42,12 @@
         background: url('./text-editor-icons-blue-sm.png') no-repeat
         border: none
         cursor: pointer
-        // outline: 1px solid tomato
+        @include transition(all .1s ease-in-out)
 
         &.active
+            opacity: .6
+        
+        &:hover
             opacity: .6
 
         &_bold
@@ -55,13 +59,13 @@
         &_underline
             background-position: -104px -3px
 
-        &_ul
+        &_unordered-list-item
             background-position: -2px -54px
 
-        &_ol
+        &_ordered-list-item
             background-position: -54px -54px
 
-        &_code
+        &_code-block
             background-position: -104px -105px
 
         &_link
@@ -71,7 +75,7 @@
             float: right
             margin: 0
             background: url('./clip-icon.svg') no-repeat 0 0
-            transform: rotate(-45deg)
+            @include rotate(-45deg)
     
     &__submit-btn
         position: absolute

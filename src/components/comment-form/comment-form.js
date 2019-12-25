@@ -13,6 +13,18 @@ const CommentFormButton = ({type, active, onClick}) => {
     )
 }
 
+const inlineTypesButton = [
+    { type: 'bold'},
+    { type: 'italic'},
+    { type: 'underline'},
+];
+
+const blockTypesButton = [
+    { type: 'unordered-list-item'},
+    { type: 'ordered-list-item'},
+    { type: 'code-block'},
+];
+
 class CommentForm extends Component {
     constructor(props) {
         super(props);
@@ -123,6 +135,14 @@ class CommentForm extends Component {
         }
 
     }
+    checkInlineTypes(type) {
+        const inlineStyles = this.state.editorState.getCurrentInlineStyle();
+        return inlineStyles.has(type.toUpperCase());
+    }
+    checkBlockTypes(type) {
+        const currentBlockType = RichUtils.getCurrentBlockType(this.state.editorState);
+        return currentBlockType === type;
+    }
     render() {
         let imageList = null;
         if (this.state.files.length > 0) {
@@ -142,9 +162,6 @@ class CommentForm extends Component {
             })
 
         }
-        const inlineStyles = this.state.editorState.getCurrentInlineStyle();
-        console.log('block type', this.state.editorState
-            .getCurrentInlineStyle().has('BOLD'));
         const linkForm = (!this.state.showLinkForm) ? null : (
             <form className='link-form' onSubmit={ this.onSubmitLink }>
                 <input type='text' className='tag-form__input link-form__input' value={ this.state.value } 
@@ -164,18 +181,23 @@ class CommentForm extends Component {
             );
         });
         const comment = EditorState.createEmpty(this.decorator);
+        const inlineButtons = inlineTypesButton.map((item) => {
+            return (
+                <CommentFormButton type={ item.type }
+                    active={ this.checkInlineTypes(item.type) } onClick={ this.handleKeyCommand }/>
+            );
+        });
+        const blockButtons = blockTypesButton.map((item) => {
+            return (
+                <CommentFormButton type={ item.type }
+                        active={ this.checkBlockTypes(item.type) } onClick={ this.toggleBlockType }/>
+            );
+        });
         return (
             <div className='comment-form'>
                 <div className='comment-form__nav-bar'>
-                    <CommentFormButton type='bold' active={ inlineStyles.has('bold'.toUpperCase()) } onClick={ this.handleKeyCommand }/>
-                    <CommentFormButton type='italic' active={ inlineStyles.has('italic'.toUpperCase()) } onClick={ this.handleKeyCommand }/>
-                    <CommentFormButton type='underline' active={ inlineStyles.has('underline'.toUpperCase()) } onClick={ this.handleKeyCommand }/>
-                    <button className='comment-form__btn comment-form__btn_ul' 
-                        onClick={(e) => this.toggleBlockType('unordered-list-item')}></button>
-                    <button className='comment-form__btn comment-form__btn_ol' 
-                        onClick={(e) => this.toggleBlockType('ordered-list-item')}></button>
-                    <button className='comment-form__btn comment-form__btn_code'
-                        onClick={(e) => this.toggleBlockType('code-block')}></button>
+                    { inlineButtons }
+                    { blockButtons }
                     <button className='comment-form__btn comment-form__btn_link'
                         onClick={() => this.setState({ showLinkForm: true })}></button>
                     <button className='comment-form__btn comment-form__btn_file'
