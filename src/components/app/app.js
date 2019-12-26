@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import '../../styles/styles';
 import './app.sass';
 
 import ItemList from '../item-list/item-list';
 import LoginPage from '../login-page/login-page';
-import MenuLeft from '../menu-left/menu-left';
-import TaskForm from '../task-form/task-form';
 import TopBar from '../top-bar/top-bar';
+import MainPage from '../main-page/main-page';
 
 
 class App extends Component {
@@ -26,39 +25,23 @@ class App extends Component {
             <div className='app'>
                 <TopBar />
                 <div className='app-wrapper'>
-                    <MenuLeft />
-                    {/* <Route
-                        path='/'
-                    /> */}
-                    <div className='main-page'>
+                    <Switch>
+                        <Route exact path='/' render={ () => {
+                            return (<Redirect to='app' />);
+                        }} />
+                        <Route path='/app' component={ MainPage }/>
                         <Route
-                            path='/group/:groupId/'
-                            render={ ({ match, history }) => {
-                                const { groupId } = match.params;
+                            path='/login'
+                            render={ () => {
                                 return (
-                                    <ItemList groupId={ groupId } history={ history } match={ match }/>
-                                )
-                            }}
+                                    <LoginPage isAuth={ this.state.isAuth } onAuth={ this.onAuth } />
+                                );
+                            }} 
                         />
-                        <Route
-                            path='/group/:groupId/task/:taskId/:parentId?'
-                            render={ ({ match, history }) => {
-                                const { taskId, parentId } = match.params;
-                                return (
-                                    <TaskForm itemId={ taskId } groupId={ parentId } history={ history } match={ match }/>
-                                )
-                            }}
-                        />
-                    </div>
-                    <Route
-                        path='/login'
-                        render={ () => {
-                            return (
-                                <LoginPage isAuth={ this.state.isAuth } onAuth={ this.onAuth } />
-                            )
-                        }} 
-                    />
-
+                        <Route render={ () => {
+                            return (<h1>Page not found</h1>);
+                        }} />
+                    </Switch>
                 </div>
             </div>            
         );

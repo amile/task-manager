@@ -22,7 +22,7 @@ class TaskForm extends Component {
             show: false
         }
         this.onClose = () => {
-            const path = `/group/${ this.props.match.params.groupId }`;
+            const path = `/app/group/${ this.props.match.params.groupId }`;
             this.setState({ close: true, show: false });
             setTimeout(() => {this.props.history.push(`${ path }`)}, 1000);
         }
@@ -34,7 +34,7 @@ class TaskForm extends Component {
         }
         this.addNewItem = (e) => {
             const { groupId, history, match } = this.props;
-            const path = `/group/${ match.params.groupId }`;
+            const path = `/app/group/${ match.params.groupId }`;
             this.props.addTask(e, groupId, history, path);
         }
         this.updateTaskAddDateDue = (date) => {
@@ -61,6 +61,9 @@ class TaskForm extends Component {
     };
     render() {
         const { itemId, groupId, task, user, assigned } = this.props;
+        if (!task && itemId !== 'new') {
+            return null;
+        }
         const content = (itemId === 'new') ? <CreateTaskForm addNewItem={ this.addNewItem } onClose={ this.onClose }/> : 
             <ChangeTaskForm task={ task } user={ user } assigned={ assigned } 
                 addTag={ this.addTag } updateTaskAddTag={ this.updateTaskAddTag } 

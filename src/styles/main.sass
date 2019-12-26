@@ -1,4 +1,5 @@
 @import mixins
+@import variables
 
 html,
 body,
@@ -21,7 +22,18 @@ a:visited
 	color: inherit
 	text-decoration: none
 
+h1
+    width: 100%
+    margin: 2rem
+    font-size: 1.5rem
+    line-height: 1.5
+    text-align: center
+    color: $backgroun-color-dark
+
+
 .btn
     &_delete
         display: inline-block
         @include rotate(45deg)
+
+

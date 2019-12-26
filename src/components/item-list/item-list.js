@@ -37,7 +37,7 @@ class ItemList extends Component {
     }
     render () {
         const level = 0;
-        const { group, addNewTask, showTaskEditor } = this.props;
+        const { group } = this.props;
         const inner = !group ? null : (
             <ul className='item-list'>
                 <ConnectedGroupItem group={ group }

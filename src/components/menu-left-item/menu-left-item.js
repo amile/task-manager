@@ -54,7 +54,7 @@ class MenuLeftItem extends Component {
     render() {
         let { level, maxLevel, group, groups, history } = this.props;
         const pathName = history ? history.location.pathname.split('/') : null;
-        const showedGroupId = (pathName && (pathName.length > 2)) ? pathName[2] : '';
+        const showedGroupId = (pathName && (pathName.length > 3)) ? pathName[3] : '';
         let iconClassNames = (this.state.open) ? 'icon active' : 'icon';
         let menuIconClassNames = (!this.state.showProjectMenu) ? 'projects-list__menu-icon' : 
             'projects-list__menu-icon projects-list__menu-icon_close';
@@ -90,7 +90,7 @@ class MenuLeftItem extends Component {
                     <div className={`projects-list__item-label ${ labelClassNames }`} >
                         { icon }
                         { menuIcon }
-                        <Link to={`/group/${ group.id }`}>
+                        <Link to={`/app/group/${ group.id }`}>
                             <span className='projects-list__item-label-name'>
                                 { group.label }
                             </span>

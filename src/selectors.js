@@ -63,16 +63,6 @@ export const currentUserSelector = createSelector(
     (userId, state) => state.users.filter( (user) => user.id === userId )
 );
 
-const findGroup = (id, items) => {
-    for (let i = 0; i < items.length; i++) {
-        if (items[i].id === id) {
-            return items[i];
-        }
-        else if (items[i].groups && (items[i].groups.length > 0)) {
-            findGroup(id, items[i].groups);
-        }
-    }
-}
 export const showedTaskId = (_, props) => props.itemId;
 
 export const showedTaskSelector = createSelector(
@@ -83,7 +73,7 @@ export const showedTaskSelector = createSelector(
 
 export const taskCreatedByUserIdSelector = createSelector(
     showedTaskSelector,
-    item => item.user,
+    (item) => (item) ? item.user : null,
 );
 
 export const taskCreatedByUserSelector = createSelector(
@@ -94,7 +84,7 @@ export const taskCreatedByUserSelector = createSelector(
 
 export const taskAssignedUsersIdSelector = createSelector(
     showedTaskSelector,
-    item => item.assigned,
+    (item) => (item) ? item.assigned : [],
 );
 
 export const makeTaskAssignedUsersSelector = () => {

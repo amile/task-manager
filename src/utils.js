@@ -47,6 +47,17 @@ export const createNewIndex = () => {
     return (++idx).toString()
 }
 
+const findGroup = (id, items) => {
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].id === id) {
+            return items[i];
+        }
+        else if (items[i].groups && (items[i].groups.length > 0)) {
+            findGroup(id, items[i].groups);
+        }
+    }
+}
+
 export const formatDate = (date) => {
     const monthNames = ['января', 'февраля', 'марта', 'апреля', 
         'майа', 'июня', 'июля', 'августа', 'сентября', 'октября', 
