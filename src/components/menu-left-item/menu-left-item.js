@@ -76,7 +76,7 @@ class MenuLeftItem extends Component {
                 <ul className={ listItemsClassNames }>
                     { groups.map((item) => {
                         return (
-                            <li key={ group.id } className='list-item projects-list__item' >
+                            <li key={ item.id } className='list-item projects-list__item' >
                                 <ConnectedMenuLeftItem group={ item } 
                                    level={ level } maxLevel={ maxLevel }/>
                             </li>

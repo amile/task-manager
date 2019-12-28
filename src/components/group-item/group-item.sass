@@ -48,16 +48,17 @@
         height: .5rem
         background-color: #eff0f2
 
-$delta: 1.5rem
-$start: 1
+$delta: 1.5625rem
+$start: 0
 $positionLeft: -2.5rem
+$positionLeftNextFloor: -1.875rem
 $maxLevel: 10
 
 @mixin position-left
     .group__label-icon_level-#{$identificator}
         left: setPosition() 
 
-@function setPosition($level)
+@function setPosition($positionLeft, $delta,  $level)
     $positionLeft: $positionLeft - $level * $delta
     $level: $level + 1
     @return $positionLeft
@@ -65,8 +66,18 @@ $maxLevel: 10
 
 @for $level from $start through $maxLevel
     .group__label-icon_level-#{$level}
-        left: setPosition($level)
+        left: setPosition($positionLeft, $delta,  $level)
 
 
 //@include position-left
+
+.next-floor
+    margin-left: calc(-13.5rem + 3px)
+    border-top: 1px solid #d7d7d7
+    border-bottom: 1px solid #d7d7d7
+    background-color: #eff0f2
+
+    @for $level from $start through $maxLevel
+        .group__label-icon_level-#{$level}
+            left: setPosition($positionLeftNextFloor, $delta,  $level)
    

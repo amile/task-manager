@@ -198,10 +198,10 @@ class CommentForm extends Component {
                 <div className='comment-form__nav-bar'>
                     { inlineButtons }
                     { blockButtons }
-                    <button className='comment-form__btn comment-form__btn_link'
+                    <button key='link' className='comment-form__btn comment-form__btn_link'
                         onClick={() => this.setState({ showLinkForm: true })}></button>
-                    <button className='comment-form__btn comment-form__btn_file'
-                        onClick={() => {this.fileUploadRef.click()}}>
+                    <button key='file' className='comment-form__btn comment-form__btn_file'
+                        onClick={() => { this.fileUploadRef.click() }}>
                     <input type='file' id='upload-file' ref={ (ref)=>{this.fileUploadRef = ref} }
                         value='' onChange={ this.handleUploadFile } />
                         

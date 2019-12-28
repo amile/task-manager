@@ -1,4 +1,13 @@
 import { formatDate } from './utils';
+
+const list = [ ...Array(22).keys() ];
+let levelId = 38;
+const levelList = list.map((item) => {
+    const parentId = levelId;
+    levelId++
+    return { id: levelId.toString(), parentId: parentId.toString(), label: `Level ${ item + 2 }`}
+})
+
 export const defaultState = {
     currentUser: '89',
     users: [
@@ -9,8 +18,8 @@ export const defaultState = {
     ],
     showedGroup: null,
     projects: [
-        {id: '34', label: 'НеРадио'},
-        {id: '35', label: 'Inanomo'}
+        {id: '34', parentId: null, label: 'НеРадио'},
+        {id: '35', parentId: null, label: 'Inanomo'}
     ],
     groups: [
         {id: '1', parentId: '34', label: 'Мобильное приложение'},
@@ -23,6 +32,8 @@ export const defaultState = {
         {id: '13', parentId: '10', label: 'Настройка сервера'},
         {id: '11', parentId: '10', label: 'Локальное тестирование'},
         {id: '12', parentId: '10', label: 'Боевое тестирование'},
+        {id: '38', parentId: '9', label: 'Level 1'},
+        ...levelList
     ],
     tasks: [
         {
@@ -171,6 +182,6 @@ const initialState = {
     comments: [],
     files: [],
 };
-
+console.log(defaultState)
 export default initialState;
 

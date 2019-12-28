@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { makeInnerTasksSelector, makeInnerGroupsSelector } from '../../selectors';
-import './group-item.sass';
+
 import AddButton from '../add-button/add-button';
 import AddForm from '../add-form/add-form';
 import TaskItem from '../task-item/task-item';
+
+import './group-item.sass';
 
 export class GroupItem extends Component {
     constructor(props) {
@@ -37,15 +39,23 @@ export class GroupItem extends Component {
 
     render() {
         const { group, activeGroup, onToggleActive, addNewTask, addNewGroup, 
-            showTaskEditor, tasks, groups } = this.props;
+            showTaskEditor, tasks, groups, history } = this.props;
         let { level } = this.props;
         const active = activeGroup === group.id;
         let classNameOpenIcon = this.state.open ? 'group__label-icon_open' : '';
-        const icon = ((groups.length < 1) && (tasks.length < 1)) ? null :
-            (<span className={`group__label-icon group__label-icon_level-${ level } ${ classNameOpenIcon }`} onClick={ this.onToggleOpen }></span>)
+        
         const labelClassNames = active ? 'group__label group__label_active' : 'group__label'
         let groupList, taskList = null;
+        let nexFloor = null
+        let levelToClass = level;
         if (this.state.open) {
+            if (level > 9 && (level % 10) === 0) {
+                // history.push(`/app/group/${ group.id }`);
+                // return null;
+                nexFloor = 'next-floor';
+                level = 0;
+                levelToClass = 0;
+            }
             if (groups.length > 0) {
                 level++
                 groupList = groups.map( (group) => {
@@ -56,7 +66,7 @@ export class GroupItem extends Component {
                             onToggleActive={ onToggleActive }
                             addNewTask={ addNewTask }
                             showTaskEditor={ showTaskEditor }
-                            level={ level }>
+                            level={ level } history={ history }>
                         </ConnectedGroupItem>
                     );
                 });
@@ -72,6 +82,9 @@ export class GroupItem extends Component {
             }
         }
         
+        const icon = ((groups.length < 1) && (tasks.length < 1)) ? null :
+            (<span className={`group__label-icon group__label-icon_level-${ levelToClass } ${ classNameOpenIcon }`} 
+                onClick={ this.onToggleOpen }></span>);
         const buttons = active ? 
             (   
                 <div className='buttons-wrapper'>
@@ -86,7 +99,7 @@ export class GroupItem extends Component {
         }
         const itemOpenClassName = (!this.state.open) ? '' : 'group_open';
         return (
-            <li className={`group item-list__group ${ itemOpenClassName }`} key={ this.props.group.id.toString() }>
+            <li className={`group item-list__group ${ itemOpenClassName } ${ nexFloor }`} key={ this.props.group.id.toString() }>
                 <div className={ labelClassNames }>
                     { icon }
                     <span className='group__label-name' onClick={ this.onGroupClick }>{ group.label } </span>
@@ -108,8 +121,7 @@ const makeMapStateToProps = () => {
     const mapStateToProps = (state, props) => {
         return {
             tasks: innerTasksSelector(state, props),
-            groups: innerGroupsSelector(state, props),
-            grouppp: props.group
+            groups: innerGroupsSelector(state, props)
         }
     }
     return mapStateToProps;

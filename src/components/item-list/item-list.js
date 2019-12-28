@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { addGroup } from '../../actions';
-import { showedGroupSelector } from '../../selectors';
+import { showedGroupSelector, func } from '../../selectors';
 
 import ConnectedGroupItem from '../group-item/group-item';
 
@@ -37,7 +37,7 @@ class ItemList extends Component {
     }
     render () {
         const level = 0;
-        const { group } = this.props;
+        const { group, history } = this.props;
         const inner = !group ? null : (
             <ul className='item-list'>
                 <ConnectedGroupItem group={ group }
@@ -46,7 +46,7 @@ class ItemList extends Component {
                     addNewGroup={ this.addNewGroup }
                     addNewTask={ this.addNewTask }
                     showTaskEditor={ this.showTaskEditor }
-                    level={ level }>    
+                    level={ level } history={ history }>    
                 </ConnectedGroupItem>
             </ul>
         );

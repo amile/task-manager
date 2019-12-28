@@ -21,7 +21,6 @@ class StatusForm extends Component {
         const options = Object.keys(statusList).map((key) => {
             return (<option key={ key } value={ key }>{ statusList[key] }</option>);
         });
-        console.log(options);
         return (
             <form className='status-form'>
                 <span className={ selectIconClassNames }></span>

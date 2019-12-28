@@ -10,6 +10,7 @@ import { addTask, addTag, updateTaskAddTag, updateTaskDeleteTag, updateTaskChang
 
 import CreateTaskForm from '../create-task-form/create-task-form';
 import ChangeTaskForm from '../change-task-form/change-task-form';
+import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 
 import './task-form.sass';
 
@@ -72,11 +73,13 @@ class TaskForm extends Component {
                 updateTaskDeleteAssigned={ this.updateTaskDeleteAssigned }
                 updateTaskAddDateDue={ this.updateTaskAddDateDue } addComment={ this.addComment }/>
         let classNames = this.state.close ? 'task-form_close' : '';
+        const breadcrumbs = (itemId === 'new') ? null : <Breadcrumbs child={ task }/>
         if (this.state.show) { classNames = 'task-form_show' }
         return (
             <div className={`task-form ${ classNames }`}>
                 <div className='task-form__top-bar'>
-                    <span className='task-form__close-icon' onClick={ this.onClose }>+</span>
+                    <span className='task-form__close-icon' onClick={ this.onClose }></span>
+                    <div className='breadcrumbs-wrapper'>{ breadcrumbs }</div>
                 </div>
                 { content }
             </div>
