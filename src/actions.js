@@ -1,7 +1,9 @@
 import { STATE_LOADED, ADD_PROJECT, ADD_GROUP, ADD_TASK, ADD_TAG, SET_SHOWED_GROUP,
     UPDATE_TASK_ADD_TAG, UPDATE_TASK_DELETE_TAG, UPDATE_TASK_CHANGE_STATUS,
-    UPDATE_TASK_ADD_ASSIGNED, UPDATE_TASK_DELETE_ASSIGNED, UPDATE_TASK_ADD_COMMENT, ADD_FILE, 
-    UPDATE_TASK_ADD_DATE_DUE, UPDATE_TASK_ADD_FILE, UPDATE_COMMENT_ADD_FILE } from './constants';
+    UPDATE_TASK_ADD_ASSIGNED, UPDATE_TASK_DELETE_ASSIGNED, UPDATE_TASK_ADD_COMMENT, 
+    UPDATE_TASK_DELETE_COMMENT, ADD_FILE, 
+    UPDATE_TASK_ADD_DATE_DUE, UPDATE_TASK_ADD_FILE, UPDATE_COMMENT_ADD_FILE,
+    UPDATE_COMMENT_DELETE_FILE } from './constants';
 
 import { createNewIndex, statusList, getCalendarDate, getTime } from './utils';
 
@@ -134,6 +136,16 @@ const updateTaskAddComment = (parentId, label, files) => {
     };
 };
 
+const updateTaskDeleteComment = (taskId, commentId) => {
+    return {
+        type: UPDATE_TASK_DELETE_COMMENT,
+        payload: {
+            taskId,
+            commentId
+        }
+    };
+};
+
 const updateTaskAddDateDue = (taskId, dateDue) => {
     const action = dateDue 
         ? `установил(а) дату исполнения: ${ getCalendarDate(dateDue) } ${ getTime(dateDue) }`
@@ -170,12 +182,21 @@ const updateTaskAddFile = (fileId, parentId) => {
 };
 
 const updateCommentAddFile = (fileId, parentId) => {
-    console.log('action', fileId, parentId)
     return {
         type: UPDATE_COMMENT_ADD_FILE,
         payload: {
             fileId,
             parentId
+        }
+    };
+};
+
+const updateCommentDeleteFile = (parentId, fileId) => {
+    return {
+        type: UPDATE_COMMENT_DELETE_FILE,
+        payload: {
+            parentId,
+            fileId
         }
     };
 };
@@ -193,8 +214,10 @@ export {
     updateTaskAddAssigned,
     updateTaskDeleteAssigned,
     updateTaskAddComment,
+    updateTaskDeleteComment,
     updateTaskAddDateDue, 
     addFile,
     updateTaskAddFile,
     updateCommentAddFile,
+    updateCommentDeleteFile
 };

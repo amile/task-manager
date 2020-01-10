@@ -68,7 +68,9 @@ class CommentForm extends Component {
                     files: []
                 });
             if ((blockMapHasText.length > 0) || (files.length > 0)) {
-                const rawJSON = JSON.stringify(raw);
+                const rawJSON = (blockMapHasText.length > 0) 
+                    ? JSON.stringify(raw)
+                    : null;
                 this.props.addComment(rawJSON, files);
             }
         };

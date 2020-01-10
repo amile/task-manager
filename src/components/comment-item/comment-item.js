@@ -32,15 +32,17 @@ class CommentItem extends Component {
                         { image }
                         <div className='file-label'>
                             <a className='file-label-link' href={ file.url } target='_blank'>{ file.name }</a>
-                            <a className='file-label-download' href={ file.url } target='_blank' download={ file.name }>Загрузить</a>
+                            <a className='file-label-btn' href={ file.url } target='_blank' download={ file.name }>Загрузить</a>
+                            <button className='file-label-btn' onClick={ () => this.props.updateCommentDeleteFile(comment.id, file.id) }>Удалить</button>
                         </div>
                     </div>
                 );
             })
 
         }
-        console.log('comment files', comment.files)
-        const label = EditorState.createWithContent(convertFromRaw(JSON.parse(comment.label)), this.decorator);
+        const label = !comment.label 
+            ? EditorState.createEmpty(this.decorator)
+            : EditorState.createWithContent(convertFromRaw(JSON.parse(comment.label)), this.decorator);
         return (
             <div className='comment__wrapper'>
                 <div className='comment__created-info'>

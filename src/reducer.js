@@ -2,8 +2,10 @@
 import initialState from './getDefaultState';
 import { STATE_LOADED, ADD_PROJECT, ADD_GROUP, ADD_TAG, ADD_TASK, SET_SHOWED_GROUP,
     UPDATE_TASK_ADD_TAG, UPDATE_TASK_DELETE_TAG, UPDATE_TASK_CHANGE_STATUS,
-    UPDATE_TASK_ADD_ASSIGNED, UPDATE_TASK_DELETE_ASSIGNED, UPDATE_TASK_ADD_COMMENT, 
-    UPDATE_TASK_ADD_DATE_DUE, ADD_FILE, UPDATE_TASK_ADD_FILE, UPDATE_COMMENT_ADD_FILE } from './constants';
+    UPDATE_TASK_ADD_ASSIGNED, UPDATE_TASK_DELETE_ASSIGNED, UPDATE_TASK_ADD_COMMENT,
+    UPDATE_TASK_DELETE_COMMENT,
+    UPDATE_TASK_ADD_DATE_DUE, ADD_FILE, UPDATE_TASK_ADD_FILE, UPDATE_COMMENT_ADD_FILE,
+    UPDATE_COMMENT_DELETE_FILE } from './constants';
 
 
 const findGroup = (id, list, newItem, changeList) => {
@@ -186,6 +188,15 @@ const updateTaskAddComment = (taskId, commentId, state) => {
     return updatedTasks;
 }
 
+const updateTaskDeleteComment = (taskId, commentId, state) => {
+    const updatedTasks = findTask(taskId, state, 
+        (task) => {
+            const idx = task.comments.findIndex((comment) => comment === commentId)
+            return { ...task, comments: [ ...task.comments.slice(0, idx), ...task.comments.slice(idx + 1) ] }
+        });
+    return updatedTasks;
+}
+
 const updateTaskAddDateDue = ({taskId, dateDue, date, action}, state) => {
     const currentUser = getCurrentUser(state);
     const updatedTasks = findTask(taskId, state, 
@@ -213,6 +224,16 @@ const updateTaskAddFile = (taskId, fileId, state) => {
 const updateCommentAddFile = (commentId, fileId, state) => {
     const updatedComments = findComment(commentId, state, 
         (comment) => {return { ...comment, files: [ ...comment.files, fileId ] }});
+    return updatedComments;
+}
+
+const updateCommentDeleteFile = ({ parentId, fileId }, state) => {
+    const updatedComments = findComment(parentId, state, 
+        (comment) => {
+            
+            const idx = comment.files.findIndex((file) => file === fileId)
+            return { ...comment, files: [ ...comment.files.slice(0, idx), ...comment.files.slice(idx + 1) ] }
+        });
     return updatedComments;
 }
 
@@ -284,7 +305,6 @@ const reducer = (state = initialState, action) => {
             }
 
         case UPDATE_TASK_DELETE_ASSIGNED:
-            console.log('reducer', action.payload.userId)
             return {
                 ...state,
                 tasks: updateTaskDeleteAssigned(action.payload, state),
@@ -296,7 +316,15 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 tasks: updateTaskAddComment(action.payload.parentId, action.payload.id, state),
-                comments: [ ... state.comments, newComment]
+                comments: [ ...state.comments, newComment]
+            }
+
+        case UPDATE_TASK_DELETE_COMMENT:
+            const commentIdx = state.comments.findIndex((comment) => comment.id === action.payload.commentId)
+            return {
+                ...state,
+                tasks: updateTaskDeleteComment(action.payload.taskId, action.payload.commentId, state),
+                comments: [ ...state.comments.slice(0, commentIdx), ...state.comments.slice(commentIdx + 1)]
             }
 
         case ADD_FILE:
@@ -318,10 +346,15 @@ const reducer = (state = initialState, action) => {
         }
 
         case UPDATE_COMMENT_ADD_FILE:
-            console.log('reducer', action.payload.parentId, action.payload.fileId);
             return {
                 ...state,
                 comments: updateCommentAddFile(action.payload.parentId, action.payload.fileId, state)
+        }
+
+        case UPDATE_COMMENT_DELETE_FILE:
+            return {
+                ...state,
+                comments: updateCommentDeleteFile(action.payload, state)
         }
 
         default:

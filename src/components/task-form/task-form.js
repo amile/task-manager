@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { showedTaskSelector, taskCreatedByUserSelector, makeTaskAssignedUsersSelector } from '../../selectors';
 import { addTask, addTag, updateTaskAddTag, updateTaskDeleteTag, updateTaskChangeStatus,
             updateTaskAddAssigned, updateTaskDeleteAssigned, updateTaskAddComment,
-            updateTaskAddDateDue } from '../../actions';
+            updateTaskAddDateDue, updateCommentDeleteFile } from '../../actions';
 
 import CreateTaskForm from '../create-task-form/create-task-form';
 import ChangeTaskForm from '../change-task-form/change-task-form';
@@ -56,6 +56,9 @@ class TaskForm extends Component {
         this.addComment = (label, files) => {
             this.props.updateTaskAddComment(this.props.itemId, label, files);
         };
+        this.updateCommentDeleteFile = (commentId, fileId) => {
+            this.props.updateCommentDeleteFile(commentId, fileId);
+        };
     }
     componentDidMount() {
         setTimeout(() => {this.setState({ show: true })}, 1000);
@@ -71,7 +74,8 @@ class TaskForm extends Component {
                 deleteTag={ this.updateTaskDeleteTag } changeStatus={ this.updateTaskChangeStatus }
                 updateTaskAddAssigned={ this.updateTaskAddAssigned } 
                 updateTaskDeleteAssigned={ this.updateTaskDeleteAssigned }
-                updateTaskAddDateDue={ this.updateTaskAddDateDue } addComment={ this.addComment }/>
+                updateTaskAddDateDue={ this.updateTaskAddDateDue } 
+                addComment={ this.addComment } updateCommentDeleteFile={ this.updateCommentDeleteFile }/>
         let classNames = this.state.close ? 'task-form_close' : '';
         const breadcrumbs = (itemId === 'new') ? null : <Breadcrumbs child={ task }/>
         if (this.state.show) { classNames = 'task-form_show' }
@@ -116,6 +120,7 @@ const mapDispatchToProps = (dispatch) => {
         updateTaskAddAssigned: bindActionCreators(updateTaskAddAssigned, dispatch),
         updateTaskDeleteAssigned: bindActionCreators(updateTaskDeleteAssigned, dispatch),
         updateTaskAddComment: bindActionCreators(updateTaskAddComment, dispatch),
+        updateCommentDeleteFile: bindActionCreators(updateCommentDeleteFile, dispatch),
     }
 };
 export default connect(makeMapStateToProps, mapDispatchToProps)(withRouter(TaskForm));

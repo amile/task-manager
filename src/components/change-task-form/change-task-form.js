@@ -242,7 +242,7 @@ class ChangeTaskForm extends Component {
         const listComments = (!comments) ? (<li className='task-form__title list__item'>Комментариев нет</li>) : comments.map((comment) => {
             return (
                 <li key={ comment.id } className='comment list__item'>
-                    <CommentItem comment={ comment } />
+                    <CommentItem comment={ comment } updateCommentDeleteFile={ this.props.updateCommentDeleteFile }/>
                 </li>
             );
         });

@@ -1,12 +1,12 @@
 import { all, put, takeEvery, select } from 'redux-saga/effects';
 
-import { projectLoaded, updateTaskAddTag, updateCommentAddFile, addFile, 
-    updateTaskAddFile } from './actions';
+import { projectLoaded, updateTaskAddTag, updateTaskDeleteComment,
+    updateCommentAddFile, addFile, updateTaskAddFile } from './actions';
 
 import { defaultState } from './getDefaultState';
 
-import { ADD_GROUP, ADD_TAG, ADD_TASK, UPDATE_TASK_ADD_COMMENT, ADD_FILE } from './constants';
-import { yieldExpression } from '@babel/types';
+import { ADD_GROUP, ADD_TAG, ADD_TASK, UPDATE_TASK_ADD_COMMENT, ADD_FILE,
+    UPDATE_COMMENT_DELETE_FILE } from './constants';
 
 function* helloSagaSetInitialState() {
     yield window.localStorage.setItem('reduxState', JSON.stringify(defaultState))
@@ -72,6 +72,19 @@ function* watchAddFile() {
     yield takeEvery(ADD_FILE, putAddFilesToParent);
 }
 
+function* putDeleteComment({ payload }) {
+    const data = yield select();
+    const comment = yield data.comments.find((comment) => comment.id === payload.parentId);
+    if (!comment.label && (comment.files.length === 0)) {
+        yield put(updateTaskDeleteComment(comment.parentId, comment.id));
+    }
+    
+}
+
+function* watchDeleleFile() {
+    yield takeEvery(UPDATE_COMMENT_DELETE_FILE, putDeleteComment);
+}
+
 export default function* rootSaga() {
     yield all([
         helloSagaSetInitialState(),
@@ -80,6 +93,7 @@ export default function* rootSaga() {
         watchAddNewTag(),
         watchAddNewTask(),
         watchAddComment(),
-        watchAddFile()
+        watchAddFile(),
+        watchDeleleFile(),
     ]);
 }
