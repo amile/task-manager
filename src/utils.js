@@ -33,6 +33,10 @@ export const genFileHash = (file) => {
     return hash;
 }
 
+export const compareFileHash = (file, hash) => {
+    return bcript.compare(file, hash);
+}
+
 // const passHashDimon = genPasswordHash('1qa2ws3ed');
 // const passHashBoris = genPasswordHash('qweasdzxc');
 

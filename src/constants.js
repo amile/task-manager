@@ -1,6 +1,10 @@
 
 export const STATE_LOADED = 'STATE_LOADED';
 
+export const LOGIN_USER = 'LOGIN_USER';
+
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+
 export const SET_SHOWED_GROUP = 'SET_SHOWED_GROUP';
 
 export const ADD_PROJECT = 'ADD_PROJECT';
@@ -28,6 +32,8 @@ export const UPDATE_TASK_ADD_COMMENT = 'UPDATE_TASK_ADD_COMMENT';
 export const UPDATE_TASK_DELETE_COMMENT = 'UPDATE_TASK_DELETE_COMMENT';
 
 export const ADD_FILE = 'ADD_FILE';
+
+export const DELETE_FILE = 'DELETE_FILE';
 
 export const UPDATE_TASK_ADD_FILE = 'UPDATE_TASK_ADD_FILE';
 

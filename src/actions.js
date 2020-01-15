@@ -1,7 +1,8 @@
-import { STATE_LOADED, ADD_PROJECT, ADD_GROUP, ADD_TASK, ADD_TAG, SET_SHOWED_GROUP,
+import { STATE_LOADED, LOGIN_USER, SET_CURRENT_USER, ADD_PROJECT, ADD_GROUP, 
+    ADD_TASK, ADD_TAG, SET_SHOWED_GROUP,
     UPDATE_TASK_ADD_TAG, UPDATE_TASK_DELETE_TAG, UPDATE_TASK_CHANGE_STATUS,
     UPDATE_TASK_ADD_ASSIGNED, UPDATE_TASK_DELETE_ASSIGNED, UPDATE_TASK_ADD_COMMENT, 
-    UPDATE_TASK_DELETE_COMMENT, ADD_FILE, 
+    UPDATE_TASK_DELETE_COMMENT, ADD_FILE, DELETE_FILE, 
     UPDATE_TASK_ADD_DATE_DUE, UPDATE_TASK_ADD_FILE, UPDATE_COMMENT_ADD_FILE,
     UPDATE_COMMENT_DELETE_FILE } from './constants';
 
@@ -11,6 +12,23 @@ const projectLoaded = (data) => {
     return {
         type: STATE_LOADED,
         payload: data
+    };
+};
+
+const loginUser = (login, pass) => {
+    return {
+        type: LOGIN_USER,
+        payload: { 
+           login,
+           pass 
+        }
+    };
+};
+
+const setCurrentUser = (userId) => {
+    return {
+        type: SET_CURRENT_USER,
+        payload: userId
     };
 };
 
@@ -161,12 +179,21 @@ const updateTaskAddDateDue = (taskId, dateDue) => {
     };
 };
 
-const addFile = (file, parentId) => {
+const addFile = (file, hash, parentId) => {
     return {
         type: ADD_FILE,
         payload: {
-            file: { ...file, id: createNewIndex()},
+            file: { ...file, id: hash},
             parentId,
+        }
+    };
+};
+
+const deleteFile = (fileId) => {
+    return {
+        type: DELETE_FILE,
+        payload: {
+            fileId,
         }
     };
 };
@@ -203,6 +230,8 @@ const updateCommentDeleteFile = (parentId, fileId) => {
 
 export {
     projectLoaded,
+    loginUser,
+    setCurrentUser,
     addProject,
     addGroup,
     addTask,
@@ -217,6 +246,7 @@ export {
     updateTaskDeleteComment,
     updateTaskAddDateDue, 
     addFile,
+    deleteFile,
     updateTaskAddFile,
     updateCommentAddFile,
     updateCommentDeleteFile

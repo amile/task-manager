@@ -1,12 +1,14 @@
 import { all, put, takeEvery, select } from 'redux-saga/effects';
 
-import { projectLoaded, updateTaskAddTag, updateTaskDeleteComment,
-    updateCommentAddFile, addFile, updateTaskAddFile } from './actions';
+import { projectLoaded, setCurrentUser, updateTaskAddTag, updateTaskDeleteComment,
+    updateCommentAddFile, addFile, deleteFile } from './actions';
 
 import { defaultState } from './getDefaultState';
 
-import { ADD_GROUP, ADD_TAG, ADD_TASK, UPDATE_TASK_ADD_COMMENT, ADD_FILE,
+import { LOGIN_USER, ADD_GROUP, ADD_TAG, ADD_TASK, UPDATE_TASK_ADD_COMMENT, ADD_FILE,
     UPDATE_COMMENT_DELETE_FILE } from './constants';
+
+import { genFileHash, compareFileHash } from './utils';
 
 function* helloSagaSetInitialState() {
     yield window.localStorage.setItem('reduxState', JSON.stringify(defaultState))
@@ -29,6 +31,19 @@ function* loadData() {
     
 }
 
+function* putSetAuthToken({ payload }) {
+    // check user data
+    // if user - put action SET_CURRENT_USER
+    // else - put action LOGIN_USER_ERROR
+    console.log('login saga put')
+    yield put(setCurrentUser('89'));
+}
+
+function* watchLoginUser() {
+    console.log('login saga watch')
+    yield takeEvery(LOGIN_USER, putSetAuthToken);
+}
+
 function* putTaskAddTag({ payload }) {
     yield put(updateTaskAddTag(payload.id, payload.tag.id));
 }
@@ -47,7 +62,16 @@ function* watchAddNewTask() {
 
 function* putAddFiles({ payload }) {
     if (payload.files.length > 0) {
-        yield all(payload.files.map(file => put(addFile(file, payload.id))));
+        const data = yield select();
+        yield all(payload.files.map(file => {
+            const fileIsExist = data.files.find(item => compareFileHash(file.url, item.id));
+            if (!fileIsExist) {
+                const hash = genFileHash(file.url);
+                return put(addFile(file, hash, payload.id));
+            } else {
+                return put(updateCommentAddFile(fileIsExist.id, payload.id));
+            }
+        }));
     }
 }
 
@@ -55,28 +79,26 @@ function* watchAddComment() {
     yield takeEvery(UPDATE_TASK_ADD_COMMENT, putAddFiles);
 }
 
-function* putAddFilesToParent({ payload }) {
-    const data = yield select();
-    const parentIsComment = yield data.comments.find((comment) => comment.id === payload.parentId);
-    const parentIsTask = yield data.tasks.find((task) => task.id === payload.parentId);
-    if (parentIsComment) {
-        yield put(updateCommentAddFile(payload.file.id, payload.parentId));
-        
-    }
-    else if (parentIsTask) {
-        yield put(updateTaskAddFile(payload.file.id, payload.parentId));
-    }
-}
+function* putAddFilesToComment({ payload }) {
+    yield put(updateCommentAddFile(payload.file.id, payload.parentId));
+} 
 
 function* watchAddFile() {
-    yield takeEvery(ADD_FILE, putAddFilesToParent);
+    yield takeEvery(ADD_FILE, putAddFilesToComment);
 }
 
 function* putDeleteComment({ payload }) {
+    
     const data = yield select();
     const comment = yield data.comments.find((comment) => comment.id === payload.parentId);
+    const fileIsUsed = yield data.comments.find(
+        (comment) => comment.files.find((file) => file === payload.fileId)
+    );
     if (!comment.label && (comment.files.length === 0)) {
         yield put(updateTaskDeleteComment(comment.parentId, comment.id));
+    }
+    if (!fileIsUsed) {
+        yield put(deleteFile(payload.fileId));
     }
     
 }
@@ -89,6 +111,7 @@ export default function* rootSaga() {
     yield all([
         helloSagaSetInitialState(),
         loadData(),
+        watchLoginUser(),
         saveState(),
         watchAddNewTag(),
         watchAddNewTask(),

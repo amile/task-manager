@@ -51,7 +51,7 @@ export const makeInnerTasksSelector = () => {
     );
 };
 
-const currentUserID = state => state.currentUser;
+export const currentUserID = state => state.currentUser;
 
 export const usersSelector = createSelector(
     state => state.users,
@@ -163,7 +163,7 @@ export const makeCommentFilesSelector = () => {
 
 export const taskCommentsFilesId = createSelector(
     getTaskCommentsSelector,
-    items => (!items) ? [] : items.map(item => item.files).flat()
+    items => (!items) ? [] : items.map(item => item.files)
 );
 
 export const taskFilesId = (_, props) => props.task.files;

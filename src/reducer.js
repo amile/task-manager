@@ -1,11 +1,13 @@
 
 import initialState from './getDefaultState';
-import { STATE_LOADED, ADD_PROJECT, ADD_GROUP, ADD_TAG, ADD_TASK, SET_SHOWED_GROUP,
+import { STATE_LOADED, SET_CURRENT_USER, ADD_PROJECT, ADD_GROUP, ADD_TAG, ADD_TASK, 
+    SET_SHOWED_GROUP,
     UPDATE_TASK_ADD_TAG, UPDATE_TASK_DELETE_TAG, UPDATE_TASK_CHANGE_STATUS,
     UPDATE_TASK_ADD_ASSIGNED, UPDATE_TASK_DELETE_ASSIGNED, UPDATE_TASK_ADD_COMMENT,
-    UPDATE_TASK_DELETE_COMMENT,
+    UPDATE_TASK_DELETE_COMMENT, DELETE_FILE, 
     UPDATE_TASK_ADD_DATE_DUE, ADD_FILE, UPDATE_TASK_ADD_FILE, UPDATE_COMMENT_ADD_FILE,
     UPDATE_COMMENT_DELETE_FILE } from './constants';
+import { loginUser } from './actions';
 
 
 const findGroup = (id, list, newItem, changeList) => {
@@ -239,8 +241,14 @@ const updateCommentDeleteFile = ({ parentId, fileId }, state) => {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case STATE_LOADED :
+        case STATE_LOADED:
             return action.payload;
+
+        case SET_CURRENT_USER:
+            return {
+                ...state,
+                currentUser: action.payload
+            }
 
         case ADD_PROJECT:
             const newProject = {
@@ -331,6 +339,13 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 files: [ ...state.files, action.payload.file]
+        }
+
+        case DELETE_FILE:
+            const fileIdx = state.files.findIndex((file) => file.id === action.payload.fileId);
+            return {
+                ...state,
+                files: [ ...state.files.slice(0, fileIdx), ...state.files.slice(fileIdx + 1)]
         }
 
         case UPDATE_TASK_ADD_FILE:

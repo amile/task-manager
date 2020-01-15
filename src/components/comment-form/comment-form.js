@@ -46,7 +46,14 @@ class CommentForm extends Component {
             this.setState({ editorState });
         };
         this.onBlur = () => {
-            console.log('blur');
+            const { editorState, files } = this.state;
+            const raw = convertToRaw(editorState.getCurrentContent());
+            const blockMapHasText = raw.blocks.filter((item) => {
+                return item.text.length > 0;
+            });
+            if ((blockMapHasText.length === 0) && (files.length === 0)) {
+                this.setState({ showSubmitButton: false});
+            }
         }
         this.onFocus = () => {
             this.setState({ showSubmitButton: true});
@@ -117,10 +124,9 @@ class CommentForm extends Component {
         }
         this.handleUploadFile = (e) => {
             e.preventDefault();
+            this.onFocus();
             const reader = new FileReader();
             const file = e.target.files[0];
-            
-
             reader.onloadend = () => {
                 this.setState((state) => {
                     return {
@@ -204,14 +210,15 @@ class CommentForm extends Component {
                         onClick={() => this.setState({ showLinkForm: true })}></button>
                     <button key='file' className='comment-form__btn comment-form__btn_file'
                         onClick={() => { this.fileUploadRef.click() }}>
-                    <input type='file' id='upload-file' ref={ (ref)=>{this.fileUploadRef = ref} }
+                    <input type='file' id='upload-file' ref={ (ref) => {this.fileUploadRef = ref} }
                         value='' onChange={ this.handleUploadFile } />
                         
                     </button> 
                 </div>
                 <div className='comment-form__editor-wrapper'>
                     <Editor editorState={ this.state.editorState } onChange={ this.onChange }
-                        placeholder='Напишите комментарий' handleKeyCommand={ this.handleKeyCommand } onFocus={ this.onFocus }/>
+                        placeholder='Напишите комментарий' handleKeyCommand={ this.handleKeyCommand } 
+                        onFocus={ this.onFocus } onBlur={ this.onBlur }/>
                     { linkForm }
                     <div className='comment-form__files-wrapper'>
                         { filesLinkList }

@@ -1,25 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
+
+import { currentUserID } from '../../selectors';
 
 import '../../styles/styles';
 import './app.sass';
 
-import ItemList from '../item-list/item-list';
 import LoginPage from '../login-page/login-page';
 import TopBar from '../top-bar/top-bar';
 import MainPage from '../main-page/main-page';
 
 
 class App extends Component {
-    constructor() {
-        super();
-        this.state = {
-            isAuth: false
-        };
-        this.onAuth = () => {
-            this.setState({ isAuth: true });
-        };
-    };
+    
     render() {
         return (
             <div className='app'>
@@ -27,14 +21,18 @@ class App extends Component {
                 <div className='app-wrapper'>
                     <Switch>
                         <Route exact path='/' render={ () => {
-                            return (<Redirect to='app' />);
+                            if (this.props.isAuth) {
+                                return (<Redirect to='/app' />);
+                            } else {
+                                return (<Redirect to='/login' />);
+                            }
                         }} />
                         <Route path='/app' component={ MainPage }/>
                         <Route
                             path='/login'
                             render={ () => {
                                 return (
-                                    <LoginPage isAuth={ this.state.isAuth } onAuth={ this.onAuth } />
+                                    <LoginPage isAuth={ this.props.isAuth } />
                                 );
                             }} 
                         />
@@ -48,4 +46,10 @@ class App extends Component {
     };
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        isAuth: currentUserID(state)
+    }
+}
+
+export default connect(mapStateToProps)(App);
