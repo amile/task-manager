@@ -13,7 +13,6 @@ import MainPage from '../main-page/main-page';
 
 
 class App extends Component {
-    
     render() {
         return (
             <div className='app'>
@@ -37,7 +36,7 @@ class App extends Component {
                             }} 
                         />
                         <Route render={ () => {
-                            return (<h1>Page not found</h1>);
+                            return (<h1 className='title_not-found'>Page not found</h1>);
                         }} />
                     </Switch>
                 </div>
