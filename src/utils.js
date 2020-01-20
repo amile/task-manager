@@ -3,7 +3,6 @@ import bcript from 'bcryptjs';
 import * as moment from 'moment';
 import 'moment/locale/ru';
 
-
 moment.updateLocale('ru', {
     calendar : {
         lastDay : '[Вчера]',
@@ -17,6 +16,10 @@ moment.updateLocale('ru', {
 
 export const getCalendarDate = (date) => {
     return moment(date).calendar();
+}
+
+export const getDate = (date) => {
+    return moment(date).format('D MMM');
 }
 
 export const getTime = (date) => {
@@ -49,6 +52,15 @@ let idx = 100;
 
 export const createNewIndex = () => {
     return (++idx).toString()
+}
+
+export const findItemInList = (itemId, itemsList, callback) => {
+    return itemsList.map((item) => {
+        if (item.id === itemId) {
+            return callback(item);
+        }
+        return item
+    });
 }
 
 const findGroup = (id, items) => {

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 
-import { showedTaskSelector, taskCreatedByUserSelector, makeTaskAssignedUsersSelector } from '../../selectors';
+import { showedTaskSelector, taskCreatedByUserSelector, currentUserSelector,
+    makeTaskAssignedUsersSelector, 
+    currentUserID} from '../../selectors';
 import { addTask, addTag, updateTaskAddTag, updateTaskDeleteTag, updateTaskChangeStatus,
-            updateTaskAddAssigned, updateTaskDeleteAssigned, updateTaskAddComment,
+            updateTaskAddAssigned, updateTaskDeleteAssigned, addComment,
             updateTaskAddDateDue, updateCommentDeleteFile } from '../../actions';
 
 import CreateTaskForm from '../create-task-form/create-task-form';
@@ -34,39 +36,48 @@ class TaskForm extends Component {
             this.props.updateTaskAddTag(this.props.itemId, tagId);
         }
         this.addNewItem = (e) => {
-            const { groupId, history, match } = this.props;
+            const { groupId, currentUser, history, match } = this.props;
             const path = `/app/group/${ match.params.groupId }`;
-            this.props.addTask(e, groupId, history, path);
+            this.props.addTask(e, groupId, currentUser, history, path);
         }
         this.updateTaskAddDateDue = (date) => {
-            this.props.updateTaskAddDateDue(this.props.itemId, date);
+            const { itemId, currentUser } = this.props;
+            this.props.updateTaskAddDateDue(itemId, date, currentUser);
         };
         this.updateTaskDeleteTag = (tagId) => {
             this.props.updateTaskDeleteTag(this.props.itemId, tagId);
         };
         this.updateTaskChangeStatus = (status) => {
-            this.props.updateTaskChangeStatus(this.props.itemId, status);
+            const { itemId, currentUser } = this.props;
+            this.props.updateTaskChangeStatus(itemId, status, currentUser);
         };
-        this.updateTaskAddAssigned = (userId) => {
-            this.props.updateTaskAddAssigned(this.props.itemId, userId);
+        this.updateTaskAddAssigned = (assignedUser) => {
+            const { itemId, currentUser } = this.props;
+            this.props.updateTaskAddAssigned(itemId, assignedUser, currentUser);
         };
-        this.updateTaskDeleteAssigned = (userId) => {
-            this.props.updateTaskDeleteAssigned(this.props.itemId, userId);
+        this.updateTaskDeleteAssigned = (user) => {
+            const { itemId, currentUser } = this.props;
+            this.props.updateTaskDeleteAssigned(itemId, user, currentUser);
         };
         this.addComment = (label, files) => {
-            this.props.updateTaskAddComment(this.props.itemId, label, files);
+            const { itemId, currentUser } = this.props;
+            this.props.addComment(itemId, label, files, currentUser);
         };
         this.updateCommentDeleteFile = (commentId, fileId) => {
             this.props.updateCommentDeleteFile(commentId, fileId);
         };
     }
     componentDidMount() {
-        setTimeout(() => {this.setState({ show: true })}, 1000);
+        if (this.props.currentUser) {
+            setTimeout(() => {this.setState({ show: true })}, 1000);
+        }
     };
     render() {
-        const { itemId, groupId, task, user, assigned } = this.props;
+        const { itemId, task, user, assigned, currentUser } = this.props;
         if (!task && itemId !== 'new') {
             return null;
+        } else if (!currentUser) {
+            return <Redirect to='/login' />
         }
         const content = (itemId === 'new') ? <CreateTaskForm addNewItem={ this.addNewItem } onClose={ this.onClose }/> : 
             <ChangeTaskForm task={ task } user={ user } assigned={ assigned } 
@@ -100,9 +111,11 @@ const makeMapStateToProps = () => {
             assigned = taskAssignedUsersSelector(state, props);
         }
         return {
-            task: task,
-            user: user,
-            assigned: assigned
+            task,
+            user,
+            assigned,
+            currentUser: currentUserSelector(state)
+
         }   
     };
     return mapStateToProps;
@@ -119,7 +132,7 @@ const mapDispatchToProps = (dispatch) => {
         updateTaskAddDateDue: bindActionCreators(updateTaskAddDateDue, dispatch),
         updateTaskAddAssigned: bindActionCreators(updateTaskAddAssigned, dispatch),
         updateTaskDeleteAssigned: bindActionCreators(updateTaskDeleteAssigned, dispatch),
-        updateTaskAddComment: bindActionCreators(updateTaskAddComment, dispatch),
+        addComment: bindActionCreators(addComment, dispatch),
         updateCommentDeleteFile: bindActionCreators(updateCommentDeleteFile, dispatch),
     }
 };

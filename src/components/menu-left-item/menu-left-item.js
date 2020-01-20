@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { makeInnerGroupsSelector } from '../../selectors';
 
 import ProjectMenu from '../project-menu/project-menu';
-import AddForm from '../add-form/add-form';
+import AddGroupForm from '../add-group-form/add-group-form';
 
 class MenuLeftItem extends Component {
     constructor() {
@@ -68,8 +68,9 @@ class MenuLeftItem extends Component {
         labelClassNames = (showedGroupId === group.id) ? (labelClassNames + ' showed') : labelClassNames;
         let listItems = null;
         const listItemsClassNames = (groups.length === 0) ? 'last' : null;
-        const addGroupForm = !this.state.addGroupForm ? null : 
-            (<AddForm onCloseForm={ this.onCloseAddGroupForm } addNewItem={ this.addGroup }/>);
+        const addGroupForm = !this.state.addGroupForm 
+            ? null 
+            : (<AddGroupForm onCloseForm={ this.onCloseAddGroupForm } addNewItem={ this.addGroup }/>);
         if (this.state.open && (level < maxLevel)) {
             level++
             listItems = (

@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
-import { makeTaskAssignedUsersSelector, taskAssignedUsersIdSelector,
-    getTaskTagsSelector } from '../../selectors';
+import { makeTaskAssignedUsersSelector, makeTaskTagsSelector } from '../../selectors';
 import { formatStatus, getCalendarDate, getTime } from '../../utils';
 
 import './task-item.sass';
@@ -60,10 +59,12 @@ class TaskItem extends Component {
 
 const makeMapStateToProps = () => {
     const taskAssignedUsersSelector = makeTaskAssignedUsersSelector();
+    const taskTagsSelector = makeTaskTagsSelector()
+    console.log(taskAssignedUsersSelector, taskTagsSelector)
     const mapStateToProps = (state, props) => {
         return {
             assigned: taskAssignedUsersSelector(state, {itemId: props.task.id}),
-            tags: getTaskTagsSelector(state, props)
+            tags: taskTagsSelector(state, props)
         }   
     };
     return mapStateToProps;

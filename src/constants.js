@@ -1,5 +1,17 @@
 
-export const STATE_LOADED = 'STATE_LOADED';
+export const PROJECTS_LOADED = 'PROJECTS_LOADED';
+
+export const GROUPS_LOADED = 'GROUPS_LOADED';
+
+export const TASKS_LOADED = 'TASKS_LOADED';
+
+export const USERS_LOADED = 'USERS_LOADED';
+
+export const TAGS_LOADED = 'TAGS_LOADED';
+
+export const COMMENTS_LOADED = 'COMMENTS_LOADED';
+
+export const FILES_LOADED = 'FILES_LOADED';
 
 export const LOGIN_USER = 'LOGIN_USER';
 
@@ -14,6 +26,10 @@ export const ADD_GROUP = 'ADD_GROUP';
 export const ADD_TASK = 'ADD_TASK';
 
 export const ADD_TAG = 'ADD_TAG';
+
+export const ADD_COMMENT = 'ADD_COMMENT';
+
+export const DELETE_COMMENT = 'DELETE_COMMENT';
 
 export const UPDATE_TASK_ADD_TAG = 'UPDATE_TASK_ADD_TAG';
 

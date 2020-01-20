@@ -83,11 +83,13 @@
                 line-height: 1.875rem
                 color: #7f7f7f
                 vertical-align: middle
-                cursor: pointer
                 opacity: .6
 
                 &.active
                     opacity: 1
+
+                &_history
+                    cursor: pointer
 
                 &_menu
                     flex-grow: 1
@@ -102,14 +104,14 @@
                     vertical-align: middle
 
                     &_history
-                        background: url('./history-icon.svg') no-repeat 0 0
+                        background: url('../../images/history-icon.svg') no-repeat 0 0
 
                     &_files
-                        background: url('./clip-icon.svg') no-repeat 0 0
+                        background: url('../../images/clip-icon.svg') no-repeat 0 0
 
                     &_menu
                         margin: 0
-                        background: url('./menu-icon-circle.svg') no-repeat 0 0
+                        background: url('../../images/menu-icon-circle.svg') no-repeat 0 0
                         @include rotate(90deg)
 
 .list

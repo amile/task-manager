@@ -15,8 +15,9 @@ class AddAssignedForm extends Component {
         };
         this.onSubmitAssigned = (e) => {
             e.preventDefault();
-            if (this.state.value === this.state.selectedValue.fullName) {
-                this.props.updateTaskAddAssigned(this.state.selectedValue.id);
+            const fullName = this.state.selectedValue.lastName + ' ' + this.state.selectedValue.firstName;
+            if (this.state.value === fullName) {
+                this.props.updateTaskAddAssigned(this.state.selectedValue);
             }
         };
         this.onShowSelectList = () => {
@@ -40,13 +41,13 @@ class AddAssignedForm extends Component {
             this.setState(
                 { 
                     value: fullName,
-                    selectedValue: {id: user.id, fullName},
+                    selectedValue: user,
                     showSelectList: false 
                 }
             );
         };
-        this.onDeleteAssignedUser = (userId) => {
-            this.props.updateTaskDeleteAssigned(userId);
+        this.onDeleteAssignedUser = (user) => {
+            this.props.updateTaskDeleteAssigned(user);
         }
     }
     render() {
@@ -67,7 +68,7 @@ class AddAssignedForm extends Component {
                     return (
                         <div key={ user.id } className={ itemClassNames } onClick={ handleFunction }>
                             { user.lastName + ' ' + user.firstName }
-                            <span className='select-list__item-icon' onClick={ () => { this.onDeleteAssignedUser(user.id) } }></span>
+                            <span className='select-list__item-icon' onClick={ () => { this.onDeleteAssignedUser(user) } }></span>
                         </div>
                     )
             });

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import './add-form.sass';
+import './add-group-form.sass';
 
-export default class AddForm extends Component {
+export default class AddGroupForm extends Component {
     constructor() {
         super();
         this.state = {

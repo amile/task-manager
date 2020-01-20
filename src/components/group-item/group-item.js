@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { makeInnerTasksSelector, makeInnerGroupsSelector } from '../../selectors';
 
 import AddButton from '../add-button/add-button';
-import AddForm from '../add-form/add-form';
+import AddGroupForm from '../add-group-form/add-group-form';
 import TaskItem from '../task-item/task-item';
 
 import './group-item.sass';
@@ -95,7 +95,7 @@ export class GroupItem extends Component {
         
         let addForm = null;
         if (this.state.addNewGroup) {
-            addForm = <AddForm project={ false } addNewItem={ this.onSubmitGroup } onCloseForm={ this.closeAddForm } />;
+            addForm = <AddGroupForm project={ false } addNewItem={ this.onSubmitGroup } onCloseForm={ this.closeAddForm } />;
         }
         const itemOpenClassName = (!this.state.open) ? '' : 'group_open';
         return (

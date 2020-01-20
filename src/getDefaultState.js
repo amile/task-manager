@@ -1,4 +1,3 @@
-import { formatDate } from './utils';
 
 const list = [ ...Array(22).keys() ];
 let levelId = 38;
@@ -9,7 +8,7 @@ const levelList = list.map((item) => {
 })
 
 export const defaultState = {
-    currentUser: null,
+    currentUser: '89',
     users: [
         {id: '88', login: 'dimon', passHash: '$2a$08$djyiemyHNqGRKUdinu7zPuGc0Lneo/YmjJ7eER7vXIpFSMqqKFK.e', firstName: 'Дмитрий', lastName: 'Иванов', foto: null},
         {id: '89', login: 'boris', passHash: '$2a$08$uCHWtGxv1AUd2x09dPLVAuJL7nggyuRCdPwLEhvNA2hsGnuM0k6F.', firstName: 'Борис', lastName: 'Волков', foto: null},
@@ -74,7 +73,7 @@ export const defaultState = {
             user: '88',
             status: 'testing',
             dateDue: null,
-            assigned: ['89', '88', '89', '89'],
+            assigned: ['89', '88', '87', '86'],
             tags: ['99', '98'],
             comments: ['25', '26'],
             history: [{user: 'Дмитрий И.', label: 'создал задачу', date: new Date(2019, 11, 10) }],
@@ -175,13 +174,13 @@ export const defaultState = {
 const initialState = {
     currentUser: null,
     users: [],
-    showedGroup: null,
     projects: [],
     groups: [],
     tasks: [],
+    tags: [],
     comments: [],
     files: [],
 };
-console.log(defaultState)
+
 export default initialState;
 

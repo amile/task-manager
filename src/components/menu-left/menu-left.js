@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 
-import { addProject, setShowedGroup, addGroup } from '../../actions';
+import { addProject, addGroup } from '../../actions';
 import { projectsSelector } from '../../selectors';
 
-import AddForm from '../add-form/add-form';
+import AddGroupForm from '../add-group-form/add-group-form';
 import ConnectedMenuLeftItem from '../menu-left-item/menu-left-item';
 
 import './menu-left.sass';
@@ -45,7 +45,7 @@ class MenuLeft extends Component {
                 </li>
             );
         });
-        const addForm = this.state.showAddProjectForm ? <AddForm project={ true } addNewItem={ this.onSubmitProject }
+        const addForm = this.state.showAddProjectForm ? <AddGroupForm project={ true } addNewItem={ this.onSubmitProject }
             onCloseForm={ this.onCloseAddProjectForm }/> : null;
         return (
             <div className='menu-left'>
@@ -76,7 +76,6 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        setShowedGroup: bindActionCreators(setShowedGroup, dispatch),
         addProject: bindActionCreators(addProject, dispatch),
         addGroup: bindActionCreators(addGroup, dispatch)
     }
