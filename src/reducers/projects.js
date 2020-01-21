@@ -4,7 +4,6 @@ const projects = (state = [], action) => {
     switch (action.type) {
 
         case PROJECTS_LOADED:
-            console.log(action.payload)
             return action.payload
 
         case ADD_PROJECT:

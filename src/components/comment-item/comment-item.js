@@ -28,11 +28,11 @@ class CommentItem extends Component {
                 const imageType = file.type.startsWith('image/');
                 const image = (!imageType) ? null : (<img className='file-img' src={ file.url } alt='' />);
                 return (
-                    <div className='file-wrapper'>
+                    <div key={ file.name } className='file-wrapper'>
                         { image }
                         <div className='file-label'>
-                            <a className='file-label-link' href={ file.url } target='_blank'>{ file.name }</a>
-                            <a className='file-label-btn' href={ file.url } target='_blank' download={ file.name }>Загрузить</a>
+                            <a className='file-label-link' href={ file.url } target='_blank' rel='noopener noreferrer'>{ file.name }</a>
+                            <a className='file-label-btn' href={ file.url } target='_blank' rel='noopener noreferrer' download={ file.name }>Загрузить</a>
                             <button className='file-label-btn' onClick={ () => this.props.updateCommentDeleteFile(comment.id, file.id) }>Удалить</button>
                         </div>
                     </div>

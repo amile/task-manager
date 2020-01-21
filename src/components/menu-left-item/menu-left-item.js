@@ -114,5 +114,7 @@ const makeMapStateToProps = () => {
     }
     return mapStateToProps;
 };
+
 const ConnectedMenuLeftItem = connect(makeMapStateToProps)(withRouter(MenuLeftItem));
+
 export default ConnectedMenuLeftItem;

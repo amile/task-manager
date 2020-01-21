@@ -1,17 +1,9 @@
 import React, { Component } from 'react';
-import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js';
+import { Editor, EditorState, RichUtils, convertToRaw, CompositeDecorator } from 'draft-js';
+
+import CommentFormButton from '../comment-form-button/comment-form-button';
 
 import './comment-form.sass';
-
-const CommentFormButton = ({type, active, onClick}) => {
-    const activeClassName = active ? 'active' : '';
-    return (
-        <button 
-            className={`comment-form__btn comment-form__btn_${ type } ${ activeClassName }`} 
-            onClick={ () => onClick(type) }>
-        </button>
-    )
-}
 
 const inlineTypesButton = [
     { type: 'bold'},
@@ -152,7 +144,7 @@ class CommentForm extends Component {
         return currentBlockType === type;
     }
     render() {
-        let imageList = null;
+/*         let imageList = null;
         if (this.state.files.length > 0) {
             imageList = this.state.files.map((file) => {
                 const imageType = file.type.startsWith('image/');
@@ -169,7 +161,7 @@ class CommentForm extends Component {
                 );
             })
 
-        }
+        } */
         const linkForm = (!this.state.showLinkForm) ? null : (
             <form className='link-form' onSubmit={ this.onSubmitLink }>
                 <input type='text' className='tag-form__input link-form__input' value={ this.state.value } 
@@ -180,25 +172,30 @@ class CommentForm extends Component {
         )
         const submitButton = (!this.state.showSubmitButton) ? null :
             (<button className='comment-form__submit-btn' onClick={ this.onSubmit }>Сохранить</button>);
-        const filesLinkList = (this.state.files.length === 0) ? null : this.state.files.map((file) => {
+        const filesLinkList = (this.state.files.length === 0) ? null : this.state.files.map((file, idx) => {
             return (
-                <div className='comment-form__load-file'>
-                    <a href={ file.url } target='_blank' download={ file.name }>{ file.name }</a>
+                <div key={ idx } className='comment-form__load-file'>
+                    <a href={ file.url } target='_blank' rel='noopener noreferrer' download={ file.name }>{ file.name }</a>
                     <span className='comment-form__load-file-cancel' onClick={() => {this.handleDeleteFile(file.name)} }> +</span>
                 </div>
             );
         });
-        const comment = EditorState.createEmpty(this.decorator);
         const inlineButtons = inlineTypesButton.map((item) => {
             return (
-                <CommentFormButton type={ item.type }
-                    active={ this.checkInlineTypes(item.type) } onClick={ this.handleKeyCommand }/>
+                <div key={ item.type } className='comment-form__item' >
+                    <CommentFormButton type={ item.type }
+                        active={ this.checkInlineTypes(item.type) } 
+                        onClick={ this.handleKeyCommand }/>
+                </div>
             );
         });
         const blockButtons = blockTypesButton.map((item) => {
             return (
-                <CommentFormButton type={ item.type }
-                        active={ this.checkBlockTypes(item.type) } onClick={ this.toggleBlockType }/>
+                <div key={ item.type } className='comment-form__item'>
+                    <CommentFormButton type={ item.type }
+                        active={ this.checkBlockTypes(item.type) } 
+                        onClick={ this.toggleBlockType }/>
+                </div>
             );
         });
         return (
@@ -226,10 +223,6 @@ class CommentForm extends Component {
                     
                     { submitButton }
                     
-                </div>
-                <div>
-                    { imageList }
-                    <Editor editorState={ comment } readOnly/>
                 </div>
             </div>    
         );

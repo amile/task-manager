@@ -60,7 +60,6 @@ class TaskItem extends Component {
 const makeMapStateToProps = () => {
     const taskAssignedUsersSelector = makeTaskAssignedUsersSelector();
     const taskTagsSelector = makeTaskTagsSelector()
-    console.log(taskAssignedUsersSelector, taskTagsSelector)
     const mapStateToProps = (state, props) => {
         return {
             assigned: taskAssignedUsersSelector(state, {itemId: props.task.id}),

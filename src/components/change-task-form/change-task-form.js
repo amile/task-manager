@@ -125,8 +125,10 @@ class ChangeTaskForm extends Component {
             filesListContent = !files ? null : files.map((file, idx) => {
                 return (
                     <li key={ idx } className='file-list__item file-label'>
-                        <a className='file-label-link' href={ file.url } target='_blank'>{ file.name }</a>
-                        <a className='file-label-download' href={ file.url } target='_blank' download={ file.name }>Загрузить</a>
+                        <a className='file-label-link' href={ file.url } target='_blank' rel='noopener noreferrer'>
+                            { file.name }</a>
+                        <a className='file-label-download' href={ file.url } target='_blank' rel='noopener noreferrer' download={ file.name }>
+                            Загрузить</a>
                         <span className='btn_delete file-btn_delete' onClick={() => {this.handleDeleteFile(file.name)} }>+</span>
                     </li>
                 );

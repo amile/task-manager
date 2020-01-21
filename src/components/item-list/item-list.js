@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { addGroup } from '../../actions';
-import { showedGroupSelector, func } from '../../selectors';
+import { showedGroupSelector } from '../../selectors';
 
 import ConnectedGroupItem from '../group-item/group-item';
 

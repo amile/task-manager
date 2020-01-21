@@ -50,8 +50,6 @@ export class GroupItem extends Component {
         let levelToClass = level;
         if (this.state.open) {
             if (level > 9 && (level % 10) === 0) {
-                // history.push(`/app/group/${ group.id }`);
-                // return null;
                 nexFloor = 'next-floor';
                 level = 0;
                 levelToClass = 0;
@@ -60,14 +58,15 @@ export class GroupItem extends Component {
                 level++
                 groupList = groups.map( (group) => {
                     return (
-                        <ConnectedGroupItem group={ group }
+                        <div key={ group.id }>
+                            <ConnectedGroupItem group={ group }
                             activeGroup={ activeGroup }
                             addNewGroup={ addNewGroup }
                             onToggleActive={ onToggleActive }
                             addNewTask={ addNewTask }
                             showTaskEditor={ showTaskEditor }
-                            level={ level } history={ history }>
-                        </ConnectedGroupItem>
+                            level={ level } history={ history } />
+                        </div>
                     );
                 });
             }
@@ -126,5 +125,6 @@ const makeMapStateToProps = () => {
     }
     return mapStateToProps;
 };
+
 const ConnectedGroupItem = connect(makeMapStateToProps)(GroupItem);
 export default ConnectedGroupItem;

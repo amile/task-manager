@@ -119,11 +119,11 @@ const updateTaskAddDateDue = ({taskId, dateDue, date, action, currentUser}, stat
     return updatedTasks;
 }
 
-const updateTaskAddFile = (taskId, fileId, state) => {
+/* const updateTaskAddFile = (taskId, fileId, state) => {
     const updatedTasks = findItemInList(taskId, state, 
         (task) => {return { ...task, files: [ ...task.files, fileId ] }});
     return updatedTasks;
-}
+} */
 
 const tasks = (state = [], action) => {
     switch (action.type) {

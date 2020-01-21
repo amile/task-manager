@@ -12,3 +12,4 @@ export const currentUserSelector = createSelector(
     usersSelector,
     (userId, users) => users.find((user) => user.id === userId)
 );
+

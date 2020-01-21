@@ -4,11 +4,10 @@ import { bindActionCreators } from 'redux';
 import { withRouter, Redirect } from 'react-router-dom';
 
 import { showedTaskSelector, taskCreatedByUserSelector, currentUserSelector,
-    makeTaskAssignedUsersSelector, 
-    currentUserID} from '../../selectors';
+    makeTaskAssignedUsersSelector } from '../../selectors';
 import { addTask, addTag, updateTaskAddTag, updateTaskDeleteTag, updateTaskChangeStatus,
-            updateTaskAddAssigned, updateTaskDeleteAssigned, addComment,
-            updateTaskAddDateDue, updateCommentDeleteFile } from '../../actions';
+    updateTaskAddAssigned, updateTaskDeleteAssigned, addComment,
+    updateTaskAddDateDue, updateCommentDeleteFile } from '../../actions';
 
 import CreateTaskForm from '../create-task-form/create-task-form';
 import ChangeTaskForm from '../change-task-form/change-task-form';

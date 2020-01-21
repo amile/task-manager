@@ -10,7 +10,6 @@ export const groupsLoaded = (data) => {
 };
 
 export const addGroup = (label, parentId) => {
-    console.log('action')
     return {
         type: ADD_GROUP,
         payload: {

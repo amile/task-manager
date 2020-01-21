@@ -26,27 +26,17 @@ export const getTime = (date) => {
     return moment(date).format('H:mm');
 }
 
-export const genPasswordHash = (pass) => {
-    const hash = bcript.hashSync(pass, 8);
+export const genHash = (text) => {
+    const hash = bcript.hashSync(text, 8);
     return hash;
 }
 
-export const genFileHash = (file) => {
-    const hash = bcript.hashSync(file, 8);
-    return hash;
-}
-
-export const compareFileHash = (file, hash) => {
-    return bcript.compare(file, hash);
+export const compareHash = (text, hash) => {
+    return bcript.compare(text, hash);
 }
 
 // const passHashDimon = genPasswordHash('1qa2ws3ed');
 // const passHashBoris = genPasswordHash('qweasdzxc');
-
-export const comparePasswordHash = (pass, hash) => {
-    return bcript.compare(pass, hash);
-}
-
 
 let idx = 100;
 
@@ -63,7 +53,7 @@ export const findItemInList = (itemId, itemsList, callback) => {
     });
 }
 
-const findGroup = (id, items) => {
+/* const findGroup = (id, items) => {
     for (let i = 0; i < items.length; i++) {
         if (items[i].id === id) {
             return items[i];
@@ -72,7 +62,7 @@ const findGroup = (id, items) => {
             findGroup(id, items[i].groups);
         }
     }
-}
+} */
 
 export const formatDate = (date) => {
     const monthNames = ['января', 'февраля', 'марта', 'апреля', 
