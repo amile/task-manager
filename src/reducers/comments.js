@@ -48,7 +48,6 @@ const comments = (state = [], action) => {
             return updateCommentAddFile(action.payload.parentId, action.payload.fileId, state);
 
         case UPDATE_COMMENT_DELETE_FILE:
-                console.log('reducer updateCommentDeleteFile')
             return updateCommentDeleteFile(action.payload, state);
 
         default:

@@ -7,6 +7,13 @@ import { formatStatus, getCalendarDate, getTime } from '../../utils';
 import './task-item.sass';
 
 class TaskItem extends Component {
+    constructor() {
+        super();
+        this.handleCheckbox = (e) => {
+            e.stopPropagation();
+            console.log(e);
+        }
+    }
     render() {
         const { task, assigned, tags } = this.props;
         const userIconClassNames = (assigned && (assigned.length >= 3)) ? 'user-icon_align' : '';
@@ -40,6 +47,9 @@ class TaskItem extends Component {
         return (
             <Fragment>
                 <div className='task-item__label'>
+                    <label onClick={ (e)=> e.stopPropagation() }>
+                    <input type='checkbox' checked={ task.status === 'done' } 
+                        className='task-item__checkbox' onChange={ this.handleCheckbox }/></label>
                     { task.label }
                     <span className='task-item__comments'>{ comments }</span>
                     { tagList }

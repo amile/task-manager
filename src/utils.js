@@ -75,6 +75,9 @@ export const formatDate = (date) => {
     const minutes = date.getMinutes();
     return `${day} ${monthNames[month]} ${year}, ${hours}:${minutes}`;
 }
+
+export const stateDataList = ['projects', 'groups', 'tasks', 'users', 'tags', 'comments', 'files'];
+
 export const statusList = {
     'acceptance': 'Приемка', 
     'process': 'В работе', 
