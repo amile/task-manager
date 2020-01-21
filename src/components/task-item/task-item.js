@@ -40,6 +40,10 @@ class TaskItem extends Component {
         return (
             <Fragment>
                 <div className='task-item__label'>
+                <label onClick={ (e) => e.stopPropagation() }>
+                    <input type='checkbox' checked={ task.status === 'done' } onChange={ () => {} } />
+                </label>
+                
                     { task.label }
                     <span className='task-item__comments'>{ comments }</span>
                     { tagList }
