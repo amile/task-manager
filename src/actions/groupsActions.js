@@ -1,4 +1,4 @@
-import { GROUPS_LOADED, ADD_GROUP } from '../constants';
+import { GROUPS_LOADED, ADD_GROUP, UPDATE_GROUP_SET_DONE } from '../constants';
 
 import { createNewIndex } from '../utils';
 
@@ -16,6 +16,16 @@ export const addGroup = (label, parentId) => {
             id: createNewIndex(),
             parentId, 
             label
+        }
+    };
+};
+
+export const updateGroupSetDone = (groupId, done) => {
+    return {
+        type: UPDATE_GROUP_SET_DONE,
+        payload: {
+            groupId,
+            done
         }
     };
 };

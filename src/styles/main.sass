@@ -45,3 +45,33 @@ button
 
 .display_none
     display: none
+
+.status
+    &_testing
+        color: $status-testing-color
+    &_acceptance
+        color: $status-acceptance-color
+    &_process
+        color: $status-process-color
+    &_done
+        color: $status-done-color
+
+.tag
+    display: inline-block
+    margin-right: .5rem
+    padding: .125rem .5rem
+    font-size: .75rem
+    line-height: 1
+    color: #fff
+    border-radius: 2px
+
+    &_violet
+        background-color: $tag-color-violet
+    &_blue
+        background-color: $tag-color-blue
+    &_green
+        background-color: $tag-color-green
+    &_red
+        background-color: $tag-color-red
+    &_yellow
+        background-color: $tag-color-yellow

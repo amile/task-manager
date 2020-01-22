@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { makeInnerTasksSelector, makeInnerGroupsSelector } from '../../selectors';
+import { updateGroupSetDone } from '../../actions';
 
 import AddButton from '../add-button/add-button';
 import AddGroupForm from '../add-group-form/add-group-form';
 import TaskItem from '../task-item/task-item';
+import DoneCheckbox from '../done-checkbox/done-checkbox';
 
 import './group-item.sass';
 
@@ -35,6 +38,10 @@ export class GroupItem extends Component {
             this.state.addNewGroup = false;
             this.props.addNewGroup(value, this.props.group.id);
         }
+        this.handleCheckbox = (done) => {
+            const { id } = this.props.group;
+            this.props.updateGroupSetDone(id, done );
+        }
     }
 
     render() {
@@ -43,7 +50,6 @@ export class GroupItem extends Component {
         let { level } = this.props;
         const active = activeGroup === group.id;
         let classNameOpenIcon = this.state.open ? 'group__label-icon_open' : '';
-        
         const labelClassNames = active ? 'group__label group__label_active' : 'group__label'
         let groupList, taskList = null;
         let nexFloor = null
@@ -91,7 +97,8 @@ export class GroupItem extends Component {
                     <AddButton label='task' onAdd={ () => {this.props.addNewTask(group.id)} }/>
                 </div> 
             ) : null;
-        
+        const checkbox = !active ? null
+            : (<DoneCheckbox done={ group.done } handleCheckbox={ this.handleCheckbox }/>);
         let addForm = null;
         if (this.state.addNewGroup) {
             addForm = <AddGroupForm project={ false } addNewItem={ this.onSubmitGroup } onCloseForm={ this.closeAddForm } />;
@@ -99,6 +106,7 @@ export class GroupItem extends Component {
         const itemOpenClassName = (!this.state.open) ? '' : 'group_open';
         return (
             <li className={`group item-list__group ${ itemOpenClassName } ${ nexFloor }`} key={ this.props.group.id.toString() }>
+                { checkbox }
                 <div className={ labelClassNames }>
                     { icon }
                     <span className='group__label-name' onClick={ this.onGroupClick }>{ group.label } </span>
@@ -126,5 +134,11 @@ const makeMapStateToProps = () => {
     return mapStateToProps;
 };
 
-const ConnectedGroupItem = connect(makeMapStateToProps)(GroupItem);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateGroupSetDone: bindActionCreators(updateGroupSetDone, dispatch)
+    }
+};
+
+const ConnectedGroupItem = connect(makeMapStateToProps, mapDispatchToProps)(GroupItem);
 export default ConnectedGroupItem;

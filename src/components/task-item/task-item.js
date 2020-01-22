@@ -1,12 +1,22 @@
 import React, { Component, Fragment } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import { updateTaskSetDone } from '../../actions';
 import { makeTaskAssignedUsersSelector, makeTaskTagsSelector } from '../../selectors';
 import { formatStatus, getCalendarDate, getTime } from '../../utils';
+import DoneCheckbox from '../done-checkbox/done-checkbox';
 
 import './task-item.sass';
 
 class TaskItem extends Component {
+    constructor(props) {
+        super(props);
+        this.handleCheckbox = (done) => {
+            const { id } = this.props.task;
+            this.props.updateTaskSetDone(id, done );
+        }
+    }
     render() {
         const { task, assigned, tags } = this.props;
         const userIconClassNames = (assigned && (assigned.length >= 3)) ? 'user-icon_align' : '';
@@ -29,7 +39,8 @@ class TaskItem extends Component {
                 </div>
             );
         });
-        const comments = (task.comments && task.comments.length) ? task.comments.length : null;
+        const comments = (!task.comments || (task.comments.length === 0)) ? null 
+            : ( <span className='task-item__comments'>{ task.comments.length }</span> );
         const dateDue = (!task.dateDue) ? null 
             : ( <div className='task-item__date'>
                     { getCalendarDate(task.dateDue) }
@@ -40,12 +51,10 @@ class TaskItem extends Component {
         return (
             <Fragment>
                 <div className='task-item__label'>
-                <label onClick={ (e) => e.stopPropagation() }>
-                    <input type='checkbox' checked={ task.status === 'done' } onChange={ () => {} } />
-                </label>
-                
+                    <DoneCheckbox done={ task.done } 
+                        handleCheckbox={ this.handleCheckbox } />
                     { task.label }
-                    <span className='task-item__comments'>{ comments }</span>
+                    { comments }
                     { tagList }
                 </div>
                 <div className={`task-item__status status_${ task.status }`}>
@@ -73,6 +82,12 @@ const makeMapStateToProps = () => {
     return mapStateToProps;
 };
 
-export const ConnectTaskItem = connect(makeMapStateToProps)(TaskItem);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateTaskSetDone: bindActionCreators(updateTaskSetDone, dispatch)
+    }
+};
+
+export const ConnectTaskItem = connect(makeMapStateToProps, mapDispatchToProps)(TaskItem);
 
 export default ConnectTaskItem;

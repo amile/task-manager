@@ -1,3 +1,6 @@
+@import '../../styles/variables'
+@import '../../styles/mixins'
+
 .tag-form
     position: absolute
     z-index: 2
@@ -65,7 +68,7 @@
         text-align: center
         margin: .75rem 0
         padding: .6rem
-        border-top: 1px solid #eff0f2
+        border-top: 1px solid $backgroun-color-light
 
         &__item
             display: inline-block
@@ -81,13 +84,13 @@
                 margin-right: 0
 
             &_violet
-                background-color: #C39BD3
+                background-color: $tag-color-violet
             &_blue
-                background-color: #85C1E9
+                background-color: $tag-color-blue
             &_green
-                background-color: #76D7C4
+                background-color: $tag-color-green
             &_red
-                background-color: #F1948A
+                background-color: $tag-color-red
             &_yellow
-                background-color: #F7DC6F 
+                background-color: $tag-color-yellow
                 

@@ -1,9 +1,10 @@
 import { usersLoaded, loginUser, setCurrentUser } from './usersActions';
 import { tasksLoaded, addTask, updateTaskAddTag, updateTaskDeleteTag, 
     updateTaskChangeStatus, updateTaskAddAssigned, updateTaskDeleteAssigned, 
-    updateTaskAddDateDue, updateTaskAddComment, updateTaskDeleteComment } from './tasksActions';
+    updateTaskAddDateDue, updateTaskAddComment, updateTaskDeleteComment,
+    updateTaskSetDone } from './tasksActions';
 import { projectsLoaded, addProject } from './projectsActions';
-import { groupsLoaded, addGroup } from './groupsActions';
+import { groupsLoaded, addGroup, updateGroupSetDone } from './groupsActions';
 import { tagsLoaded, addTag } from './tagsActions';
 import { commentsLoaded, addComment, deleteComment, updateCommentAddFile, 
     updateCommentDeleteFile } from './commentsActions';
@@ -21,11 +22,13 @@ export {
     setCurrentUser,
     addProject,
     addGroup,
+    updateGroupSetDone,
     addTask,
     updateTaskAddTag,
     addTag,
     addComment,
     deleteComment,
+    updateTaskSetDone,
     updateTaskDeleteTag,
     updateTaskChangeStatus,
     updateTaskAddAssigned,

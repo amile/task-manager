@@ -1,4 +1,12 @@
-import { GROUPS_LOADED, ADD_GROUP } from '../constants';
+import { GROUPS_LOADED, ADD_GROUP, UPDATE_GROUP_SET_DONE } from '../constants';
+
+import { findItemInList } from '../utils';
+
+const updateGroupSetDone = ({groupId, done}, state) => {
+    const updatedGroups = findItemInList(groupId, state, 
+        (group) => {return { ...group, done }});
+    return updatedGroups;
+}
 
 const groups = (state = [], action) => {
     switch (action.type) {
@@ -11,6 +19,9 @@ const groups = (state = [], action) => {
                 ...action.payload
             };
             return [ ...state, newGroup ];
+
+        case UPDATE_GROUP_SET_DONE:
+            return updateGroupSetDone(action.payload, state);
 
         default:
             return state;

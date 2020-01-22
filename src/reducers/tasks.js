@@ -1,6 +1,6 @@
 import { TASKS_LOADED, ADD_TASK, UPDATE_TASK_ADD_TAG, UPDATE_TASK_DELETE_TAG, 
     UPDATE_TASK_CHANGE_STATUS, UPDATE_TASK_ADD_ASSIGNED, UPDATE_TASK_DELETE_ASSIGNED, 
-    UPDATE_TASK_ADD_COMMENT,UPDATE_TASK_DELETE_COMMENT, UPDATE_TASK_ADD_DATE_DUE } from '../constants';
+    UPDATE_TASK_ADD_COMMENT,UPDATE_TASK_DELETE_COMMENT, UPDATE_TASK_ADD_DATE_DUE, UPDATE_TASK_SET_DONE } from '../constants';
 
 import { findItemInList } from '../utils';
 
@@ -12,6 +12,7 @@ const createNewTask = ({id, label, parentId, dateCreated, action, currentUser}) 
         dateCreated,
         user: currentUser.id,
         dateDue: null,
+        done: false,
         status: 'acceptance',
         assigned: [],
         tags: [],
@@ -25,6 +26,12 @@ const createNewTask = ({id, label, parentId, dateCreated, action, currentUser}) 
             }
         ]
     };
+}
+
+const updateTaskSetDone = ({taskId, done}, state) => {
+    const updatedTasks = findItemInList(taskId, state, 
+        (task) => {return {...task, done}});
+    return updatedTasks
 }
 
 const updateTaskAddTag = (taskId, tagId, state) => {
@@ -137,6 +144,9 @@ const tasks = (state = [], action) => {
 
         case UPDATE_TASK_ADD_TAG:
             return updateTaskAddTag(action.payload.taskId, action.payload.tagId, state);
+
+        case UPDATE_TASK_SET_DONE:
+            return updateTaskSetDone(action.payload, state);  
 
         case UPDATE_TASK_DELETE_TAG:
             return updateTaskDeleteTag(action.payload.taskId, action.payload.tagId, state);

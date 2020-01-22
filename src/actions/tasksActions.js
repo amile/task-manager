@@ -1,7 +1,7 @@
 import { TASKS_LOADED, ADD_TASK, UPDATE_TASK_ADD_TAG, UPDATE_TASK_DELETE_TAG, 
     UPDATE_TASK_CHANGE_STATUS, UPDATE_TASK_ADD_ASSIGNED, UPDATE_TASK_DELETE_ASSIGNED, 
     UPDATE_TASK_ADD_COMMENT, UPDATE_TASK_DELETE_COMMENT, UPDATE_TASK_ADD_DATE_DUE,
-    UPDATE_TASK_ADD_FILE } from '../constants';
+    UPDATE_TASK_ADD_FILE, UPDATE_TASK_SET_DONE } from '../constants';
 
 import { createNewIndex, statusList, getDate, getTime } from '../utils';
 
@@ -34,6 +34,16 @@ export const updateTaskAddTag = (taskId, tagId) => {
         payload: {
             taskId,
             tagId
+        }
+    };
+};
+
+export const updateTaskSetDone = (taskId, done) => {
+    return {
+        type: UPDATE_TASK_SET_DONE,
+        payload: {
+            taskId,
+            done
         }
     };
 };

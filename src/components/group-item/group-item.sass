@@ -39,6 +39,13 @@
     &_open
         border-left: 1px solid #d7d7d7
     
+    & .checkbox
+        top: .4375rem
+        left: -7px
+
+        &:not(:checked)
+            background-color: #eff0f2
+    
     &::before
         content: ''
         position: absolute
@@ -46,7 +53,7 @@
         left: -1px
         width: .5rem
         height: .5rem
-        background-color: #eff0f2
+        background-color: #eff0f2    
 
 $delta: 1.5625rem
 $start: 0
@@ -63,13 +70,9 @@ $maxLevel: 10
     $level: $level + 1
     @return $positionLeft
 
-
 @for $level from $start through $maxLevel
     .group__label-icon_level-#{$level}
         left: setPosition($positionLeft, $delta,  $level)
-
-
-//@include position-left
 
 .next-floor
     margin-left: calc(-13.5rem + 3px)

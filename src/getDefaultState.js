@@ -4,7 +4,7 @@ let levelId = 38;
 const levelList = list.map((item) => {
     const parentId = levelId;
     levelId++
-    return { id: levelId.toString(), parentId: parentId.toString(), label: `Level ${ item + 2 }`}
+    return { id: levelId.toString(), parentId: parentId.toString(), label: `Level ${ item + 2 }`, done: false}
 })
 
 export const defaultState = {
@@ -21,17 +21,17 @@ export const defaultState = {
         {id: '35', parentId: null, label: 'Inanomo'}
     ],
     groups: [
-        {id: '1', parentId: '34', label: 'Мобильное приложение'},
-        {id: '2', parentId: '35', label: 'Лендинг'},
-        {id: '9', parentId: '35', label: 'Личный кабинет'},
-        {id: '6', parentId: '1', label: 'Админка'},
-        {id: '5', parentId: '6', label: 'Сервер'},
-        {id: '8', parentId: '6', label: 'Клиент'},
-        {id: '10', parentId: '5', label: 'Администрирование'},
-        {id: '13', parentId: '10', label: 'Настройка сервера'},
-        {id: '11', parentId: '10', label: 'Локальное тестирование'},
-        {id: '12', parentId: '10', label: 'Боевое тестирование'},
-        {id: '38', parentId: '9', label: 'Level 1'},
+        {id: '1', parentId: '34', label: 'Мобильное приложение', done: false}, 
+        {id: '2', parentId: '35', label: 'Лендинг', done: false},
+        {id: '9', parentId: '35', label: 'Личный кабинет', done: false},
+        {id: '6', parentId: '1', label: 'Админка', done: false},
+        {id: '5', parentId: '6', label: 'Сервер', done: false},
+        {id: '8', parentId: '6', label: 'Клиент', done: false},
+        {id: '10', parentId: '5', label: 'Администрирование', done: false},
+        {id: '13', parentId: '10', label: 'Настройка сервера', done: false},
+        {id: '11', parentId: '10', label: 'Локальное тестирование', done: false},
+        {id: '12', parentId: '10', label: 'Боевое тестирование', done: false},
+        {id: '38', parentId: '9', label: 'Level 1', done: false},
         ...levelList
     ],
     tasks: [
@@ -39,6 +39,7 @@ export const defaultState = {
             id: '3', parentId: '5', label: 'Баги в сервисе "новости/объявления"', 
             dateCreated: new Date(), user: '88', status: 'testing',
             dateDue: null,
+            done: false,
             assigned: [],
             tags: ['99'],
             comments: [],
@@ -49,6 +50,7 @@ export const defaultState = {
             id: '4', parentId: '5', label: 'Бальная оценка. Если полностью стереть значение модификатора и нажать клавишу Enter в консоли выводится ошибка 400, значение модификатора не изменяется', 
             dateCreated: new Date(), user: '89', status: 'done',
             dateDue: null,
+            done: true,
             assigned: [],
             tags: [],
             comments: [],
@@ -59,6 +61,7 @@ export const defaultState = {
             id: '5', parentId: '10', label: 'Баги в сервисе "новости/объявления"', 
             dateCreated: new Date(), user: '88', status: 'testing',
             dateDue: null,
+            done: false,
             assigned: ['89'],
             tags: ['96'],
             comments: [],
@@ -72,6 +75,7 @@ export const defaultState = {
             dateCreated: new Date(2019, 11, 10),
             user: '88',
             status: 'testing',
+            done: false,
             dateDue: null,
             assigned: ['89', '88', '87', '86'],
             tags: ['99', '98'],
@@ -86,6 +90,7 @@ export const defaultState = {
             dateCreated: new Date(2019, 11, 11, 6, 4),
             user: '88',
             status: 'done',
+            done: true,
             dateDue: new Date(2019, 11, 11),
             assigned: ['89', '88'],
             tags: ['99', '98'],
@@ -100,6 +105,7 @@ export const defaultState = {
             dateCreated: new Date(2019, 11, 7, 15, 1),
             user: '89',
             status: 'done',
+            done: true,
             dateDue: null,
             assigned: ['89'],
             tags: ['96'],
@@ -110,6 +116,7 @@ export const defaultState = {
         {
             id: '30', parentId: '13', label: 'Ошибка сервера', 
             dateCreated: new Date(), user: '88', status: 'testing',
+            done: false,
             dateDue: null,
             assigned: [],
             tags: ['99'],

@@ -23,6 +23,8 @@ export const ADD_PROJECT = 'ADD_PROJECT';
 
 export const ADD_GROUP = 'ADD_GROUP';
 
+export const UPDATE_GROUP_SET_DONE = 'UPDATE_GROUP_SET_DONE';
+
 export const ADD_TASK = 'ADD_TASK';
 
 export const ADD_TAG = 'ADD_TAG';
@@ -32,6 +34,8 @@ export const ADD_COMMENT = 'ADD_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 
 export const UPDATE_TASK_ADD_TAG = 'UPDATE_TASK_ADD_TAG';
+
+export const UPDATE_TASK_SET_DONE = 'UPDATE_TASK_SET_DONE';
 
 export const UPDATE_TASK_DELETE_TAG = 'UPDATE_TASK_DELETE_TAG';
 
