@@ -1,11 +1,12 @@
 @import '../../styles/variables'
+@import '../../styles/mixins'
 
 .checkbox
     position: absolute
     width: 14px
     height: 14px
-    -webkit-appearance: none
-    background-color: none
+    @include appearance(none)
+    background-color: #fff
     border: 1px solid #cacece
     box-shadow: none
     border-radius: 1px

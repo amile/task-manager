@@ -1,3 +1,5 @@
+@import '../../styles/variables'
+
 .date-time-picker
     display: inline-block
     vertical-align: middle
@@ -9,10 +11,10 @@
 
     .rdtPicker td.rdtActive,
     .rdtPicker td.rdtActive:hover,
-        background-color: #4a8de4
+        background-color: $icon-assigned-color
 
     .rdtPicker td.rdtToday:before
-        border-bottom-color: #4a8de4
+        border-bottom-color: $icon-assigned-color
 
     .rdtPicker td.rdtActive.rdtToday:before
         border-bottom-color: #fff
