@@ -62,6 +62,9 @@ class ChangeTaskForm extends Component {
             this.props.updateTaskDeleteAssigned(userId);
             this.onCloseAssignedForm();
         }
+        this.dateTimePickerTrigger = () => {
+            document.getElementsByClassName('form-control')[0].click();
+        }
     }
     componentDidUpdate(prevProps) {
         if (this.props.task.id !== prevProps.task.id) {
@@ -162,8 +165,8 @@ class ChangeTaskForm extends Component {
                                 <StatusForm status={ task.status } changeStatus={ changeStatus }/>
                             </div>
                             <div className='task-form__date-due'>
-                                <span className='date-due__calendar-icon'></span>
-                                <DateTimePicker value={ task.dateDue } updateTaskAddDateDue={ this.props.updateTaskAddDateDue }/>
+                                <span className='date-due__calendar-icon' onClick={ this.dateTimePickerTrigger }></span>
+                                <DateTimePicker value={ task.dateDue } updateTaskAddDateDue={ this.props.updateTaskAddDateDue } />
                             </div>
                             <ul className='task-form__assigned-list'>
                                 { assignedUsers }
@@ -204,11 +207,12 @@ class ChangeTaskForm extends Component {
                 
                 <section className='task-form__bottom-menu'>
                     <div className='task-form__container bottom-menu__container'>
-                        <div className='bottom-menu__item' onClick={ () => {} }>
+                        <div className='bottom-menu__item' >
                             <span className='bottom-menu__item-icon bottom-menu__item-icon_files'></span>
                             Файлы
                         </div> 
-                        <div className={`bottom-menu__item bottom-menu__item_history ${ activeMenuHistory }`}  onClick={ this.onToggleShowedHistory }>
+                        <div className={`bottom-menu__item bottom-menu__item_history ${ activeMenuHistory }`}  
+                            onClick={ this.onToggleShowedHistory } >
                             <span className='bottom-menu__item-icon bottom-menu__item-icon_history'></span>
                             История
                         </div>
