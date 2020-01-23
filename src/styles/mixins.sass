@@ -1,3 +1,5 @@
+@import variables
+
 // Transform Browser Prefixes
 @mixin transform($transforms)
 	-webkit-transform: $transforms
@@ -29,3 +31,8 @@
 	-webkit-appearance: $appearance
     -moz-appearance: $appearance
     appearance: $appearance
+
+// Set fontSize from Px to Rem
+@mixin fontSize($size)
+  font-size: $size
+  font-size: pxToRem($size)

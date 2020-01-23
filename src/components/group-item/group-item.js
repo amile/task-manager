@@ -93,8 +93,8 @@ export class GroupItem extends Component {
         const buttons = active ? 
             (   
                 <div className='buttons-wrapper'>
-                    <AddButton label='group' onAdd={ this.onAddGroup }/>
                     <AddButton label='task' onAdd={ () => {this.props.addNewTask(group.id)} }/>
+                    <AddButton label='group' onAdd={ this.onAddGroup }/>
                 </div> 
             ) : null;
         const checkbox = !active ? null
@@ -106,9 +106,10 @@ export class GroupItem extends Component {
         const itemOpenClassName = (!this.state.open) ? '' : 'group_open';
         return (
             <li className={`group item-list__group ${ itemOpenClassName } ${ nexFloor }`} key={ this.props.group.id.toString() }>
-                { checkbox }
+                {/* { checkbox } */}
                 <div className={ labelClassNames }>
                     { icon }
+                    { checkbox }
                     <span className='group__label-name' onClick={ this.onGroupClick }>{ group.label } </span>
                     { buttons }
                     { addForm }

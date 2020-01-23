@@ -7,6 +7,10 @@
         padding-right: 1rem
         cursor: pointer
 
+        &-name
+            display: inline-block
+            vertical-align: middle
+
     &__comments
         display: inline-block
         position: relative
@@ -22,8 +26,9 @@
     
     &__tags
         display: inline-block
+        vertical-align: middle
 
-    & .tag:nth-child(2)
+    & .tag:nth-child(1)
         margin-left: .625rem
     
     &__date
@@ -41,26 +46,25 @@
     &__status
         flex: 0 0 6.875rem
         padding: 0 .5rem
+        line-height: 21px
 
     &__assigned
         position: relative
-        flex: 0 0 6rem
+        flex: 0 0 5.375rem
         padding-right: 1rem
         text-align: right
 
         & .user-icon
             position: relative
-            width: 1.625rem
-            height: 1.625rem
-            font-size: .625rem
-            line-height: 1.375rem
+            width: 1.6875rem
+            height: 1.6875rem
+            margin-top: -2px
+            font-size: .6875rem
+            line-height: 1.5rem
             border: 2px solid #fff
 
-            &_align:nth-child(1)
-                left: calc(.375rem * 2)
-            
-            &_align:nth-child(2)
-                left: .375rem
+            &_align
+                margin-left: -.5rem
 
             &_rest
                 position: absolute

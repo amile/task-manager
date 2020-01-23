@@ -4,7 +4,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 
 import { currentUserID } from '../../selectors';
 
-import '../../styles/styles';
+import '../../styles/main.sass';
 import './app.sass';
 
 import LoginPage from '../login-page/login-page';

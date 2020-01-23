@@ -1,13 +1,16 @@
+@import '../../styles/variables'
+@import '../../styles/functions'
+
 .group
     position: relative
-    color: #8e8f91
-    margin-left: .75rem
-    padding-left: .75rem
+    color: $group-label-color
+    margin-left: pxToRem(12px)
+    padding-left: pxToRem(12px)
     border-left: 1px solid transparent
 
     &__label
         position: relative
-        margin-top: .375rem
+        margin-top: pxToRem(6px)
         padding: .3125rem 0
 
         &-name
@@ -16,7 +19,23 @@
             cursor: pointer
 
             &:hover
-               color: #000 
+               color: #000
+
+        & .checkbox
+            top: .4375rem
+            left: -1.1875rem
+
+            &:not(:checked)
+                background-color: $backgroun-color-light
+
+            &::after
+                position: absolute
+                content: ''
+                width: 14px
+                height: 10px
+                bottom: -11px
+                left: 0
+                background-color: $backgroun-color-light
 
         &-icon
             position: absolute
@@ -39,13 +58,6 @@
     &_open
         border-left: 1px solid #d7d7d7
     
-    & .checkbox
-        top: .4375rem
-        left: -7px
-
-        &:not(:checked)
-            background-color: #eff0f2
-    
     &::before
         content: ''
         position: absolute
@@ -53,7 +65,7 @@
         left: -1px
         width: .5rem
         height: .5rem
-        background-color: #eff0f2    
+        background-color: $backgroun-color-light  
 
 $delta: 1.5625rem
 $start: 0
@@ -61,9 +73,9 @@ $positionLeft: -2.5rem
 $positionLeftNextFloor: -1.875rem
 $maxLevel: 10
 
-@mixin position-left
-    .group__label-icon_level-#{$identificator}
-        left: setPosition() 
+//@mixin position-left
+    //.group__label-icon_level-#{$identificator}
+        //left: setPosition() 
 
 @function setPosition($positionLeft, $delta,  $level)
     $positionLeft: $positionLeft - $level * $delta
@@ -78,7 +90,7 @@ $maxLevel: 10
     margin-left: calc(-13.5rem + 3px)
     border-top: 1px solid #d7d7d7
     border-bottom: 1px solid #d7d7d7
-    background-color: #eff0f2
+    background-color: $backgroun-color-light
 
     @for $level from $start through $maxLevel
         .group__label-icon_level-#{$level}

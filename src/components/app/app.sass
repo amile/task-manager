@@ -1,16 +1,16 @@
+@import '../../styles/variables'
+@import '../../styles/functions'
 
 .app
     height: 100%
     width: 100%
     overflow: auto
+    background: url('../../images/Index - Task history.jpg') no-repeat 0 0
 
     &-wrapper
-        margin-top: 3.375rem
-        min-width: 1200px
-        height: calc(100% - 3.375rem)
+        margin-top: pxToRem($top-bar-height)
+        min-width: $min-app-width
+        height: calc(100% - #{pxToRem($top-bar-height)})
         display: flex
-        background-color: #eff0f2
-
-        @media only screen and (max-width: 768px)
-            // For mobile phones
-            // min-width: 100%
+        background-color: $backgroun-color-light
+        opacity: 1

@@ -1,5 +1,7 @@
-@import mixins
+@import optimize
 @import variables
+@import functions
+@import mixins
 
 html,
 body,
@@ -46,16 +48,6 @@ button
 .display_none
     display: none
 
-.status
-    &_testing
-        color: $status-testing-color
-    &_acceptance
-        color: $status-acceptance-color
-    &_process
-        color: $status-process-color
-    &_done
-        color: $status-done-color
-
 .tag
     display: inline-block
     margin-right: .5rem
@@ -65,13 +57,22 @@ button
     color: #fff
     border-radius: 2px
 
-    &_violet
-        background-color: $tag-color-violet
-    &_blue
-        background-color: $tag-color-blue
-    &_green
-        background-color: $tag-color-green
-    &_red
-        background-color: $tag-color-red
-    &_yellow
-        background-color: $tag-color-yellow
+.user-icon
+    display: inline-block
+    width: 1.875rem
+    height: 1.875rem
+    font-size: .75rem
+    line-height: 1.9rem
+    text-align: center
+    color: #fff
+    background-color: $icon-assigned-color
+    border-radius: 50%
+
+
+@each $name, $color in $tag-colors
+    .tag_#{$name}
+        background-color: $color
+
+@each $name, $color in $status-colors
+    .status_#{$name}
+        color: $color

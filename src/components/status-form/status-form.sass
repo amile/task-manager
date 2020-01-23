@@ -17,22 +17,11 @@
 
     &__select
         cursor: pointer
-        
-        &_testing
-            color: $status-testing-color
-        &_acceptance
-            color: $status-acceptance-color
-        &_process
-            color: $status-process-color
-        &_done
-            color: $status-done-color
 
-    &__select-icon
-        &_testing
-            background-color: $status-testing-color
-        &_acceptance
-            background-color: $status-acceptance-color
-        &_process
-            background-color: $status-process-color
-        &_done
-            background-color: $status-done-color
+@each $name, $color in $status-colors
+    .status-form__select_#{$name}
+        color: $color
+
+@each $name, $color in $status-colors
+    .status-form__select-icon_#{$name}
+        background-color: $color

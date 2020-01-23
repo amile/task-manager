@@ -53,9 +53,11 @@ class TaskItem extends Component {
                 <div className='task-item__label'>
                     <DoneCheckbox done={ task.done } 
                         handleCheckbox={ this.handleCheckbox } />
-                    { task.label }
-                    { comments }
-                    { tagList }
+                    <div className='task-item__label-name'>
+                        { task.label }
+                        { comments }
+                        { tagList }
+                    </div>
                 </div>
                 <div className={`task-item__status status_${ task.status }`}>
                     { formatStatus(task.status) }

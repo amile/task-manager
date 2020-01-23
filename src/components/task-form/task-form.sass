@@ -1,22 +1,13 @@
-.user-icon
-        display: inline-block
-        width: 1.875rem
-        height: 1.875rem
-        font-size: .75rem
-        line-height: 1.9rem
-        text-align: center
-        color: #fff
-        background-color: #4a8de4
-        border-radius: 50%
-
+@import '../../styles/variables'
+@import '../../styles/functions'
 
 .task-form
     position: absolute
     z-index: 10
-    width: 37.5em
+    width: pxToRem($task-editor-width)
     top: 0
     bottom: 0
-    right: -37.5rem
+    right: pxToRem($task-editor-width * -1)
     padding-bottom: 2.75rem
     background-color: #fff
     border-left: 1px solid #efefef
@@ -45,7 +36,7 @@
         cursor: pointer
 
     &_close
-        right: -37.5em
+        right: pxToRem($task-editor-width * -1)
         transition: all .6s ease
 
     &_show
@@ -67,13 +58,13 @@
         color: #9ca3b5
 
     &__label
-        font-size: .875rem
-        line-height: 1.2rem
+        font-size: 1rem //.875rem
+        line-height: 1.5rem
         margin-bottom: .8rem
 
     &__status-info
         display: flex
-        padding: .8rem 0
+        padding: .5rem 0 .8rem 0
         font-size: .9rem
         line-height: 1.9rem
 
