@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 .create-task-form
   text-align: right
 
@@ -11,13 +13,13 @@
     box-shadow: 0px 0px 4px 0px rgba(74,141,228,.7)
 
   &::placeholder
-    color: #9ca3b5
+    color: $menu-left-text-color
 
   & input
     cursor: pointer
 
   &__btn
-    color: #9ca3b5
+    color: $menu-left-text-color
 
   &__btn-wrapper
     position: relative
@@ -27,8 +29,8 @@
     margin-right: 1rem
     line-height: 1rem
     font-size: .8rem
-    background-color: #fff
-    border: 1px solid #eff0f2
+    background-color: $popup-menu-color
+    border: 1px solid $backgroun-color-light
     cursor: pointer
 
     &::after

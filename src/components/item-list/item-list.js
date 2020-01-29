@@ -13,7 +13,7 @@ class ItemList extends Component {
   constructor() {
     super();
     this.state = {
-      activeGroup: null
+      activeGroup: null,
     };
     this.setActiveGroup = (id) => {
       this.setState((state) => {

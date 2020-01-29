@@ -1,24 +1,26 @@
+@import '../../styles/variables'
+
 .add-form
   position: relative
   margin: .5rem 0 .25rem
   padding: 5px 1.5rem 5px .625rem
-  background-color: #e8e8e8
+  background-color: $add-group-form-background-color
   border-radius: 2px
 
   &_project
-    color: #2e3d54
-    background-color: #e8e8e8 // #eff0f2
+    color: $background-color-dark
+    background-color: $add-group-form-background-color
     margin-right: .5rem
 
     & input
-      color: #2e3d54
+      color: $background-color-dark
 
   & .add-form__btn
     top: .4rem
     font-family: 'Source Code Pro', monospace
     font-size: 1.25rem
     text-align: center
-    color: #2e3d54
+    color: $background-color-dark
     cursor: pointer
 
     &_add

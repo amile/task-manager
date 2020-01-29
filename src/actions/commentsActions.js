@@ -1,12 +1,17 @@
-import { COMMENTS_LOADED, ADD_COMMENT, DELETE_COMMENT,
-  UPDATE_COMMENT_ADD_FILE, UPDATE_COMMENT_DELETE_FILE } from '../constants';
+import {
+  COMMENTS_LOADED,
+  ADD_COMMENT,
+  DELETE_COMMENT,
+  UPDATE_COMMENT_ADD_FILE,
+  UPDATE_COMMENT_DELETE_FILE,
+} from '../constants';
 
 import { createNewIndex } from '../utils';
 
 export const commentsLoaded = (data) => {
   return {
     type: COMMENTS_LOADED,
-    payload: data
+    payload: data,
   };
 };
 
@@ -14,13 +19,13 @@ export const addComment = (parentId, label, files, currentUser) => {
   return {
     type: ADD_COMMENT,
     payload: {
-      id: createNewIndex(),
-      parentId,
-      dateCreated: new Date(),
       label,
       files,
-      currentUser
-    }
+      parentId,
+      currentUser,
+      id: createNewIndex(),
+      dateCreated: new Date(),
+    },
   };
 };
 
@@ -29,8 +34,8 @@ export const deleteComment = (taskId, commentId) => {
     type: DELETE_COMMENT,
     payload: {
       taskId,
-      commentId
-    }
+      commentId,
+    },
   };
 };
 
@@ -39,8 +44,8 @@ export const updateCommentAddFile = (fileId, parentId) => {
     type: UPDATE_COMMENT_ADD_FILE,
     payload: {
       fileId,
-      parentId
-    }
+      parentId,
+    },
   };
 };
 
@@ -49,7 +54,7 @@ export const updateCommentDeleteFile = (parentId, fileId) => {
     type: UPDATE_COMMENT_DELETE_FILE,
     payload: {
       parentId,
-      fileId
-    }
+      fileId,
+    },
   };
 };

@@ -14,13 +14,15 @@ const LoginPage = ({ isAuth, onAuth }) => {
   return (
     <div className="login-wrapper">
       <button className="btn_login" onClick={onAuth}>Login</button>
-    </div>               
+    </div>
   );
 
 };
+
 const mapDispatchToProps = (dispatch) => {
   return {
     onAuth: bindActionCreators(loginUser, dispatch),
   };
 };
+
 export default connect(null, mapDispatchToProps)(LoginPage);

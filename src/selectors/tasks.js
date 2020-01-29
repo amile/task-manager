@@ -6,7 +6,7 @@ import { getAllCommentsSelector } from './comments';
 
 export const tasksSelector = createSelector(
   state => state.tasks,
-  items => items
+  items => items,
 );
 
 export const showedTaskId = (_, props) => props.itemId;
@@ -14,7 +14,7 @@ export const showedTaskId = (_, props) => props.itemId;
 export const showedTaskSelector = createSelector(
   tasksSelector,
   showedTaskId,
-  (tasks, showedTaskId) => tasks.find(task => task.id === showedTaskId)
+  (tasks, showedTaskId) => tasks.find(task => (task.id === showedTaskId)),
 );
 
 export const taskCreatedByUserIdSelector = createSelector(
@@ -25,7 +25,7 @@ export const taskCreatedByUserIdSelector = createSelector(
 export const taskCreatedByUserSelector = createSelector(
   taskCreatedByUserIdSelector,
   usersSelector,
-  (userId, users) => users.find((user) => user.id === userId)
+  (userId, users) => users.find((user) => (user.id === userId)),
 );
 
 export const taskAssignedUsersIdSelector = createSelector(
@@ -37,9 +37,11 @@ export const makeTaskAssignedUsersSelector = () => {
   return createSelector(
     taskAssignedUsersIdSelector,
     usersSelector,
-    (assigned, users) => (assigned.length > 0) ? assigned.map(
-      (item) => users.find((user) => item === user.id)
-    ) : null
+    (assigned, users) => (assigned.length > 0)
+      ? assigned.map(
+        (item) => users.find((user) => (item === user.id)),
+      )
+      : null,
   );
 };
 
@@ -49,9 +51,11 @@ export const makeTaskTagsSelector = () => {
   return createSelector(
     getTaskTagsId,
     getAllTagsSelector,
-    (tagsIdList, tags) => (tagsIdList.length > 0) ? tagsIdList.map(
-      (id) => tags.find((tag) => id === tag.id)
-    ) : null
+    (tagsIdList, tags) => (tagsIdList.length > 0)
+      ? tagsIdList.map(
+        (id) => tags.find((tag) => (id === tag.id)),
+      )
+      : null,
   );
 };
 
@@ -61,9 +65,11 @@ export const makeTaskCommentsSelector = () => {
   return createSelector(
     getTaskCommentsId,
     getAllCommentsSelector,
-    (commentsIdList, comments) => (commentsIdList.length > 0) ? commentsIdList.map(
-      (id) => comments.find((comment) => id === comment.id)
-    ) : null
+    (commentsIdList, comments) => (commentsIdList.length > 0)
+      ? commentsIdList.map(
+        (id) => comments.find((comment) => (id === comment.id)),
+      )
+      : null,
   );
 };
 
@@ -71,7 +77,7 @@ export const makeTaskCommentsSelector = () => {
     getTaskCommentsSelector,
     items => (!items) ? [] : items.map(item => item.files)
 ); */
-/* 
+/*
 
 export const getAllTaskFilesSelector = createSelector(
     taskCommentsFilesId,

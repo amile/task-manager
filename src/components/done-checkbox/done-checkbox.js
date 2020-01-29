@@ -6,7 +6,7 @@ class DoneCheckbox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      done: this.props.done
+      done: this.props.done,
     };
     this.handleCheckbox = (e) => {
       const done = e.target.checked;

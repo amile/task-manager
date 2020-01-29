@@ -6,7 +6,7 @@ export default class AddGroupForm extends Component {
   constructor() {
     super();
     this.state = {
-      newValue: ''
+      newValue: '',
     };
     this.onChangeValue = (e) => {
       this.setState({ newValue: e.target.value });

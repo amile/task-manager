@@ -14,6 +14,6 @@ export default function* rootSaga() {
     loadData(),
     saveStateToLocalStorage(),
     watchLoginUser(),
-    appSaga()
+    appSaga(),
   ]);
 }

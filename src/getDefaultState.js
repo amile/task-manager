@@ -13,12 +13,12 @@ export const defaultState = {
     {id: '88', login: 'dimon', passHash: '$2a$08$djyiemyHNqGRKUdinu7zPuGc0Lneo/YmjJ7eER7vXIpFSMqqKFK.e', firstName: 'Дмитрий', lastName: 'Иванов', foto: null},
     {id: '89', login: 'boris', passHash: '$2a$08$uCHWtGxv1AUd2x09dPLVAuJL7nggyuRCdPwLEhvNA2hsGnuM0k6F.', firstName: 'Борис', lastName: 'Волков', foto: null},
     {id: '87', login: 'yana', passHash: '', firstName: 'Яна', lastName: 'Иванова', foto: null},
-    {id: '86', login: 'ksyusha', passHash: '', firstName: 'Ксения', lastName: 'Петрова', foto: null}
+    {id: '86', login: 'ksyusha', passHash: '', firstName: 'Ксения', lastName: 'Петрова', foto: null},
   ],
   showedGroup: null,
   projects: [
     {id: '34', parentId: null, label: 'НеРадио'},
-    {id: '35', parentId: null, label: 'Inanomo'}
+    {id: '35', parentId: null, label: 'Inanomo'},
   ],
   groups: [
     {id: '1', parentId: '34', label: 'Мобильное приложение', done: false}, 
@@ -32,7 +32,7 @@ export const defaultState = {
     {id: '11', parentId: '10', label: 'Локальное тестирование', done: false},
     {id: '12', parentId: '10', label: 'Боевое тестирование', done: false},
     {id: '38', parentId: '9', label: 'Level 1', done: false},
-    ...levelList
+    ...levelList,
   ],
   tasks: [
     {
@@ -152,7 +152,7 @@ export const defaultState = {
     {id: '98', label: 'В работу', color: 'green'},
     {id: '97', label: 'Срочно', color: 'red'},
     {id: '96', label: 'Важно', color: 'yellow'},
-    {id: '95', label: 'от Заказчика', color: 'blue'}
+    {id: '95', label: 'от Заказчика', color: 'blue'},
   ],
   comments: [
     { id: '25',
@@ -174,7 +174,7 @@ export const defaultState = {
         }`,
       user: '89',
       date: new Date(),
-      files: []
+      files: [],
     },
     { id: '26',
       parentId: '7',
@@ -195,10 +195,10 @@ export const defaultState = {
         }`,
       user: '89',
       date: new Date(),
-      files: []
-    }
+      files: [],
+    },
   ],
-  files: []
+  files: [],
 };
 
 const initialState = {

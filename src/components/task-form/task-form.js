@@ -21,7 +21,7 @@ class TaskForm extends Component {
     super(props);
     this.state = {
       close: false,
-      show: false
+      show: false,
     };
     this.onClose = () => {
       const path = `/app/group/${ this.props.match.params.groupId }`;
@@ -114,7 +114,7 @@ const makeMapStateToProps = () => {
       task,
       user,
       assigned,
-      currentUser: currentUserSelector(state)
+      currentUser: currentUserSelector(state),
 
     };   
   };

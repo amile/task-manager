@@ -19,8 +19,8 @@
     margin: .25rem 0
     padding: 0 .5rem
     font-size: .75rem
-    color: #7f7f7f
-    background-color: #f8f8f8
+    color: $task-history-item-color
+    background-color: $comment-background-color
 
   &__load-file-cancel
     display: inline-block
@@ -30,7 +30,7 @@
     cursor: pointer
 
   input::placeholder
-    color: #9ca3b5
+    color: $menu-left-text-color
 
   &__item
     display: inline-block
@@ -47,13 +47,13 @@
 
     &.active
       opacity: .6
-    
+
     &:hover
       opacity: .6
 
     &_bold
       background-position: -2px -3px
-    
+
     &_italic
       background-position: -52px -3px
 
@@ -71,24 +71,24 @@
 
     &_link
       background-position: -155px -105px
-    
+
     &_file
       float: right
       margin: 0
       background: url('../../images/clip-icon.svg') no-repeat 0 0
       @include rotate(-45deg)
-  
+
   &__submit-btn
     position: absolute
     bottom: 0
     right: 0
     padding: 5px 8px
     font-size: .875rem
-    color: #9ca3b5
-    background-color: #fff
-    border: 1px solid #eff0f2
+    color: $menu-left-text-color
+    background-color: $popup-menu-color
+    border: 1px solid $backgroun-color-light
     cursor: pointer
-  
+
   & .link-form
     position: absolute
     z-index: 2
@@ -97,13 +97,13 @@
     bottom: 0
     width: 100%
     padding-right: 30px
-    background-color: #fff
+    background-color: $popup-menu-color
     box-shadow: 0px 0px 4px 0px rgba(74,141,228,.7)
 
     &__input
       padding-left: 10px
       border: none
-    
+
     &__btn
       top: .8rem
       font-family: 'Source Code Pro', monospace
@@ -128,12 +128,12 @@
 
   & ul
     list-style-type: circle
-  
+
   & pre
     font-family: 'Source Code Pro', monospace
 
   & a
-    color: $icon-assigned-color
+    color: $user-icon-color
 
 .public-DraftEditorPlaceholder-root
   position: absolute

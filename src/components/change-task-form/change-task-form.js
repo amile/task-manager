@@ -24,7 +24,7 @@ class ChangeTaskForm extends Component {
       tagFormVisible: false,
       assignedFormVisible: false,
       historyVisible: false,
-      filesListVisible: false
+      filesListVisible: false,
     };
     this.onCloseTagForm = () => {
       this.setState({ tagFormVisible: false });
@@ -302,7 +302,7 @@ const mapStateToProps = (state, props) => {
     taskTags: taskTagsSelector(state, props),
     allTags: getAllTagsSelector(state, props),
     users: usersSelector(state),
-    comments: taskCommentsSelector(state, props)
+    comments: taskCommentsSelector(state, props),
   };
 };
 

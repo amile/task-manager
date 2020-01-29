@@ -7,7 +7,7 @@ class CreateTaskForm extends Component {
   constructor() {
     super();
     this.state = {
-      newValue: ''
+      newValue: '',
     };
     this.onChangeValue = (e) => {
       this.setState({ newValue: e.target.value });

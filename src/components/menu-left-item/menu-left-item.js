@@ -13,7 +13,7 @@ class MenuLeftItem extends Component {
     this.state = {
       open: false,
       showProjectMenu: false,
-      addGroupForm: false
+      addGroupForm: false,
     };
     this.onToggleProjectMenu = this.onToggleProjectMenu.bind(this);
     this.onCloseProjectMenu = this.onCloseProjectMenu.bind(this);
@@ -42,12 +42,12 @@ class MenuLeftItem extends Component {
   onShowAddGroupForm() {
     this.setState({ 
       addGroupForm: true, 
-      showProjectMenu: false 
+      showProjectMenu: false, 
     });
   }
   onCloseAddGroupForm() {
     this.setState({ 
-      addGroupForm: false
+      addGroupForm: false,
     });
   }
   addGroup(label) {
@@ -62,7 +62,7 @@ class MenuLeftItem extends Component {
       maxLevel, 
       group, 
       groups, 
-      history 
+      history, 
     } = this.props;
     const pathName = history ? history.location.pathname.split('/') : null;
     const showedGroupId = (pathName && (pathName.length > 3)) ? pathName[3] : '';
@@ -138,7 +138,7 @@ const makeMapStateToProps = () => {
   const innerGroupsSelector = makeInnerGroupsSelector();
   const mapStateToProps = (state, props) => {
     return {
-      groups: innerGroupsSelector(state, props)
+      groups: innerGroupsSelector(state, props),
     };
   };
   return mapStateToProps;

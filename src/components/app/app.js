@@ -52,7 +52,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isAuth: currentUserID(state)
+    isAuth: currentUserID(state),
   };
 };
 

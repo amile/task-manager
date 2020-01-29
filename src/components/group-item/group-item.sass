@@ -19,7 +19,7 @@
       cursor: pointer
 
       &:hover
-        color: #000
+        color: $text-color-dark
 
     & .checkbox
       top: .4375rem
@@ -53,10 +53,10 @@
         left: -2.5rem
 
     &_active
-      color: #000
+      color: $text-color-dark
 
   &_open
-    border-left: 1px solid #d7d7d7
+    border-left: 1px solid $group-item-border-color
 
   &::before
     content: ''
@@ -84,8 +84,8 @@ $maxLevel: 10
 
 .next-floor
   margin-left: calc(-13.5rem + 3px)
-  border-top: 1px solid #d7d7d7
-  border-bottom: 1px solid #d7d7d7
+  border-top: 1px solid $group-item-border-color
+  border-bottom: 1px solid $group-item-border-color
   background-color: $backgroun-color-light
 
   @for $level from $start through $maxLevel

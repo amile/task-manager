@@ -65,7 +65,7 @@ function* putDeleteCommentAndFile({ payload }) {
   const data = yield select();
   const comment = yield data.comments.find((comment) => comment.id === payload.parentId);
   const fileIsUsed = yield data.comments.find(
-    (comment) => comment.files.find((file) => file === payload.fileId)
+    (comment) => comment.files.find((file) => file === payload.fileId),
   );
   if (!comment.label && (comment.files.length === 0)) {
     yield put(deleteComment(comment.parentId, comment.id));
@@ -86,6 +86,6 @@ export default function* appSaga() {
     fork(watchAddComment),
     fork(watchDeleteComment),
     fork(watchAddFile),
-    fork(watchUpdateCommentDeleleFile)
+    fork(watchUpdateCommentDeleleFile),
   ]);
 }

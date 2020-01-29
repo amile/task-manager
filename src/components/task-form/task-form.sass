@@ -9,7 +9,7 @@
     bottom: 0
     right: pxToRem($task-editor-width * -1)
     padding-bottom: 2.75rem
-    background-color: #fff
+    background-color: $top-bar-background-color
     border-left: 1px solid $task-editor-border-color
     transition: all 1s ease
 
@@ -32,7 +32,7 @@
         left: 1rem
         width: 15px
         height: 15px
-        background: url('../../images/close-icon-dark.svg') no-repeat 0 0 
+        background: url('../../images/close-icon-dark.svg') no-repeat 0 0
         cursor: pointer
 
     &_close
@@ -99,7 +99,7 @@
         margin-left: 5px
 
         &_align
-            border: 1px solid #fff
+            border: 1px solid $text-color-light
             margin-left: -5px
 
         &_add.user-icon
@@ -122,7 +122,7 @@
 
   &:hover
     opacity: .7
-  
+
   &_active
     opacity: 1
     & .select-list__item-icon

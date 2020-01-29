@@ -6,15 +6,15 @@
   flex: 0 0 pxToRem($menu-left-width)
   width: pxToRem($menu-left-width)
   height: 100%
-  color: #fff
-  background-color: $backgroun-color-dark
+  color: $text-color-light
+  background-color: $background-color-dark
 
   &__container
     position: relative
     min-height: 100%
     width: 100%
     padding-top: 1rem
-    padding-bottom: 2.75rem       
+    padding-bottom: 2.75rem
 
   &__item
     position: relative
@@ -41,7 +41,7 @@
     cursor: pointer
     border: .3125rem solid transparent
     border-left-color: $menu-left-open-icon-color
-        
+
     &.active
       top: .75rem
       left: .625rem
@@ -57,7 +57,7 @@
     font-size: 1rem
     line-height: 1
     text-align: center
-    background-color: $backgroun-color-dark
+    background-color: $background-color-dark
     border-top: 1px solid $menu-left-border-color
 
     &-icon
@@ -65,7 +65,7 @@
       width: 1.25rem
       height: 1.25rem
       cursor: pointer
-      background: url('../../images/lock-icon.svg') no-repeat 0 0
+      background: url('../../images/icons.svg') no-repeat 0 -161px// url('../../images/lock-icon.svg') no-repeat 0 0
 
 .projects-list
 
@@ -86,7 +86,7 @@
       border-radius: 2px
 
       &.showed
-        color: #fff
+        color: $text-color-light
         background-color: $menu-left-border-color
 
       &_project
@@ -111,7 +111,7 @@
 
     &-label-name
       cursor: pointer
-        
+
     &_project
 
       & .add-form
@@ -132,10 +132,9 @@
     vertical-align: bottom
     color: transparent
     background: url('../../images/project-menu-icon.svg') no-repeat 0 0
-    cursor: pointer    
+    cursor: pointer
 
     &_close
       color: $menu-left-text-color
       background: none
       transform: rotate(45deg)
-        

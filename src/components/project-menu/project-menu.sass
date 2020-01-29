@@ -1,3 +1,5 @@
+@import '../../styles/variables'
+
 .project-menu
   top: 100%
   position: absolute
@@ -5,8 +7,8 @@
   padding: .8rem 0
   font-size: .8125rem
   line-height: 1.2
-  color: #2e3d54
-  background-color: #fff
+  color: $background-color-dark
+  background-color: $top-bar-background-color
   border-radius: 4px
   box-shadow: 0 0 3px rgba(255,255,255,.5)
 
@@ -24,7 +26,7 @@
     cursor: pointer
 
     &:hover
-      background-color: #eff0f2
+      background-color: $backgroun-color-light
 
     &_delete
       cursor: inherit

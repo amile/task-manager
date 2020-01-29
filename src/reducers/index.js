@@ -9,4 +9,15 @@ import comments from './comments';
 import files from './files';
 import currentUser from './currentUser';
 
-export default combineReducers({ projects, groups, users, currentUser, tasks, tags, comments, files});
+export default combineReducers(
+  {
+    projects,
+    groups,
+    users,
+    currentUser,
+    tasks,
+    tags,
+    comments,
+    files,
+  },
+);

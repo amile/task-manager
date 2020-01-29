@@ -18,7 +18,7 @@ export class GroupItem extends Component {
     this.state = {
       open: false,
       active: (this.props.activeGroup === this.props.group.id),
-      addNewGroup: false
+      addNewGroup: false,
     };
     this.onToggleOpen = () => {
       this.setState((state) => {
@@ -45,7 +45,7 @@ export class GroupItem extends Component {
   }
 
   render() {
-    const { group, activeGroup, onToggleActive, addNewTask, addNewGroup, 
+    const { group, activeGroup, onToggleActive, addNewTask, addNewGroup,
       showTaskEditor, tasks, groups, history } = this.props;
     let { level } = this.props;
     const active = activeGroup === group.id;
@@ -65,7 +65,8 @@ export class GroupItem extends Component {
         groupList = groups.map( (group) => {
           return (
             <div key={group.id}>
-              <ConnectedGroupItem group={group}
+              <ConnectedGroupItem
+                group={group}
                 activeGroup={activeGroup}
                 addNewGroup={addNewGroup}
                 onToggleActive={onToggleActive}
@@ -87,29 +88,29 @@ export class GroupItem extends Component {
         });
       }
     }
-        
-    const icon = ((groups.length < 1) && (tasks.length < 1)) 
-      ? null 
+
+    const icon = ((groups.length < 1) && (tasks.length < 1))
+      ? null
       : (
-        <span 
-          className={`group__label-icon group__label-icon_level-${ levelToClass } ${ classNameOpenIcon }`} 
+        <span
+          className={`group__label-icon group__label-icon_level-${ levelToClass } ${ classNameOpenIcon }`}
           onClick={this.onToggleOpen}
         />
       );
-    const buttons = active ? 
-      (   
+    const buttons = active ?
+      (
         <div className="buttons-wrapper">
-          <AddButton 
-            label="task" 
+          <AddButton
+            label="task"
             onAdd={() => {this.props.addNewTask(group.id);}}
           />
-          <AddButton 
-            label="group" 
+          <AddButton
+            label="group"
             onAdd={this.onAddGroup}
           />
-        </div> 
+        </div>
       ) : null;
-    const checkbox = !active 
+    const checkbox = !active
       ? null
       : (<DoneCheckbox done={group.done} handleCheckbox={this.handleCheckbox} />);
     let addForm = null;
@@ -118,14 +119,14 @@ export class GroupItem extends Component {
     }
     const itemOpenClassName = (!this.state.open) ? '' : 'group_open';
     return (
-      <li className={`group item-list__group ${ itemOpenClassName } ${ nexFloor }`} 
+      <li className={`group item-list__group ${ itemOpenClassName } ${ nexFloor }`}
         key={this.props.group.id.toString()}
       >
         <div className={labelClassNames}>
           {icon}
           {checkbox}
-          <span 
-            className="group__label-name" 
+          <span
+            className="group__label-name"
             onClick={this.onGroupClick}
           >
             {group.label}
@@ -133,7 +134,7 @@ export class GroupItem extends Component {
           {buttons}
           {addForm}
         </div>
-        <ul> 
+        <ul>
           {taskList}
           {groupList}
         </ul>
@@ -142,13 +143,13 @@ export class GroupItem extends Component {
   }
 }
 
-const makeMapStateToProps = () => {  
+const makeMapStateToProps = () => {
   const innerTasksSelector = makeInnerTasksSelector();
   const innerGroupsSelector = makeInnerGroupsSelector();
   const mapStateToProps = (state, props) => {
     return {
       tasks: innerTasksSelector(state, props),
-      groups: innerGroupsSelector(state, props)
+      groups: innerGroupsSelector(state, props),
     };
   };
   return mapStateToProps;
@@ -156,7 +157,7 @@ const makeMapStateToProps = () => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateGroupSetDone: bindActionCreators(updateGroupSetDone, dispatch)
+    updateGroupSetDone: bindActionCreators(updateGroupSetDone, dispatch),
   };
 };
 

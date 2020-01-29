@@ -32,7 +32,7 @@ class CommentForm extends Component {
       linkValue: '',
       editorState: EditorState.createEmpty(this.decorator),
       files: [],
-      filePreviewUrl: null
+      filePreviewUrl: null,
     };
     this.onChange = (editorState) => {
       this.setState({ editorState });
@@ -64,7 +64,7 @@ class CommentForm extends Component {
         {
           editorState: EditorState.createEmpty(this.decorator),
           showSubmitButton: false,
-          files: []
+          files: [],
         });
       if ((blockMapHasText.length > 0) || (files.length > 0)) {
         const rawJSON = (blockMapHasText.length > 0)
@@ -77,7 +77,7 @@ class CommentForm extends Component {
       const { editorState } = this.state;
       const newState = RichUtils.handleKeyCommand(
         editorState,
-        command
+        command,
       );
       if (newState) {
         this.onChange(newState);
@@ -91,7 +91,7 @@ class CommentForm extends Component {
     };
     this.onChangeLinkValue = (e) => {
       this.setState({
-        linkValue: e.target.value
+        linkValue: e.target.value,
       });
     };
     this.onSubmitLink = (e) => {
@@ -101,7 +101,7 @@ class CommentForm extends Component {
       const contentStateWithEntity = contentState.createEntity(
         'LINK',
         'MUTABLE',
-        { url: linkValue }
+        { url: linkValue },
       );
       const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
       const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });
@@ -109,7 +109,7 @@ class CommentForm extends Component {
         editorState: RichUtils.toggleLink(
           newEditorState,
           newEditorState.getSelection(),
-          entityKey)
+          entityKey),
       });
       this.onCloseLinkForm();
 
@@ -124,8 +124,8 @@ class CommentForm extends Component {
           return {
             files: [
               ...state.files,
-              { name: file.name, url: reader.result, type: file.type }
-            ]
+              { name: file.name, url: reader.result, type: file.type },
+            ],
           };
         });
       };
@@ -275,7 +275,7 @@ function findLinkEntities(contentBlock, callback, contentState) {
           (contentState.getEntity(entityKey).getType() === 'LINK')
       );
     },
-    callback
+    callback,
   );
 }
 

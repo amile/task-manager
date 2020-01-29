@@ -1,14 +1,46 @@
-import { usersLoaded, loginUser, setCurrentUser } from './usersActions';
-import { tasksLoaded, addTask, updateTaskAddTag, updateTaskDeleteTag, 
-  updateTaskChangeStatus, updateTaskAddAssigned, updateTaskDeleteAssigned, 
-  updateTaskAddDateDue, updateTaskAddComment, updateTaskDeleteComment,
-  updateTaskSetDone } from './tasksActions';
-import { projectsLoaded, addProject } from './projectsActions';
-import { groupsLoaded, addGroup, updateGroupSetDone } from './groupsActions';
-import { tagsLoaded, addTag } from './tagsActions';
-import { commentsLoaded, addComment, deleteComment, updateCommentAddFile, 
-  updateCommentDeleteFile } from './commentsActions';
-import { filesLoaded, addFile, deleteFile } from './filesActions';
+import {
+  usersLoaded,
+  loginUser,
+  setCurrentUser,
+} from './usersActions';
+import {
+  tasksLoaded,
+  addTask,
+  updateTaskAddTag,
+  updateTaskDeleteTag,
+  updateTaskChangeStatus,
+  updateTaskAddAssigned,
+  updateTaskDeleteAssigned,
+  updateTaskAddDateDue,
+  updateTaskAddComment,
+  updateTaskDeleteComment,
+  updateTaskSetDone,
+} from './tasksActions';
+import {
+  projectsLoaded,
+  addProject,
+} from './projectsActions';
+import {
+  groupsLoaded,
+  addGroup,
+  updateGroupSetDone,
+} from './groupsActions';
+import {
+  tagsLoaded,
+  addTag,
+} from './tagsActions';
+import {
+  commentsLoaded,
+  addComment,
+  deleteComment,
+  updateCommentAddFile,
+  updateCommentDeleteFile,
+} from './commentsActions';
+import {
+  filesLoaded,
+  addFile,
+  deleteFile,
+} from './filesActions';
 
 export {
   projectsLoaded,
@@ -35,9 +67,9 @@ export {
   updateTaskDeleteAssigned,
   updateTaskAddComment,
   updateTaskDeleteComment,
-  updateTaskAddDateDue, 
+  updateTaskAddDateDue,
   addFile,
   deleteFile,
   updateCommentAddFile,
-  updateCommentDeleteFile
+  updateCommentDeleteFile,
 };

@@ -12,7 +12,7 @@ class AddTagForm extends Component {
       setColor: colorKeys[0],
       colorKeys: colorKeys,
       showSelectList: false,
-      selectedValue: ''
+      selectedValue: '',
     };
     this.onSetColor = this.onSetColor.bind(this);
     this.onChangeValue = this.onChangeValue.bind(this);
@@ -62,8 +62,8 @@ class AddTagForm extends Component {
           value: tag.label,
           setColor: tag.color, 
           selectedValue: tag,
-          showSelectList: false 
-        }
+          showSelectList: false, 
+        },
       );
     }
   }

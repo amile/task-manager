@@ -87,7 +87,7 @@ const makeMapStateToProps = () => {
   const mapStateToProps = (state, props) => {
     return {
       assigned: taskAssignedUsersSelector(state, {itemId: props.task.id}),
-      tags: taskTagsSelector(state, props)
+      tags: taskTagsSelector(state, props),
     };   
   };
   return mapStateToProps;
@@ -95,7 +95,7 @@ const makeMapStateToProps = () => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateTaskSetDone: bindActionCreators(updateTaskSetDone, dispatch)
+    updateTaskSetDone: bindActionCreators(updateTaskSetDone, dispatch),
   };
 };
 

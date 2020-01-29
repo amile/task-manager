@@ -113,7 +113,7 @@ function findLinkEntities(contentBlock, callback, contentState) {
           contentState.getEntity(entityKey).getType() === 'LINK'
       );
     },
-    callback
+    callback,
   );
 }
 
@@ -123,7 +123,7 @@ const makeMapStateToProps = () => {
   const mapStateToProps = (state, props) => {
     return {
       user: commentCreatedByUserSelector(state, props),
-      files: commentFilesSelector(state, props)
+      files: commentFilesSelector(state, props),
     };
   };
   return mapStateToProps;

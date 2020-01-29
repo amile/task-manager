@@ -7,7 +7,7 @@ const AddButton = ({ label, onAdd }) => {
   if (label === 'group') {
     buttonLabel = '+ Новая группа';
   } else if (label === 'task') {
-    buttonLabel = '+ Новая задача'; 
+    buttonLabel = '+ Новая задача';
   }
   return (
     <button className={`btn add-btn add-btn_${label}`} onClick={onAdd}>{buttonLabel}</button>

@@ -10,7 +10,7 @@ class DateTimePicker extends Component {
     super(props);
     this.state = {
       prevValue: this.props.value ? moment(this.props.value) : null,
-      value: this.props.value ? moment(this.props.value) : null
+      value: this.props.value ? moment(this.props.value) : null,
     };
     this.onChange = (date) => {
       this.setState({ value: date});
@@ -29,7 +29,7 @@ class DateTimePicker extends Component {
         }
         else if (prevDate){
           this.setState(
-            { value: null, prevValue: null }
+            { value: null, prevValue: null },
           );
           this.props.updateTaskAddDateDue(null);
         }

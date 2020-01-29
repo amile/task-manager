@@ -8,12 +8,12 @@ class StatusForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      status: this.props.status
+      status: this.props.status,
     };
     this.changeStatus = (e) => {
       this.props.changeStatus(e.target.value);
       this.setState({ status: e.target.value });
-    }; 
+    };
   }
   render() {
     const selectClassNames = 'status-form__select status-form__select_' + this.state.status;

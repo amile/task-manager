@@ -1,15 +1,31 @@
 import { projectsSelector } from './projects';
-import { groupsSelector, showedGroupSelector, makeInnerGroupsSelector, 
-  makeInnerTasksSelector } from './groups';
-import { tasksSelector, showedTaskSelector, taskCreatedByUserSelector,
-  makeTaskAssignedUsersSelector, makeTaskTagsSelector, 
-  makeTaskCommentsSelector } from './tasks';
-import { currentUserID, usersSelector, currentUserSelector } from './users';
 import { getAllTagsSelector } from './tags';
-import { getAllCommentsSelector, makeCommentCreatedByUserSelector,
-  makeCommentFilesSelector } from './comments';
+import {
+  groupsSelector,
+  showedGroupSelector,
+  makeInnerGroupsSelector,
+  makeInnerTasksSelector,
+} from './groups';
+import {
+  tasksSelector,
+  showedTaskSelector,
+  taskCreatedByUserSelector,
+  makeTaskAssignedUsersSelector,
+  makeTaskTagsSelector,
+  makeTaskCommentsSelector,
+} from './tasks';
+import {
+  currentUserID,
+  usersSelector,
+  currentUserSelector,
+} from './users';
+import {
+  getAllCommentsSelector,
+  makeCommentCreatedByUserSelector,
+  makeCommentFilesSelector,
+} from './comments';
 
-export { 
+export {
   projectsSelector,
   groupsSelector,
   showedGroupSelector,
@@ -27,5 +43,5 @@ export {
   getAllCommentsSelector,
   makeTaskCommentsSelector,
   makeCommentCreatedByUserSelector,
-  makeCommentFilesSelector
+  makeCommentFilesSelector,
 };

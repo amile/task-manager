@@ -10,8 +10,8 @@ moment.updateLocale('ru', {
     nextDay : '[Завтра]',
     lastWeek : 'D MMM',
     nextWeek : 'D MMM',
-    sameElse : 'D MMM'
-  }
+    sameElse : 'D MMM',
+  },
 });
 
 export const getCalendarDate = (date) => {
@@ -65,8 +65,8 @@ export const findItemInList = (itemId, itemsList, callback) => {
 } */
 
 export const formatDate = (date) => {
-  const monthNames = ['января', 'февраля', 'марта', 'апреля', 
-    'майа', 'июня', 'июля', 'августа', 'сентября', 'октября', 
+  const monthNames = ['января', 'февраля', 'марта', 'апреля',
+    'майа', 'июня', 'июля', 'августа', 'сентября', 'октября',
     'ноября', 'декабря'];
   const day = date.getDate();
   const month = date.getMonth();
@@ -79,23 +79,28 @@ export const formatDate = (date) => {
 export const stateDataList = ['projects', 'groups', 'tasks', 'users', 'tags', 'comments', 'files'];
 
 export const statusList = {
-  'acceptance': 'Приемка', 
-  'process': 'В работе', 
+  'acceptance': 'Приемка',
+  'process': 'В работе',
   'testing': 'Тестирование',
-  'done': 'Выполнено'
+  'done': 'Выполнено',
 };
 
 export const formatStatus = (status) => {
   switch(status) {
-  case('acceptance'):
-    return 'Приемка';
-  case('process'):
-    return 'В работе';
-  case('testing'):
-    return 'Тестирование';
-  case('done'):
-    return 'Выполнено';
-  default:
-    return '';
+    case('acceptance'): {
+      return 'Приемка';
+    }
+    case('process'): {
+      return 'В работе';
+    }
+    case('testing'): {
+      return 'Тестирование';
+    }
+    case('done'): {
+      return 'Выполнено';
+    }
+    default: {
+      return '';
+    }
   }
 };

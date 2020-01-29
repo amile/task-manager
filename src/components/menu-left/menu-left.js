@@ -16,7 +16,7 @@ class MenuLeft extends Component {
     super();
     this.state = {
       maxLevel: 3,
-      showAddProjectForm: false
+      showAddProjectForm: false,
     };
     this.onAddProject = this.onAddProject.bind(this);
     this.onCloseAddProjectForm = this.onCloseAddProjectForm.bind(this);
@@ -95,14 +95,14 @@ class MenuLeft extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    projects: projectsSelector(state)
+    projects: projectsSelector(state),
   };   
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     addProject: bindActionCreators(addProject, dispatch),
-    addGroup: bindActionCreators(addGroup, dispatch)
+    addGroup: bindActionCreators(addGroup, dispatch),
   };
 };
 

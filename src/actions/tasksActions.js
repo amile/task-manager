@@ -1,14 +1,29 @@
-import { TASKS_LOADED, ADD_TASK, UPDATE_TASK_ADD_TAG, UPDATE_TASK_DELETE_TAG, 
-  UPDATE_TASK_CHANGE_STATUS, UPDATE_TASK_ADD_ASSIGNED, UPDATE_TASK_DELETE_ASSIGNED, 
-  UPDATE_TASK_ADD_COMMENT, UPDATE_TASK_DELETE_COMMENT, UPDATE_TASK_ADD_DATE_DUE,
-  UPDATE_TASK_ADD_FILE, UPDATE_TASK_SET_DONE } from '../constants';
+import {
+  TASKS_LOADED,
+  ADD_TASK,
+  UPDATE_TASK_ADD_TAG,
+  UPDATE_TASK_DELETE_TAG,
+  UPDATE_TASK_CHANGE_STATUS,
+  UPDATE_TASK_ADD_ASSIGNED,
+  UPDATE_TASK_DELETE_ASSIGNED,
+  UPDATE_TASK_ADD_COMMENT,
+  UPDATE_TASK_DELETE_COMMENT,
+  UPDATE_TASK_ADD_DATE_DUE,
+  UPDATE_TASK_ADD_FILE,
+  UPDATE_TASK_SET_DONE,
+} from '../constants';
 
-import { createNewIndex, statusList, getDate, getTime } from '../utils';
+import {
+  createNewIndex,
+  statusList,
+  getDate,
+  getTime,
+} from '../utils';
 
 export const tasksLoaded = (data) => {
   return {
     type: TASKS_LOADED,
-    payload: data
+    payload: data,
   };
 };
 
@@ -18,13 +33,13 @@ export const addTask = (label, parentId, currentUser, history, path) => {
     history,
     path,
     payload: {
-      id: createNewIndex(), 
-      label, 
-      parentId, 
+      label,
+      parentId,
+      currentUser,
+      id: createNewIndex(),
       dateCreated: new Date(),
       action: 'создал(a) задачу',
-      currentUser
-    }
+    },
   };
 };
 
@@ -33,8 +48,8 @@ export const updateTaskAddTag = (taskId, tagId) => {
     type: UPDATE_TASK_ADD_TAG,
     payload: {
       taskId,
-      tagId
-    }
+      tagId,
+    },
   };
 };
 
@@ -43,8 +58,8 @@ export const updateTaskSetDone = (taskId, done) => {
     type: UPDATE_TASK_SET_DONE,
     payload: {
       taskId,
-      done
-    }
+      done,
+    },
   };
 };
 
@@ -53,8 +68,8 @@ export const updateTaskDeleteTag = (taskId, tagId) => {
     type: UPDATE_TASK_DELETE_TAG,
     payload: {
       taskId,
-      tagId
-    }
+      tagId,
+    },
   };
 };
 
@@ -64,10 +79,10 @@ export const updateTaskChangeStatus = (taskId, status, currentUser) => {
     payload: {
       taskId,
       status,
+      currentUser,
       date: new Date(),
       action: [ `установил(a) статус: ${ statusList[status] }`],
-      currentUser
-    }
+    },
   };
 };
 
@@ -76,11 +91,11 @@ export const updateTaskAddAssigned = (taskId, assignedUser, currentUser) => {
     type: UPDATE_TASK_ADD_ASSIGNED,
     payload: {
       taskId,
+      currentUser,
       assignedUser,
       date: new Date(),
       action: [`добавил(a) исполнителя:`],
-      currentUser
-    }
+    },
   };
 };
 
@@ -89,11 +104,11 @@ export const updateTaskDeleteAssigned = (taskId, assignedUser, currentUser) => {
     type: UPDATE_TASK_DELETE_ASSIGNED,
     payload: {
       taskId,
+      currentUser,
       assignedUser,
       date: new Date(),
       action: [`удалил(a) исполнителя:`],
-      currentUser
-    }
+    },
   };
 };
 
@@ -102,8 +117,8 @@ export const updateTaskAddComment = (taskId, commentId) => {
     type: UPDATE_TASK_ADD_COMMENT,
     payload: {
       taskId,
-      commentId
-    }
+      commentId,
+    },
   };
 };
 
@@ -112,13 +127,13 @@ export const updateTaskDeleteComment = (taskId, commentId) => {
     type: UPDATE_TASK_DELETE_COMMENT,
     payload: {
       taskId,
-      commentId
-    }
+      commentId,
+    },
   };
 };
 
 export const updateTaskAddDateDue = (taskId, dateDue, currentUser) => {
-  const action = dateDue 
+  const action = dateDue
     ? `установил(а) дату исполнения: ${ getDate(dateDue) } ${ getTime(dateDue) }`
     : 'удалил(а) дату исполнения';
   return {
@@ -126,10 +141,10 @@ export const updateTaskAddDateDue = (taskId, dateDue, currentUser) => {
     payload: {
       taskId,
       dateDue,
+      action,
+      currentUser,
       date: new Date(),
-      action: action,
-      currentUser
-    }
+    },
   };
 };
 
@@ -138,7 +153,7 @@ export const updateTaskAddFile = (fileId, parentId) => {
     type: UPDATE_TASK_ADD_FILE,
     payload: {
       fileId,
-      parentId
-    }
+      parentId,
+    },
   };
 };

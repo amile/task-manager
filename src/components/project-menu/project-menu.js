@@ -10,4 +10,5 @@ const ProjectMenu = ({ addGroup, deleteProject }) => {
     </ul>
   );
 };
+
 export default ProjectMenu;
