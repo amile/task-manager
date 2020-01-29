@@ -1,80 +1,81 @@
+@import '../../styles/variables'
+
 .task-item
-    display: flex
+  display: flex
+  position: relative
+
+  &__label
+    flex: 1 1 auto
+    padding-right: 1rem
+    cursor: pointer
+
+    &-name
+      display: inline-block
+      vertical-align: middle
+
+  &__comments
+    display: inline-block
     position: relative
+    top: 2px
+    width: 24px
+    height: 21px
+    margin: 0 .625rem
+    font-size: .5rem
+    text-align: center
+    line-height: 17px
+    vertical-align: bottom
+    background: url('../../images/comment-icon.svg') no-repeat 0 0 
 
-    &__label
-        flex: 1 1 auto
-        padding-right: 1rem
-        cursor: pointer
+  &__tags
+    display: inline-block
+    vertical-align: middle
 
-        &-name
-            display: inline-block
-            vertical-align: middle
+  & .tag:nth-child(1)
+    margin-left: .625rem
+  
+  &__date
+    position: absolute
+    top: .325rem
+    right: 0
+    padding-left: .75rem
+    font-size: .75rem
+    color: $task-item-date-color
+    transform: translateX(100%)
 
-    &__comments
-        display: inline-block
-        position: relative
-        top: 2px
-        width: 24px
-        height: 21px
-        margin: 0 .625rem
-        font-size: .5rem
-        text-align: center
-        line-height: 17px
-        vertical-align: bottom
-        background: url('../../images/comment-icon.svg') no-repeat 0 0 
-    
-    &__tags
-        display: inline-block
-        vertical-align: middle
+  &__date-time
+    margin-left: .5rem
+  
+  &__status
+    flex: 0 0 6.875rem
+    padding: 0 .5rem
+    line-height: 21px
 
-    & .tag:nth-child(1)
-        margin-left: .625rem
-    
-    &__date
+  &__assigned
+    position: relative
+    flex: 0 0 5.375rem
+    padding-right: 1rem
+    text-align: right
+
+    & .user-icon
+      position: relative
+      width: 1.6875rem
+      height: 1.6875rem
+      margin-top: -2px
+      font-size: .6875rem
+      line-height: 1.5rem
+      border: 2px solid #fff
+
+      &_align
+        margin-left: -.5rem
+
+      &_rest
         position: absolute
-        top: .325rem
-        right: 0
-        padding-left: .75rem
-        font-size: .75rem
-        color: #8e8f91
-        transform: translateX(100%)
-
-    &__date-time
-        margin-left: .5rem
-    
-    &__status
-        flex: 0 0 6.875rem
-        padding: 0 .5rem
-        line-height: 21px
-
-    &__assigned
-        position: relative
-        flex: 0 0 5.375rem
-        padding-right: 1rem
-        text-align: right
-
-        & .user-icon
-            position: relative
-            width: 1.6875rem
-            height: 1.6875rem
-            margin-top: -2px
-            font-size: .6875rem
-            line-height: 1.5rem
-            border: 2px solid #fff
-
-            &_align
-                margin-left: -.5rem
-
-            &_rest
-                position: absolute
-                top: 0
-                right: -4px
-                color: gray
-                background: none
-                border-color: transparent
-    
-    & &__label .checkbox
-        top: .5625rem
-        left: .375rem
-        
+        top: 0
+        right: -4px
+        color: gray
+        background: none
+        border-color: transparent
+  
+  & &__label .checkbox
+    top: .5625rem
+    left: .375rem        

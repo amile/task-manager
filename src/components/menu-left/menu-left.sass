@@ -2,141 +2,140 @@
 @import '../../styles/functions'
 
 .menu-left
-    overflow-y: auto
-    flex: 0 0 pxToRem($menu-left-width)
-    width: pxToRem($menu-left-width)
-    height: 100%
-    color: #fff
-    background-color: $backgroun-color-dark
+  overflow-y: auto
+  flex: 0 0 pxToRem($menu-left-width)
+  width: pxToRem($menu-left-width)
+  height: 100%
+  color: #fff
+  background-color: $backgroun-color-dark
 
-    &__container
-        position: relative
-        min-height: 100%
-        width: 100%
-        padding-top: 1rem
-        padding-bottom: 2.75rem       
+  &__container
+    position: relative
+    min-height: 100%
+    width: 100%
+    padding-top: 1rem
+    padding-bottom: 2.75rem       
 
-    &__item
-        position: relative
-        padding: .75rem .5rem .75rem 1.5rem
-        font-size: 1rem
-        line-height: 1.5rem
-        border-bottom: 1px solid $menu-left-border-color
+  &__item
+    position: relative
+    padding: .75rem .5rem .75rem 1.5rem
+    font-size: 1rem
+    line-height: 1.5rem
+    border-bottom: 1px solid $menu-left-border-color
 
-    &__add-button
-        position: absolute
-        top: .75rem
-        right: .75rem
-        font-family: 'Source Code Pro', monospace
-        font-size: 1.75rem
-        color: $menu-left-text-color
-        cursor: pointer
+  &__add-button
+    position: absolute
+    top: .75rem
+    right: .75rem
+    font-family: 'Source Code Pro', monospace
+    font-size: 1.75rem
+    color: $menu-left-text-color
+    cursor: pointer
 
-    .icon
-        top: .625rem
-        left: .8125rem
-        position: absolute
-        width: 0
-        height: 0
-        cursor: pointer
-        border: .3125rem solid transparent
-        border-left-color: #59657b
+  .icon
+    top: .625rem
+    left: .8125rem
+    position: absolute
+    width: 0
+    height: 0
+    cursor: pointer
+    border: .3125rem solid transparent
+    border-left-color: $menu-left-open-icon-color
         
-        &.active
-            top: .75rem
-            left: .625rem
-            border-top-color: #59657b
-            border-left-color: transparent
+    &.active
+      top: .75rem
+      left: .625rem
+      border-top-color: $menu-left-open-icon-color
+      border-left-color: transparent
 
-    &__bottom-bar
-        position: absolute
-        left: 0
-        bottom: 0
-        width: 100%
-        padding: .625rem .5rem
-        font-size: 1rem
-        line-height: 1
-        text-align: center
-        background-color: $backgroun-color-dark
-        border-top: 1px solid $menu-left-border-color
+  &__bottom-bar
+    position: absolute
+    left: 0
+    bottom: 0
+    width: 100%
+    padding: .625rem .5rem
+    font-size: 1rem
+    line-height: 1
+    text-align: center
+    background-color: $backgroun-color-dark
+    border-top: 1px solid $menu-left-border-color
 
-        &-icon
-            display: inline-block
-            width: 1.25rem
-            height: 1.25rem
-            cursor: pointer
-            background: url('../../images/lock-icon.svg') no-repeat 0 0
+    &-icon
+      display: inline-block
+      width: 1.25rem
+      height: 1.25rem
+      cursor: pointer
+      background: url('../../images/lock-icon.svg') no-repeat 0 0
 
 .projects-list
 
-    &__item
-        position: relative
-        margin-left: 1.25rem
-        font-size: .875rem
-        line-height: 1.5
-        color: $menu-left-text-color
+  &__item
+    position: relative
+    margin-left: 1.25rem
+    font-size: .875rem
+    line-height: 1.5
+    color: $menu-left-text-color
 
-        & .projects-list__item:last-child
-            margin-bottom: .5rem
+    & .projects-list__item:last-child
+      margin-bottom: .5rem
 
-        &-label
-            position: relative
-            padding: .25rem .25rem .25rem 1.875rem
-            margin-right: .5rem
-            border-radius: 2px
+    &-label
+      position: relative
+      padding: .25rem .25rem .25rem 1.875rem
+      margin-right: .5rem
+      border-radius: 2px
 
-            &.showed
-                color: #fff
-                background-color: $menu-left-border-color
+      &.showed
+        color: #fff
+        background-color: $menu-left-border-color
 
-            &_project
-                margin: 0
-                padding-top: .4375rem
-                padding-bottom: .4375rem
-                padding-left: 1.375rem
-                font-size: 1rem
-                border-bottom: 1px solid $menu-left-border-color
+      &_project
+        margin: 0
+        padding-top: .4375rem
+        padding-bottom: .4375rem
+        padding-left: 1.375rem
+        font-size: 1rem
+        border-bottom: 1px solid $menu-left-border-color
 
-                & + ul > li
-                    margin-top: .25rem
-                    margin-left: .875rem
+        & + ul > li
+          margin-top: .25rem
+          margin-left: .875rem
 
+        .icon
+          top: .875rem
+          left: .315rem
 
-                .icon
-                    top: .875rem
-                    left: .315rem
+          &.active
+            top: 1.125rem
+            left: .315rem
 
-                    &.active
-                        top: 1.125rem
-                        left: .315rem
+    &-label-name
+      cursor: pointer
+        
+    &_project
 
-        &-label-name
-            cursor: pointer
-            
-        &_project
+      & .add-form
+        margin-left: 1.875rem
+        margin-right: .5rem
+        padding-right: 2rem
 
-            & .add-form
-                margin-left: 1.875rem
-                margin-right: .5rem
-                padding-right: 2rem
+        &__btn_add
+          right: 1.15rem
 
-                &__btn_add
-                    right: 1.15rem
+  &__menu-icon
+    display: inline-block
+    width: 18px
+    height: 18px
+    margin-right: .125rem
+    font-size: 18px
+    line-height: 1
+    vertical-align: bottom
+    color: transparent
+    background: url('../../images/project-menu-icon.svg') no-repeat 0 0
+    cursor: pointer    
 
-    &__menu-icon
-        display: inline-block
-        width: 18px
-        height: 18px
-        margin-right: .125rem
-        font-size: 18px
-        line-height: 1
-        vertical-align: bottom
-        color: transparent
-        background: url('../../images/project-menu-icon.svg') no-repeat 0 0
-        cursor: pointer    
-
-        &_close
-            color: $menu-left-text-color
-            background: none
-            transform: rotate(45deg)
-            
+    &_close
+      color: $menu-left-text-color
+      background: none
+      transform: rotate(45deg)
+        

@@ -1,152 +1,152 @@
+@import '../../styles/variables'
 @import '../../styles/mixins'
 
 .comment-form
-    padding: 1rem 0
-    font-size: .875rem
-    line-height: 1.2rem
+  padding: 1rem 0
+  font-size: .875rem
+  line-height: 1.2rem
 
-    &__editor-wrapper
-        position: relative
-        width: 100%
-        min-height: 5.5rem
-        padding: 1rem 0 2rem
-
-    &__files-wrapper
-        margin-top: 1.5rem
-
-    &__load-file
-        margin: .25rem 0
-        padding: 0 .5rem
-        font-size: .75rem
-        color: #7f7f7f
-        background-color: #f8f8f8
-
-    &__load-file-cancel
-        display: inline-block
-        margin-left: 1rem
-        font-size: .875rem
-        transform: rotate(45deg)
-        cursor: pointer
-    
-
-
-    input::placeholder
-        color: #9ca3b5
-
-    &__item
-        display: inline-block
-
-    &__btn
-        width: 20px
-        height: 20px
-        margin-left: .5rem
-        margin-right: 10px
-        background: url('../../images/text-editor-icons-blue-sm.png') no-repeat
-        border: none
-        cursor: pointer
-        @include transition(all .1s ease-in-out)
-
-        &.active
-            opacity: .6
-        
-        &:hover
-            opacity: .6
-
-        &_bold
-            background-position: -2px -3px
-        
-        &_italic
-            background-position: -52px -3px
-
-        &_underline
-            background-position: -104px -3px
-
-        &_unordered-list-item
-            background-position: -2px -54px
-
-        &_ordered-list-item
-            background-position: -54px -54px
-
-        &_code-block
-            background-position: -104px -105px
-
-        &_link
-            background-position: -155px -105px
-        
-        &_file
-            float: right
-            margin: 0
-            background: url('../../images/clip-icon.svg') no-repeat 0 0
-            @include rotate(-45deg)
-    
-    &__submit-btn
-        position: absolute
-        bottom: 0
-        right: 0
-        padding: 5px 8px
-        font-size: .875rem
-        color: #9ca3b5
-        background-color: #fff
-        border: 1px solid #eff0f2
-        cursor: pointer
-    
-    & .link-form
-        position: absolute
-        z-index: 2
-        left: 0
-        // top: .8rem
-        bottom: 0
-        width: 100%
-        padding-right: 30px
-        background-color: #fff
-        box-shadow: 0px 0px 4px 0px rgba(74,141,228,.7)
-
-        &__input
-            padding-left: 10px
-            border: none
-        
-        &__btn
-            top: .8rem
-            font-family: 'Source Code Pro', monospace
-            cursor: pointer
-
-            &_close
-                top: .8rem
-            &_add
-                transform: none
-                top: .8rem
-                right: 1.5rem
-
-.DraftEditor-root
+  &__editor-wrapper
     position: relative
-    margin-top: .5rem
-    padding-left: .5rem
+    width: 100%
+    min-height: 5.5rem
+    padding: 1rem 0 2rem
 
-    & ul, ol
-        padding: .5rem 1.2rem
-        list-style-position: inside
-    & ul
-        list-style-type: circle
-    
-    & pre
-        font-family: 'Source Code Pro', monospace
+  &__files-wrapper
+    margin-top: 1.5rem
 
-    & a
-        color: #4a8de4
+  &__load-file
+    margin: .25rem 0
+    padding: 0 .5rem
+    font-size: .75rem
+    color: #7f7f7f
+    background-color: #f8f8f8
 
-.public-DraftEditorPlaceholder-root
-    position: absolute
-    z-index: 0
+  &__load-file-cancel
+    display: inline-block
+    margin-left: 1rem
+    font-size: .875rem
+    transform: rotate(45deg)
+    cursor: pointer
+
+  input::placeholder
     color: #9ca3b5
 
+  &__item
+    display: inline-block
+
+  &__btn
+    width: 20px
+    height: 20px
+    margin-left: .5rem
+    margin-right: 10px
+    background: url('../../images/text-editor-icons-blue-sm.png') no-repeat
+    border: none
+    cursor: pointer
+    @include transition(all .1s ease-in-out)
+
+    &.active
+      opacity: .6
+    
+    &:hover
+      opacity: .6
+
+    &_bold
+      background-position: -2px -3px
+    
+    &_italic
+      background-position: -52px -3px
+
+    &_underline
+      background-position: -104px -3px
+
+    &_unordered-list-item
+      background-position: -2px -54px
+
+    &_ordered-list-item
+      background-position: -54px -54px
+
+    &_code-block
+      background-position: -104px -105px
+
+    &_link
+      background-position: -155px -105px
+    
+    &_file
+      float: right
+      margin: 0
+      background: url('../../images/clip-icon.svg') no-repeat 0 0
+      @include rotate(-45deg)
+  
+  &__submit-btn
+    position: absolute
+    bottom: 0
+    right: 0
+    padding: 5px 8px
+    font-size: .875rem
+    color: #9ca3b5
+    background-color: #fff
+    border: 1px solid #eff0f2
+    cursor: pointer
+  
+  & .link-form
+    position: absolute
+    z-index: 2
+    left: 0
+    // top: .8rem
+    bottom: 0
+    width: 100%
+    padding-right: 30px
+    background-color: #fff
+    box-shadow: 0px 0px 4px 0px rgba(74,141,228,.7)
+
+    &__input
+      padding-left: 10px
+      border: none
+    
+    &__btn
+      top: .8rem
+      font-family: 'Source Code Pro', monospace
+      cursor: pointer
+
+      &_close
+        top: .8rem
+
+      &_add
+        transform: none
+        top: .8rem
+        right: 1.5rem
+
+.DraftEditor-root
+  position: relative
+  margin-top: .5rem
+  padding-left: .5rem
+
+  & ul, ol
+    padding: .5rem 1.2rem
+    list-style-position: inside
+
+  & ul
+    list-style-type: circle
+  
+  & pre
+    font-family: 'Source Code Pro', monospace
+
+  & a
+    color: $icon-assigned-color
+
+.public-DraftEditorPlaceholder-root
+  position: absolute
+  z-index: 0
+  color: $menu-left-text-color
+
 .DraftEditor-editorContainer
-    position: relative
-    z-index: 1
+  position: relative
+  z-index: 1
 
 input[type='file']
-    visibility: hidden
+  visibility: hidden
 
 .file-img
-    max-width: 100%
-    max-height: 250px
-
+  max-width: 100%
+  max-height: 250px

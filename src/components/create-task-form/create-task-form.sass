@@ -1,55 +1,50 @@
 .create-task-form
-    text-align: right
+  text-align: right
 
-    & textarea
-        width: 100%
-        margin-top: 2rem
-        padding: .75rem
-        font-size: .875rem
-        line-height: 1.5
-        border: none
-        box-shadow: 0px 0px 4px 0px rgba(74,141,228,.7)
+  & textarea
+    width: 100%
+    margin-top: 2rem
+    padding: .75rem
+    font-size: .875rem
+    line-height: 1.5
+    border: none
+    box-shadow: 0px 0px 4px 0px rgba(74,141,228,.7)
 
-        &::placeholder
-            color: #9ca3b5
-    
-    & input
-        cursor: pointer
+  &::placeholder
+    color: #9ca3b5
 
-    &__btn
-        color: #9ca3b5
+  & input
+    cursor: pointer
 
-    &__btn-wrapper
-        position: relative
-        display: inline-block
-        padding: 3px 1.5rem 3px .75rem
-        margin-top: 1rem
-        margin-right: 1rem
-        line-height: 1rem
-        font-size: .8rem
-        background-color: #fff
-        border: 1px solid #eff0f2
-        cursor: pointer
+  &__btn
+    color: #9ca3b5
 
-        &::after
-            position: absolute
-            top: .315rem
-            right: 0
-            width: 15px
-            height: 15px
-            content: ''
-            background: url('../../images/checkmark-icon.svg') no-repeat 0 0 
-    
-        
-        &_cancel
-            opacity: .8
+  &__btn-wrapper
+    position: relative
+    display: inline-block
+    padding: 3px 1.5rem 3px .75rem
+    margin-top: 1rem
+    margin-right: 1rem
+    line-height: 1rem
+    font-size: .8rem
+    background-color: #fff
+    border: 1px solid #eff0f2
+    cursor: pointer
 
-            &::after
-                background: url('../../images/close-icon.svg') no-repeat 0 0 
-        
-            &:hover
-                opacity: 1
-            
+    &::after
+      position: absolute
+      top: .315rem
+      right: 0
+      width: 15px
+      height: 15px
+      content: ''
+      background: url('../../images/checkmark-icon.svg') no-repeat 0 0
 
+    &_cancel
+      opacity: .8
 
-        
+      &::after
+        background: url('../../images/close-icon.svg') no-repeat 0 0
+
+      &:hover
+        opacity: 1

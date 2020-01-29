@@ -10,12 +10,12 @@
     right: pxToRem($task-editor-width * -1)
     padding-bottom: 2.75rem
     background-color: #fff
-    border-left: 1px solid #efefef
+    border-left: 1px solid $task-editor-border-color
     transition: all 1s ease
 
     input::placeholder
         font-size: .875rem
-        color: #9ca3b5
+        color: $menu-left-text-color
 
     &__top-bar
         position: relative
@@ -23,7 +23,7 @@
         height: 3.375rem
         padding: .5rem 1rem .5rem 2rem
         line-height: 1.75rem
-        border-bottom: 1px solid #efefef
+        border-bottom: 1px solid $task-editor-border-color
         overflow: hidden
 
     &__close-icon
@@ -44,7 +44,7 @@
         transition: all .6s ease
 
     &__title
-        color: #a0a0a0
+        color: $task-editor-title-color
 
     &__created-info
         margin: .5rem 0
@@ -55,7 +55,7 @@
         margin-right: 2rem
         font-size: .8rem
         line-height: 1.2
-        color: #9ca3b5
+        color: $menu-left-text-color
 
     &__label
         font-size: 1rem //.875rem
@@ -104,49 +104,49 @@
 
         &_add.user-icon
             font-size: .9rem
-            color: #6d6d6d
-            background-color: #efefef
+            color: $user-icon-rest-color
+            background-color: $task-editor-border-color
             cursor: pointer
 
         &.user-icon_rest
             width: auto
             margin-left: 0
             font-size: .75rem
-            color: #6d6d6d
+            color: $user-icon-rest-color
             background-color: transparent
 
 .select-list__item
-    position: relative
-    padding: 5px 1rem 5px .625rem
+  position: relative
+  padding: 5px 1rem 5px .625rem
+  opacity: .7
+
+  &:hover
     opacity: .7
+  
+  &_active
+    opacity: 1
+    & .select-list__item-icon
+      display: none
 
-    &:hover
-        opacity: .7
-    
-    &_active
-        opacity: 1
-        & .select-list__item-icon
-            display: none
-
-    &-icon
-        position: absolute
-        top: .5625rem
-        right: .375rem
-        width: 10px
-        height: 10px
-        background: url('../../images/checkmark-icon.svg') no-repeat 0 0
-        transition: all .3s ease-in-out
+  &-icon
+    position: absolute
+    top: .5625rem
+    right: .375rem
+    width: 10px
+    height: 10px
+    background: url('../../images/checkmark-icon.svg') no-repeat 0 0
+    transition: all .3s ease-in-out
 
 .select-list__icon
-            position: absolute
-            z-index: 5
-            top: .875rem
-            right: .315rem
-            width: 15px
-            height: 15px
-            background: url('../../images/cheveron-down-icon.svg') no-repeat -3px -3px
-            opacity: .7
-            cursor: pointer
+  position: absolute
+  z-index: 5
+  top: .875rem
+  right: .315rem
+  width: 15px
+  height: 15px
+  background: url('../../images/cheveron-down-icon.svg') no-repeat -3px -3px
+  opacity: .7
+  cursor: pointer
 
-            &_hide
-                transform: rotate(180deg)
+  &_hide
+      transform: rotate(180deg)

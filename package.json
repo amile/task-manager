@@ -1,12 +1,11 @@
 {
-  "name": "tasks-manager",
+  "name": "task-manager",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "draft-js": "^0.11.2",
     "moment": "^2.24.0",
-    "node-sass": "^4.13.1",
     "react": "^16.11.0",
     "react-autosize-textarea": "^7.0.0",
     "react-datetime": "^2.16.3",
@@ -25,7 +24,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "prettier \"src/**/*.{js,html}\"",
+    "lint": "eslint \"src/**/*.{js,jsx}\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -41,5 +42,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.18.0",
+    "node-sass": "^4.13.1"
   }
 }

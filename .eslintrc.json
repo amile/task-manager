@@ -1,0 +1,30 @@
+{
+  // "extends": ["eslint:recommended", "prettier", "prettier/react"],
+  "plugins": [
+    "react"
+  ],
+  "parserOptions": {
+      "ecmaVersion": 2018,
+      "sourceType": "module",
+      "ecmaFeatures": {
+         "jsx": true
+      }
+    },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+    },
+  "rules": {
+    "indent": ["error", 2],
+    "semi": [2, "always"],
+    // "quotes": [2, "double", { "avoidEscape": true }]
+    "jsx-quotes": ["error", "prefer-double"],
+    "react/jsx-closing-bracket-location": [
+      1, 
+      {"selfClosing": "line-aligned", "nonEmpty": "tag-aligned"}
+    ],
+    "react/jsx-boolean-value": [1, "never"],
+    "react/jsx-curly-spacing": [2, {"when": "never", "children": true}]
+  }
+}

@@ -2,70 +2,70 @@
 @import '../../styles/functions'
 
 .group
+  position: relative
+  color: $group-label-color
+  margin-left: pxToRem(12px)
+  padding-left: pxToRem(12px)
+  border-left: 1px solid transparent
+
+  &__label
     position: relative
-    color: $group-label-color
-    margin-left: pxToRem(12px)
-    padding-left: pxToRem(12px)
-    border-left: 1px solid transparent
+    margin-top: pxToRem(6px)
+    padding: .3125rem 0
 
-    &__label
-        position: relative
-        margin-top: pxToRem(6px)
-        padding: .3125rem 0
+    &-name
+      font-size: 1rem
+      line-height: 1.25
+      cursor: pointer
 
-        &-name
-            font-size: 1rem
-            line-height: 1.25
-            cursor: pointer
+      &:hover
+        color: #000
 
-            &:hover
-               color: #000
+    & .checkbox
+      top: .4375rem
+      left: -1.1875rem
 
-        & .checkbox
-            top: .4375rem
-            left: -1.1875rem
+      &:not(:checked)
+        background-color: $backgroun-color-light
 
-            &:not(:checked)
-                background-color: $backgroun-color-light
-
-            &::after
-                position: absolute
-                content: ''
-                width: 14px
-                height: 10px
-                bottom: -11px
-                left: 0
-                background-color: $backgroun-color-light
-
-        &-icon
-            position: absolute
-            top: .625rem
-            left: -2.5rem
-            width: 0
-            height: 0
-            cursor: pointer
-            border: 5px solid transparent
-            border-left-color: gray
-
-            &_open
-                border-left-color: transparent
-                border-top-color: gray
-                left: -2.5rem
-
-        &_active
-            color: #000
-    
-    &_open
-        border-left: 1px solid #d7d7d7
-    
-    &::before
-        content: ''
+      &::before
         position: absolute
-        top: 0
-        left: -1px
-        width: .5rem
-        height: .5rem
-        background-color: $backgroun-color-light  
+        content: ''
+        width: 14px
+        height: 10px
+        bottom: -11px
+        left: 0
+        background-color: $backgroun-color-light
+
+    &-icon
+      position: absolute
+      top: .625rem
+      left: -2.5rem
+      width: 0
+      height: 0
+      cursor: pointer
+      border: 5px solid transparent
+      border-left-color: gray
+
+      &_open
+        border-left-color: transparent
+        border-top-color: gray
+        left: -2.5rem
+
+    &_active
+      color: #000
+
+  &_open
+    border-left: 1px solid #d7d7d7
+
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: -1px
+    width: .5rem
+    height: .5rem
+    background-color: $backgroun-color-light
 
 $delta: 1.5625rem
 $start: 0
@@ -73,26 +73,21 @@ $positionLeft: -2.5rem
 $positionLeftNextFloor: -1.875rem
 $maxLevel: 10
 
-//@mixin position-left
-    //.group__label-icon_level-#{$identificator}
-        //left: setPosition() 
-
 @function setPosition($positionLeft, $delta,  $level)
-    $positionLeft: $positionLeft - $level * $delta
-    $level: $level + 1
-    @return $positionLeft
+  $positionLeft: $positionLeft - $level * $delta
+  $level: $level + 1
+  @return $positionLeft
 
 @for $level from $start through $maxLevel
-    .group__label-icon_level-#{$level}
-        left: setPosition($positionLeft, $delta,  $level)
+  .group__label-icon_level-#{$level}
+    left: setPosition($positionLeft, $delta,  $level)
 
 .next-floor
-    margin-left: calc(-13.5rem + 3px)
-    border-top: 1px solid #d7d7d7
-    border-bottom: 1px solid #d7d7d7
-    background-color: $backgroun-color-light
+  margin-left: calc(-13.5rem + 3px)
+  border-top: 1px solid #d7d7d7
+  border-bottom: 1px solid #d7d7d7
+  background-color: $backgroun-color-light
 
-    @for $level from $start through $maxLevel
-        .group__label-icon_level-#{$level}
-            left: setPosition($positionLeftNextFloor, $delta,  $level)
-   
+  @for $level from $start through $maxLevel
+    .group__label-icon_level-#{$level}
+      left: setPosition($positionLeftNextFloor, $delta,  $level)

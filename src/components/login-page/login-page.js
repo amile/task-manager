@@ -8,19 +8,19 @@ import { loginUser } from '../../actions';
 import './login-page.sass';
 
 const LoginPage = ({ isAuth, onAuth }) => {
-    if ( isAuth ) {
-        return <Redirect to='/' />
-    }
-    return (
-        <div className='login-wrapper'>
-            <button className='btn_login' onClick={ onAuth }>Login</button>
-        </div>               
-    );
+  if ( isAuth ) {
+    return <Redirect to="/" />;
+  }
+  return (
+    <div className="login-wrapper">
+      <button className="btn_login" onClick={onAuth}>Login</button>
+    </div>               
+  );
 
-}
+};
 const mapDispatchToProps = (dispatch) => {
-    return {
-        onAuth: bindActionCreators(loginUser, dispatch),
-    }
+  return {
+    onAuth: bindActionCreators(loginUser, dispatch),
+  };
 };
 export default connect(null, mapDispatchToProps)(LoginPage);

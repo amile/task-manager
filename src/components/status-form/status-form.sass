@@ -2,26 +2,26 @@
 @import '../../styles/mixins'
 
 .status-form
-    &__select
-        padding: 0 5px
-        background-color: #fff
-        border: none
-        @include appearance(none)
+  &__select
+    padding: 0 5px
+    background-color: #fff
+    border: none
+    @include appearance(none)
 
-    &__select-icon
-        display: inline-block
-        width: 10px
-        height: 10px
-        margin-right: 1rem
-        border-radius: 50%
+  &__select-icon
+    display: inline-block
+    width: 10px
+    height: 10px
+    margin-right: 1rem
+    border-radius: 50%
 
-    &__select
-        cursor: pointer
-
-@each $name, $color in $status-colors
-    .status-form__select_#{$name}
-        color: $color
+  &__select
+    cursor: pointer
 
 @each $name, $color in $status-colors
-    .status-form__select-icon_#{$name}
-        background-color: $color
+  .status-form__select_#{$name}
+    color: $color
+
+@each $name, $color in $status-colors
+  .status-form__select-icon_#{$name}
+    background-color: $color

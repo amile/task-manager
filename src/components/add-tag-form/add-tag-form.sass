@@ -2,88 +2,87 @@
 @import '../../styles/mixins'
 
 .tag-form
-    position: absolute
-    z-index: 2
-    top: 115%
-    left: 0 
-    width: 13rem
-    min-height: 7.5rem
-    padding: .875rem
-    text-align: center
-    font-size: .875rem
-    color: #9ca3b5
-    background-color: #fff
-    border-radius: 3px
-    box-shadow: 0 0 5px rgba(0,0,0,.5)
+  position: absolute
+  z-index: 2
+  top: 115%
+  left: 0
+  width: 13rem
+  min-height: 7.5rem
+  padding: .875rem
+  text-align: center
+  font-size: .875rem
+  color: #9ca3b5
+  background-color: #fff
+  border-radius: 3px
+  box-shadow: 0 0 5px rgba(0,0,0,.5)
 
-    &__close
-        position: absolute
-        top: 5px
-        right: 5px
-        line-height: 1rem
-        font-size: 1.25rem
-        color: #9ca3b5
-        cursor: pointer
-        transform: rotate(45deg)
+  &__close
+    position: absolute
+    top: 5px
+    right: 5px
+    line-height: 1rem
+    font-size: 1.25rem
+    color: #9ca3b5
+    cursor: pointer
+    transform: rotate(45deg)
 
     &__select-wrapper
-        position: relative
-        margin-top: .5rem
+      position: relative
+      margin-top: .5rem
 
     &__select-list
-        position: absolute
-        left: 0
-        top: 2.5rem
-        width: 100%
-        min-height: 3.5rem
-        max-height: 6rem
-        overflow: auto
-        padding-bottom: 10px
-        font-size: .875rem
-        line-height: 1.2
-        text-align: left
-        background-color: #fff
-     
+      position: absolute
+      left: 0
+      top: 2.5rem
+      width: 100%
+      min-height: 3.5rem
+      max-height: 6rem
+      overflow: auto
+      padding-bottom: 10px
+      font-size: .875rem
+      line-height: 1.2
+      text-align: left
+      background-color: #fff
+
     &__add
-        display: inline-block
-        padding: 3px 10px
-        line-height: 1rem
-        font-size: .8rem
-        color: #9ca3b5
-        background-color: #fff
-        border: 1px solid #eff0f2
+      display: inline-block
+      padding: 3px 10px
+      line-height: 1rem
+      font-size: .8rem
+      color: #9ca3b5
+      background-color: #fff
+      border: 1px solid #eff0f2
 
     &__input
-        width: 100%
-        margin: .5rem 0
-        padding: 5px
-        padding-right: 1rem
-        color: #9ca3b5
-        border: 1px solid $backgroun-color-light
-    
+      width: 100%
+      margin: .5rem 0
+      padding: 5px
+      padding-right: 1rem
+      color: #9ca3b5
+      border: 1px solid $backgroun-color-light
+
     &__select_disable
-        display: none
+      display: none
 
     & .list-color
-        text-align: center
-        margin: .75rem 0
-        padding: .6rem
-        border-top: 1px solid $backgroun-color-light
+      text-align: center
+      margin: .75rem 0
+      padding: .6rem
+      border-top: 1px solid $backgroun-color-light
 
-        &__item
-            display: inline-block
-            width: 20px
-            height: 20px
-            margin-right: 5px
-            border-radius: 50%
+      &__item
+        display: inline-block
+        width: 20px
+        height: 20px
+        margin-right: 5px
+        border-radius: 50%
 
-            &_active
-                box-shadow: 0 0 5px rgba(0,0,0,.5)
+        &_active
+          box-shadow: 0 0 5px rgba(0,0,0,.5)
 
-            &:last-child
-                margin-right: 0
+          &:last-child
+            margin-right: 0
 
 @each $name, $color in $tag-colors
-    .list-color__item_#{$name}
-        background-color: $color
-                
+  .list-color__item_#{$name}
+    background-color: $color

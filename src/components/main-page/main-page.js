@@ -9,32 +9,32 @@ import './main-page.sass';
 
 
 const MainPage = () => {
-    return (
-        <Fragment>
-            <MenuLeft />
-            <main className='main'>
-                <Route
-                    path='/app/group/:groupId/'
-                    render={ ({ match, history }) => {
-                        const { groupId } = match.params;
-                        return (
-                            <ItemList groupId={ groupId } history={ history } match={ match }/>
-                        )
-                    }}
-                />
+  return (
+    <Fragment>
+      <MenuLeft />
+      <main className="main">
+        <Route
+          path="/app/group/:groupId/"
+          render={({ match, history }) => {
+            const { groupId } = match.params;
+            return (
+              <ItemList groupId={groupId} history={history} match={match}/>
+            );
+          }}
+        />
                 
-            </main>
-            <Route
-                path='/app/group/:groupId/task/:taskId/:parentId?'
-                render={ ({ match, history }) => {
-                    const { taskId, parentId } = match.params;
-                    return (
-                        <TaskForm itemId={ taskId } groupId={ parentId } history={ history } match={ match }/>
-                    )
-                }}
-            />
-        </Fragment>   
-    );
+      </main>
+      <Route
+        path="/app/group/:groupId/task/:taskId/:parentId?"
+        render={({ match, history }) => {
+          const { taskId, parentId } = match.params;
+          return (
+            <TaskForm itemId={taskId} groupId={parentId} history={history} match={match}/>
+          );
+        }}
+      />
+    </Fragment>   
+  );
 };
 
 

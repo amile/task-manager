@@ -7,19 +7,19 @@ html,
 body,
 #root, 
 .app
-    position: fixed
-    top: 0
-    left: 0
-    bottom: 0
-    width: 100%
-    overflow: hidden
+  position: fixed
+  top: 0
+  left: 0
+  bottom: 0
+  width: 100%
+  overflow: hidden
 
-    @media only screen and (max-width: 768px)
-        // For mobile phones
-        width: $min-app-width
+  @media only screen and (max-width: 768px)
+    // For mobile phones
+    width: $min-app-width
 
 body
-    font-family: 'Roboto', sans-serif
+  font-family: 'Roboto', sans-serif
 
 a,
 a:hover,
@@ -28,51 +28,51 @@ a:visited
 	text-decoration: none
 
 h1.title_not-found
-    width: 100%
-    margin: 2rem
-    font-size: 1.5rem
-    line-height: 1.5
-    text-align: center
-    color: $backgroun-color-dark
+  width: 100%
+  margin: 2rem
+  font-size: 1.5rem
+  line-height: 1.5
+  text-align: center
+  color: $backgroun-color-dark
 
 button
-    background: none
-    border: none
-    cursor: pointer
+  background: none
+  border: none
+  cursor: pointer
 
 .btn
-    &_delete
-        display: inline-block
-        @include rotate(45deg)
+  &_delete
+    display: inline-block
+    @include rotate(45deg)
 
 .display_none
-    display: none
+  display: none
 
 .tag
-    display: inline-block
-    margin-right: .5rem
-    padding: .125rem .5rem
-    font-size: .75rem
-    line-height: 1
-    color: #fff
-    border-radius: 2px
+  display: inline-block
+  margin-right: .5rem
+  padding: .125rem .5rem
+  font-size: .75rem
+  line-height: 1
+  color: #fff
+  border-radius: 2px
 
 .user-icon
-    display: inline-block
-    width: 1.875rem
-    height: 1.875rem
-    font-size: .75rem
-    line-height: 1.9rem
-    text-align: center
-    color: #fff
-    background-color: $icon-assigned-color
-    border-radius: 50%
+  display: inline-block
+  width: 1.875rem
+  height: 1.875rem
+  font-size: .75rem
+  line-height: 1.9rem
+  text-align: center
+  color: #fff
+  background-color: $icon-assigned-color
+  border-radius: 50%
 
 
 @each $name, $color in $tag-colors
-    .tag_#{$name}
-        background-color: $color
+  .tag_#{$name}
+    background-color: $color
 
 @each $name, $color in $status-colors
-    .status_#{$name}
-        color: $color
+  .status_#{$name}
+    color: $color

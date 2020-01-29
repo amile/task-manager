@@ -8,12 +8,12 @@ import watchLoginUser from './loginUserSaga';
 import appSaga from './appSaga';
 
 export default function* rootSaga() {
-    yield all([
-        setInitialState(),
-        getCurrentUser(),
-        loadData(),
-        saveStateToLocalStorage(),
-        watchLoginUser(),
-        appSaga()
-    ]);
+  yield all([
+    setInitialState(),
+    getCurrentUser(),
+    loadData(),
+    saveStateToLocalStorage(),
+    watchLoginUser(),
+    appSaga()
+  ]);
 }

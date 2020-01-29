@@ -1,36 +1,38 @@
+@import '../../styles/variables'
+
 .breadcrumbs
-    overflow: hidden
-    display: flex
+  overflow: hidden
+  display: flex
 
-    &-wrapper
-        margin-left: 1rem
+  &-wrapper
+    margin-left: 1rem
 
-    &__item
-        flex: 0 0 auto
-        max-height: 100%
-        position: relative
-        display: inline-block
-        margin-right: .75rem
-        padding: .375rem
-        font-size: .8125rem
-        white-space: nowrap
+  &__item
+    flex: 0 0 auto
+    max-height: 100%
+    position: relative
+    display: inline-block
+    margin-right: .75rem
+    padding: .375rem
+    font-size: .8125rem
+    white-space: nowrap
 
-        &::after
-            position: absolute
-            top: .75rem
-            right: -.825rem
-            width: 15px
-            height: 15px
-            content: ''
-            background: url('../../images/cheveron-right-icon.svg') no-repeat 0 0
-        
-        &:last-child
-            flex: 1 1 auto
-            min-width: 8rem
-            margin-right: 0
+    &::after
+      position: absolute
+      top: .75rem
+      right: -.825rem
+      width: 15px
+      height: 15px
+      content: ''
+      background: url('../../images/cheveron-right-icon.svg') no-repeat 0 0
 
-            &::after
-                display: none
+    &:last-child
+      flex: 1 1 auto
+      min-width: 8rem
+      margin-right: 0
 
-        &_active
-            color: #9ca3b5
+      &::after
+        display: none
+
+    &_active
+      color: $menu-left-text-color

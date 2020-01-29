@@ -2,24 +2,24 @@
 @import '../../styles/mixins'
 
 .checkbox
-    position: absolute
-    width: 14px
-    height: 14px
-    @include appearance(none)
-    background-color: #fff
-    border: 1px solid #cacece
-    box-shadow: none
-    border-radius: 1px
+  position: absolute
+  width: 14px
+  height: 14px
+  background-color: #fff
+  border: 1px solid #cacece
+  box-shadow: none
+  border-radius: 1px
+  @include appearance(none)
 
-    &:checked
-        color: #fff
-        background-color: $icon-assigned-color
-        border: 1px solid $icon-assigned-color
+  &:checked
+    color: #fff
+    background-color: $icon-assigned-color
+    border: 1px solid $icon-assigned-color
 
-        &:after
-            position: absolute
-            content: '\2714'
-            top: 0
-            left: 1px
-            font-size: 11px
-            color: #fff
+    &:after
+      position: absolute
+      content: '\2714'
+      top: 0
+      left: 1px
+      font-size: 11px
+      color: #fff
