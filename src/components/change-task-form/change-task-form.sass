@@ -108,16 +108,17 @@
             height: 20px
             margin-right: 10px
             vertical-align: middle
+            @include setBackgroundImage(0 -141px)
 
             &_history
-              background: url('../../images/history-icon.svg') no-repeat 0 0
+              background-position: 0 -141px
 
             &_files
-              background: url('../../images/clip-icon.svg') no-repeat 0 0
+              background-position: 0 -65px
 
             &_menu
               margin: 0
-              background: url('../../images/menu-icon-circle.svg') no-repeat 0 0
+              background-position: 0 -181px
               @include rotate(90deg)
 
 .list

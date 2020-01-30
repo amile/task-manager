@@ -1,4 +1,5 @@
 @import '../../styles/variables'
+@import '../../styles/mixins'
 
 .breadcrumbs
   overflow: hidden
@@ -24,7 +25,7 @@
       width: 15px
       height: 15px
       content: ''
-      background: url('../../images/cheveron-right-icon.svg') no-repeat 0 0
+      @include setBackgroundImage(0 -50px)
 
     &:last-child
       flex: 1 1 auto

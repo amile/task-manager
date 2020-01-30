@@ -1,4 +1,5 @@
 @import '../../styles/variables';
+@import '../../styles/mixins';
 
 .create-task-form
   text-align: right
@@ -20,6 +21,7 @@
 
   &__btn
     color: $menu-left-text-color
+    @include userSelect(none)
 
   &__btn-wrapper
     position: relative
@@ -40,13 +42,16 @@
       width: 15px
       height: 15px
       content: ''
-      background: url('../../images/checkmark-icon.svg') no-repeat 0 0
+      @include setBackgroundImage(0 -20px)
 
     &_cancel
       opacity: .8
 
       &::after
-        background: url('../../images/close-icon.svg') no-repeat 0 0
+        right: .25rem
+        width: 10px
+        height: 10px
+        @include setBackgroundImage(0 -100px)
 
       &:hover
         opacity: 1

@@ -1,5 +1,6 @@
 @import '../../styles/variables'
 @import '../../styles/functions'
+@import '../../styles/mixins'
 
 .task-form
     position: absolute
@@ -32,8 +33,8 @@
         left: 1rem
         width: 15px
         height: 15px
-        background: url('../../images/close-icon-dark.svg') no-repeat 0 0
         cursor: pointer
+        @include setBackgroundImage(0 -85px)
 
     &_close
         right: pxToRem($task-editor-width * -1)
@@ -84,8 +85,8 @@
             height: 20px
             margin-right: .5rem
             vertical-align: middle
-            background: url('../../images/calendar-icon.svg') no-repeat 0 0
             cursor: pointer
+            @include setBackgroundImage(0 0)
 
     &__assigned-list
         flex: 0 0 auto
@@ -134,8 +135,8 @@
     right: .375rem
     width: 10px
     height: 10px
-    background: url('../../images/checkmark-icon.svg') no-repeat 0 0
     transition: all .3s ease-in-out
+    @include setBackgroundImage(0 -20px)
 
 .select-list__icon
   position: absolute
@@ -144,9 +145,9 @@
   right: .315rem
   width: 15px
   height: 15px
-  background: url('../../images/cheveron-down-icon.svg') no-repeat -3px -3px
   opacity: .7
   cursor: pointer
+  @include setBackgroundImage(-3px -32px) // initial-position: 0 -30px
 
   &_hide
-      transform: rotate(180deg)
+    transform: rotate(180deg)

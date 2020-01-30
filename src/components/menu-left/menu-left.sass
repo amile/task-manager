@@ -1,5 +1,6 @@
 @import '../../styles/variables'
 @import '../../styles/functions'
+@import '../../styles/mixins'
 
 .menu-left
   overflow-y: auto
@@ -65,7 +66,7 @@
       width: 1.25rem
       height: 1.25rem
       cursor: pointer
-      background: url('../../images/icons.svg') no-repeat 0 -161px// url('../../images/lock-icon.svg') no-repeat 0 0
+      @include setBackgroundImage(0 -161px)
 
 .projects-list
 
@@ -131,8 +132,8 @@
     line-height: 1
     vertical-align: bottom
     color: transparent
-    background: url('../../images/project-menu-icon.svg') no-repeat 0 0
     cursor: pointer
+    @include setBackgroundImage(0 -201px)
 
     &_close
       color: $menu-left-text-color

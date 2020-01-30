@@ -32,7 +32,18 @@
     -moz-appearance: $appearance
     appearance: $appearance
 
+// UserSelect Browser Prefixes
+@mixin userSelect($value)
+  -webkit-user-select: $value
+     -moz-user-select: $value
+      -ms-user-select: $value
+          user-select: $value
+
 // Set fontSize from Px to Rem
 @mixin fontSize($size)
   font-size: $size
   font-size: pxToRem($size)
+
+// Get background icon from svg sprite
+@mixin setBackgroundImage($position)
+  background: url($icon-sprite-svg-path) no-repeat $position
