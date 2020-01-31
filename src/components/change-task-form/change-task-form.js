@@ -3,15 +3,20 @@ import { connect } from 'react-redux';
 import * as moment from 'moment';
 import 'moment/locale/ru';
 
-import { makeTaskTagsSelector, getAllTagsSelector, usersSelector,
-  makeTaskCommentsSelector } from '../../selectors';
+import {
+  makeTaskTagsSelector,
+  getAllTagsSelector,
+  usersSelector,
+  makeTaskCommentsSelector,
+} from '../../selectors';
 
-import CommentItem from '../comment-item/comment-item';
-import CommentForm from '../comment-form/comment-form';
-import StatusForm from '../status-form/status-form';
-import DateTimePicker from '../date-time-picker/date-time-picker';
-import AddAssignedForm from '../add-assigned-form/add-assigned-form';
-import AddTagForm from '../add-tag-form/add-tag-form';
+import CommentItem from '../comment-item';
+import CommentForm from '../comment-form';
+import StatusForm from '../status-form';
+import DateTimePicker from '../date-time-picker';
+import AddAssignedForm from '../add-assigned-form';
+import AddTagForm from '../add-tag-form';
+import TagItem from '../tag-item';
 
 import './change-task-form.sass';
 
@@ -26,51 +31,75 @@ class ChangeTaskForm extends Component {
       historyVisible: false,
       filesListVisible: false,
     };
-    this.onCloseTagForm = () => {
-      this.setState({ tagFormVisible: false });
-    };
-    this.onShowTagForm = () => {
-      this.setState({ tagFormVisible: true });
-    };
-    this.onCloseAssignedForm = () => {
-      this.setState({ assignedFormVisible: false });
-    };
-    this.onShowAssignedForm = () => {
-      this.setState({ assignedFormVisible: true });
-    };
-    this.onToggleShowedHistory = () => {
-      this.setState((state) => {
-        return { historyVisible: !state.historyVisible };
-      });
-    };
-    this.onShowedFiles = () => {
-      this.setState({ filesListVisible: true });
-    };
-    this.onAddTag = (label, color) => {
-      this.props.addTag(label, color);
-      this.onCloseTagForm();
-    };
-    this.onUpdateTaskAddTag = (tagId) => {
-      this.props.updateTaskAddTag(tagId);
-      this.onCloseTagForm();
-    };
-    this.updateTaskAddAssigned = (userId) => {
-      this.props.updateTaskAddAssigned(userId);
-      this.onCloseAssignedForm();
-    };
-    this.updateTaskDeleteAssigned = (userId) => {
-      this.props.updateTaskDeleteAssigned(userId);
-      this.onCloseAssignedForm();
-    };
-    this.dateTimePickerTrigger = () => {
-      document.getElementsByClassName('form-control')[0].click();
-    };
+    this.onCloseTagForm = this.onCloseTagForm.bind(this);
+    this.onShowTagForm = this.onShowTagForm.bind(this);
+    this.onCloseAssignedForm = this.onCloseAssignedForm.bind(this);
+    this.onShowAssignedForm = this.onShowAssignedForm.bind(this);
+    this.onToggleShowedHistory = this.onToggleShowedHistory.bind(this);
+    this.onShowedFiles = this.onShowedFiles.bind(this);
+    this.onAddTag = this.onAddTag.bind(this);
+    this.onUpdateTaskAddTag = this.onUpdateTaskAddTag.bind(this);
+    this.updateTaskAddAssigned = this.updateTaskAddAssigned.bind(this);
+    this.updateTaskDeleteAssigned = this.updateTaskDeleteAssigned.bind(this);
+    this.dateTimePickerTrigger = this.dateTimePickerTrigger.bind(this);
   }
+
+  onShowTagForm() {
+    this.setState({ tagFormVisible: true });
+  }
+
+  onCloseTagForm() {
+    this.setState({ tagFormVisible: false });
+  }
+
+  onAddTag(label, color) {
+    this.props.addTag(label, color);
+    this.onCloseTagForm();
+  }
+
+  onUpdateTaskAddTag(tagId) {
+    this.props.updateTaskAddTag(tagId);
+    this.onCloseTagForm();
+  }
+
+  onShowAssignedForm() {
+    this.setState({ assignedFormVisible: true });
+  }
+
+  onCloseAssignedForm() {
+    this.setState({ assignedFormVisible: false });
+  }
+
+  onToggleShowedHistory() {
+    this.setState((state) => {
+      return { historyVisible: !state.historyVisible };
+    });
+  }
+
+  onShowedFiles () {
+    this.setState({ filesListVisible: true });
+  }
+
+  updateTaskAddAssigned(userId) {
+    this.props.updateTaskAddAssigned(userId);
+    this.onCloseAssignedForm();
+  }
+
+  updateTaskDeleteAssigned(userId) {
+    this.props.updateTaskDeleteAssigned(userId);
+    this.onCloseAssignedForm();
+  }
+
+  dateTimePickerTrigger() {
+    document.getElementsByClassName('form-control')[0].click();
+  }
+
   componentDidUpdate(prevProps) {
     if (this.props.task.id !== prevProps.task.id) {
       this.setState({ historyVisible: false });
     }
   }
+
   render() {
     const {
       task,
@@ -82,7 +111,8 @@ class ChangeTaskForm extends Component {
       deleteTag,
       changeStatus,
       comments,
-      files } = this.props;
+      files,
+    } = this.props;
     const addTagForm = !this.state.tagFormVisible
       ? null
       : (
@@ -96,21 +126,17 @@ class ChangeTaskForm extends Component {
       );
     const tagsList = (!taskTags)
       ? null
-      : taskTags.map((tag) => {
-        const tagClassNames = 'tag_' + tag.color;
-        return (
-          <div key={tag.id}
-            className={'task-form__tag-item tag ' + tagClassNames}
-          >
-            {tag.label}
-            <span className="task-form__tag-item-delete"
-              onClick={() => { deleteTag(tag.id); }}
-            >
-              +
-            </span>
-          </div>
-        );
-      });
+      : (
+        taskTags.map((tag) => {
+          return (
+            <TagItem
+              key={tag.id}
+              tag={tag}
+              onDelete={deleteTag}
+            />
+          );
+        })
+      );
     const addAssignedForm = !this.state.assignedFormVisible
       ? null
       : (
@@ -138,7 +164,10 @@ class ChangeTaskForm extends Component {
       ? null
       : assigned.slice(0, maxAssignedInlineShowed).map((user) => {
         return (
-          <li key={user.id} className={assignedUsersClassNames}>
+          <li
+            key={user.id}
+            className={assignedUsersClassNames}
+          >
             {user.firstName.slice(0, 1) + user.lastName.slice(0, 1)}
           </li>
         );
@@ -194,11 +223,14 @@ class ChangeTaskForm extends Component {
         });
     }
     const listComments = !comments
-      ? (<li className="task-form__title list__item">Комментариев нет</li>)
+      ? <li className="task-form__title list__item">Комментариев нет</li>
       : comments.map((comment) => {
         return (
           <li key={comment.id} className="comment list__item">
-            <CommentItem comment={comment} updateCommentDeleteFile={this.props.updateCommentDeleteFile}/>
+            <CommentItem
+              comment={comment}
+              updateCommentDeleteFile={this.props.updateCommentDeleteFile}
+            />
           </li>
         );
       });
@@ -218,7 +250,12 @@ class ChangeTaskForm extends Component {
             <div className="task-form__tags-wrapper">
               {tagsList}
               {addTagForm}
-              <div className="tag task-form__tag-item task-form__tag-item_add" onClick={this.onShowTagForm}>+</div>
+              <div
+                className="tag tag_add"
+                onClick={this.onShowTagForm}
+              >
+                +
+              </div>
             </div>
             <div className="task-form__status-info">
               <div className="task-form__status">
@@ -228,7 +265,9 @@ class ChangeTaskForm extends Component {
                 />
               </div>
               <div className="task-form__date-due">
-                <span className="date-due__calendar-icon" onClick={this.dateTimePickerTrigger} />
+                <span className="date-due__calendar-icon"
+                  onClick={this.dateTimePickerTrigger}
+                />
                 <DateTimePicker
                   value={task.dateDue}
                   updateTaskAddDateDue={this.props.updateTaskAddDateDue}

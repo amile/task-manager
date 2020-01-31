@@ -20,38 +20,65 @@ export class GroupItem extends Component {
       active: (this.props.activeGroup === this.props.group.id),
       addNewGroup: false,
     };
-    this.onToggleOpen = () => {
-      this.setState((state) => {
-        return { open: !state.open };
-      });
-    };
-    this.onGroupClick = () => {
-      this.props.onToggleActive(this.props.group.id);
-    };
-    this.onAddGroup = () => {
-      this.setState({ addNewGroup: true });
-    };
-    this.closeAddForm = () => {
-      this.setState({ addNewGroup: false });
-    };
-    this.onSubmitGroup = (value) => {
-      this.state.addNewGroup = false;
-      this.props.addNewGroup(value, this.props.group.id);
-    };
-    this.handleCheckbox = (done) => {
-      const { id } = this.props.group;
-      this.props.updateGroupSetDone(id, done );
-    };
+    this.onAddTask = this.onAddTask.bind(this);
+    this.onToggleOpen = this.onToggleOpen.bind(this);
+    this.onGroupClick = this.onGroupClick.bind(this);
+    this.onAddGroup = this.onAddGroup.bind(this);
+    this.closeAddForm = this.closeAddForm.bind(this);
+    this.onSubmitGroup = this.onSubmitGroup.bind(this);
+    this.handleCheckbox = this.handleCheckbox.bind(this);
+  }
+
+  onToggleOpen() {
+    this.setState((state) => {
+      return { open: !state.open };
+    });
+  }
+
+  onAddTask() {
+    this.props.addNewTask(this.props.group.id);
+  }
+
+  onAddGroup() {
+    this.setState({ addNewGroup: true });
+  }
+
+  onGroupClick() {
+    this.props.onToggleActive(this.props.group.id);
+  }
+
+  closeAddForm() {
+    this.setState({ addNewGroup: false });
+  }
+
+  onSubmitGroup(value) {
+    this.closeAddForm();
+    this.props.addNewGroup(value, this.props.group.id);
+  }
+
+  handleCheckbox(done) {
+    const { id } = this.props.group;
+    this.props.updateGroupSetDone(id, done );
   }
 
   render() {
-    const { group, activeGroup, onToggleActive, addNewTask, addNewGroup,
-      showTaskEditor, tasks, groups, history } = this.props;
+    const {
+      group,
+      tasks,
+      groups,
+      history,
+      activeGroup,
+      onToggleActive,
+      addNewTask,
+      addNewGroup,
+      showTaskEditor,
+    } = this.props;
     let { level } = this.props;
     const active = activeGroup === group.id;
     let classNameOpenIcon = this.state.open ? 'group__label-icon_open' : '';
     const labelClassNames = active ? 'group__label group__label_active' : 'group__label';
-    let groupList, taskList = null;
+    let groupList = null;
+    let taskList = null;
     let nexFloor = null;
     let levelToClass = level;
     if (this.state.open) {
@@ -81,14 +108,15 @@ export class GroupItem extends Component {
       if (tasks.length > 0) {
         taskList = tasks.map( (task) => {
           return (
-            <li key={task.id} className="item-list__task task-item" onClick={() => { showTaskEditor(task.id); }}>
-              <TaskItem task={task} />
-            </li>
+            <TaskItem
+              key={task.id}
+              task={task}
+              showTaskEditor={showTaskEditor}
+            />
           );
         });
       }
     }
-
     const icon = ((groups.length < 1) && (tasks.length < 1))
       ? null
       : (
@@ -97,25 +125,37 @@ export class GroupItem extends Component {
           onClick={this.onToggleOpen}
         />
       );
-    const buttons = active ?
-      (
+    const buttons = !active
+      ? null
+      : (
         <div className="buttons-wrapper">
           <AddButton
             label="task"
-            onAdd={() => {this.props.addNewTask(group.id);}}
+            onAdd={this.onAddTask}
           />
           <AddButton
             label="group"
             onAdd={this.onAddGroup}
           />
         </div>
-      ) : null;
+      );
     const checkbox = !active
       ? null
-      : (<DoneCheckbox done={group.done} handleCheckbox={this.handleCheckbox} />);
+      : (
+        <DoneCheckbox
+          done={group.done}
+          handleCheckbox={this.handleCheckbox}
+        />
+      );
     let addForm = null;
     if (this.state.addNewGroup) {
-      addForm = <AddGroupForm project={false} addNewItem={this.onSubmitGroup} onCloseForm={this.closeAddForm} />;
+      addForm = (
+        <AddGroupForm
+          project={false}
+          addNewItem={this.onSubmitGroup}
+          onCloseForm={this.closeAddForm}
+        />
+      );
     }
     const itemOpenClassName = (!this.state.open) ? '' : 'group_open';
     return (

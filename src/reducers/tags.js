@@ -1,20 +1,19 @@
-import {
-  TAGS_LOADED,
-  ADD_TAG,
-} from '../constants';
+import { handleActions } from 'redux-actions';
 
-const tags = (state = [], action) => {
-  switch (action.type) {
-    case TAGS_LOADED: {
-      return action.payload;
-    }
-    case ADD_TAG: {
-      return [ ...state, action.payload.tag];
-    }
-    default: {
-      return state;
-    }
-  }
-};
+import { tagsLoaded, addTag } from '../actions';
+
+const initialState = [];
+
+const tags = handleActions(
+  {
+    [tagsLoaded]: (state, { payload: { data } }) => {
+      return data;
+    },
+    [addTag]: (state, { payload: { tag } }) => {
+      return [ ...state, tag ];
+    },
+  },
+  initialState,
+);
 
 export default tags;

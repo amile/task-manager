@@ -78,7 +78,8 @@ class CommentItem extends Component {
           </div>
         </div>
         <div className="comment__label">
-          <Editor editorState={label}
+          <Editor
+            editorState={label}
             readOnly
           />
         </div>

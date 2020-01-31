@@ -1,23 +1,11 @@
-import {
-  TAGS_LOADED,
-  ADD_TAG,
-} from '../constants';
+import { createActions } from 'redux-actions';
 
 import { createNewIndex } from '../utils';
 
-export const tagsLoaded = (data) => {
-  return {
-    type: TAGS_LOADED,
-    payload: data,
-  };
-};
-
-export const addTag = (id, tag) => {
-  return {
-    type: ADD_TAG,
-    payload: {
-      id,
-      tag: { ...tag, id: createNewIndex()},
-    },
-  };
-};
+export const { tagsLoaded, addTag } = createActions({
+  TAGS_LOADED: (data) => ({ data }),
+  ADD_TAG: (id, tag) => ({
+    id,
+    tag: { ...tag, id: createNewIndex()},
+  }),
+});

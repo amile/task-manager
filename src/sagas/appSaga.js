@@ -1,6 +1,6 @@
 import { all, put, takeEvery, select, fork } from 'redux-saga/effects';
 
-import { updateTaskAddTag, updateTaskDeleteComment, updateCommentAddFile, 
+import { updateTaskAddTag, updateTaskDeleteComment, updateCommentAddFile,
   addFile, deleteFile, updateTaskAddComment, deleteComment } from '../actions';
 
 import { ADD_TAG, ADD_TASK, ADD_COMMENT, DELETE_COMMENT, ADD_FILE,
@@ -8,8 +8,9 @@ import { ADD_TAG, ADD_TASK, ADD_COMMENT, DELETE_COMMENT, ADD_FILE,
 
 import { genHash, compareHash } from '../utils';
 
-function* pushTaskUrlToHistory({ payload, history, path }) {
-  yield history.push(`${ path }/task/${ payload.id }`);
+function* pushTaskUrlToHistory({ payload }) {
+  const { history, path, id } = payload;
+  yield history.push(`${ path }/task/${ id }`);
 }
 
 export function* watchAddTask() {
@@ -50,7 +51,7 @@ function* putUpdateTaskAddFiles({ payload }) {
 
 export function* watchAddComment() {
   yield takeEvery(ADD_COMMENT, putUpdateTaskAddFiles);
-} 
+}
 
 function* putUpdateCommentAddFile({ payload }) {
   yield put(updateCommentAddFile(payload.file.id, payload.parentId));
@@ -61,7 +62,7 @@ export function* watchAddFile() {
 }
 
 function* putDeleteCommentAndFile({ payload }) {
-    
+
   const data = yield select();
   const comment = yield data.comments.find((comment) => comment.id === payload.parentId);
   const fileIsUsed = yield data.comments.find(
@@ -72,7 +73,7 @@ function* putDeleteCommentAndFile({ payload }) {
   }
   if (!fileIsUsed) {
     yield put(deleteFile(payload.fileId));
-  }   
+  }
 }
 
 export function* watchUpdateCommentDeleleFile() {

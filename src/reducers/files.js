@@ -1,22 +1,23 @@
-import { FILES_LOADED, DELETE_FILE,
-  ADD_FILE } from '../constants';
+import { handleActions } from 'redux-actions';
 
-const files = (state = [], action) => {
-  switch (action.type) {
-    case FILES_LOADED: {
-      return action.payload;
-    }
-    case ADD_FILE:  {
-      return [ ...state, action.payload.file];
-    }
-    case DELETE_FILE: {
-      const fileIdx = state.findIndex((file) => file.id === action.payload.fileId);
+import { filesLoaded, addFile, deleteFile  } from '../actions';
+
+const initialState = [];
+
+const files = handleActions(
+  {
+    [filesLoaded]: (state, { payload: { data } }) => {
+      return data;
+    },
+    [addFile]: (state, { payload: { file } }) => {
+      return [ ...state, file ];
+    },
+    [deleteFile]: (state, { payload: { fileId } }) => {
+      const fileIdx = state.findIndex((file) => (file.id === fileId));
       return [ ...state.slice(0, fileIdx), ...state.slice(fileIdx + 1)];
-    }
-    default: {
-      return state;
-    }
-  }
-};
+    },
+  },
+  initialState,
+);
 
 export default files;

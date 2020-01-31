@@ -10,7 +10,12 @@ const AddButton = ({ label, onAdd }) => {
     buttonLabel = '+ Новая задача';
   }
   return (
-    <button className={`btn add-btn add-btn_${label}`} onClick={onAdd}>{buttonLabel}</button>
+    <button
+      className={`btn add-btn add-btn_${ label }`}
+      onClick={onAdd}
+    >
+      {buttonLabel}
+    </button>
   );
 };
 

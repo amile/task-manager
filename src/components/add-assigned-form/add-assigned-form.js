@@ -63,7 +63,9 @@ class AddAssignedForm extends Component {
       listUsers = (!filteredUsers || (filteredUsers.length < 1))
         ? null
         : filteredUsers.map((user) => {
-          const userAssigned = !this.props.assigned ? null : this.props.assigned.find((assignedUser) => assignedUser.id === user.id);
+          const userAssigned = !this.props.assigned
+            ? null
+            : this.props.assigned.find((assignedUser) => (assignedUser.id === user.id));
           const itemClassNames = !userAssigned
             ? 'assigned-form__select-list-item select-list__item select-list__item_active'
             : 'assigned-form__select-list-item select-list__item';
@@ -71,7 +73,7 @@ class AddAssignedForm extends Component {
           return (
             <div key={user.id} className={itemClassNames} onClick={handleFunction}>
               {user.lastName + ' ' + user.firstName}
-              <span className="select-list__item-icon" onClick={() => { this.onDeleteAssignedUser(user); }}></span>
+              <span className="select-list__item-icon" onClick={() => { this.onDeleteAssignedUser(user); }} />
             </div>
           );
         });

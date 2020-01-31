@@ -9,22 +9,29 @@ class CreateTaskForm extends Component {
     this.state = {
       newValue: '',
     };
-    this.onChangeValue = (e) => {
-      this.setState({ newValue: e.target.value });
-    };
-    this.addNewValue = (e) => {
-      e.preventDefault();
-      if (this.state.newValue.length > 0) {
-        this.props.addNewItem(this.state.newValue);
-      }
-      this.setState({newValue: ''});
-    };
-    this.onCancel = () => {
-      this.setState({newValue: ''});
-      this.props.onClose();
-
-    };
+    this.onChangeValue = this.onChangeValue.bind(this);
+    this.addNewValue = this.addNewValue.bind(this);
+    this.onCancel = this.onCancel.bind(this);
   }
+
+  onChangeValue(e) {
+    this.setState({ newValue: e.target.value });
+  }
+
+  addNewValue(e) {
+    e.preventDefault();
+    if (this.state.newValue.length > 0) {
+      this.props.addNewItem(this.state.newValue);
+    }
+    this.setState({newValue: ''});
+  }
+
+  onCancel() {
+    this.setState({newValue: ''});
+    this.props.onClose();
+
+  }
+
   render() {
     return (
       <div className="task-form__container">

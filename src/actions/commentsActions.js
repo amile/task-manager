@@ -1,60 +1,24 @@
-import {
-  COMMENTS_LOADED,
-  ADD_COMMENT,
-  DELETE_COMMENT,
-  UPDATE_COMMENT_ADD_FILE,
-  UPDATE_COMMENT_DELETE_FILE,
-} from '../constants';
+import { createActions } from 'redux-actions';
 
 import { createNewIndex } from '../utils';
 
-export const commentsLoaded = (data) => {
-  return {
-    type: COMMENTS_LOADED,
-    payload: data,
-  };
-};
-
-export const addComment = (parentId, label, files, currentUser) => {
-  return {
-    type: ADD_COMMENT,
-    payload: {
-      label,
-      files,
-      parentId,
-      currentUser,
-      id: createNewIndex(),
-      dateCreated: new Date(),
-    },
-  };
-};
-
-export const deleteComment = (taskId, commentId) => {
-  return {
-    type: DELETE_COMMENT,
-    payload: {
-      taskId,
-      commentId,
-    },
-  };
-};
-
-export const updateCommentAddFile = (fileId, parentId) => {
-  return {
-    type: UPDATE_COMMENT_ADD_FILE,
-    payload: {
-      fileId,
-      parentId,
-    },
-  };
-};
-
-export const updateCommentDeleteFile = (parentId, fileId) => {
-  return {
-    type: UPDATE_COMMENT_DELETE_FILE,
-    payload: {
-      parentId,
-      fileId,
-    },
-  };
-};
+export const {
+  commentsLoaded,
+  addComment,
+  deleteComment,
+  updateCommentAddFile,
+  updateCommentDeleteFile,
+} = createActions({
+  COMMENTS_LOADED: (data) => ({ data }),
+  ADD_COMMENT: (parentId, label, files, currentUser) => ({
+    label,
+    files,
+    parentId,
+    currentUser,
+    id: createNewIndex(),
+    dateCreated: new Date(),
+  }),
+  DELETE_COMMENT: (taskId, commentId) => ({ taskId, commentId }),
+  UPDATE_COMMENT_ADD_FILE: (fileId, parentId) => ({ fileId, parentId }),
+  UPDATE_COMMENT_DELETE_FILE: (parentId, fileId) => ({ fileId, parentId }),
+});

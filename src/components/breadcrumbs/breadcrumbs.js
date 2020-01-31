@@ -11,6 +11,7 @@ class Breadcrumbs extends Component {
       parents: [],
     };
   }
+
   generateBreadcrumbs(groups, projects, id) {
     const parents = [];
     const getParents = (groups, projects, id) => {
@@ -27,6 +28,7 @@ class Breadcrumbs extends Component {
     getParents(groups, projects, id);
     return parents.reverse();
   }
+
   componentDidMount() {
     const { groups, projects } = this.props;
     const id = this.props.child.parentId;
@@ -34,6 +36,7 @@ class Breadcrumbs extends Component {
     this.setState({ parents });
 
   }
+
   componentDidUpdate(prevProps) {
     if (this.props.child.id !== prevProps.child.id) {
       const { groups, projects } = this.props;

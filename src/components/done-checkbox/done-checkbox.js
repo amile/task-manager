@@ -8,17 +8,28 @@ class DoneCheckbox extends Component {
     this.state = {
       done: this.props.done,
     };
-    this.handleCheckbox = (e) => {
-      const done = e.target.checked;
-      this.props.handleCheckbox(done);
-      this.setState({ done });
-    };
+    this.handleClick = this.handleClick.bind(this);
+    this.handleCheckbox = this.handleCheckbox.bind(this);
   }
+
+  handleClick(e) {
+    e.stopPropagation();
+  }
+
+  handleCheckbox(e) {
+    const done = e.target.checked;
+    this.props.handleCheckbox(done);
+    this.setState({ done });
+  }
+
   render() {
     return (
-      <label onClick={(e) => e.stopPropagation()}>
-        <input className="checkbox" type="checkbox" 
-          checked={this.state.done} onChange={this.handleCheckbox}
+      <label onClick={this.handleClick}>
+        <input
+          className="checkbox"
+          type="checkbox"
+          checked={this.state.done}
+          onChange={this.handleCheckbox}
         />
       </label>
     );

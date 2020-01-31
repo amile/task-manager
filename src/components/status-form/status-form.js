@@ -10,21 +10,36 @@ class StatusForm extends Component {
     this.state = {
       status: this.props.status,
     };
-    this.changeStatus = (e) => {
-      this.props.changeStatus(e.target.value);
-      this.setState({ status: e.target.value });
-    };
+    this.changeStatus = this.changeStatus.bind(this);
   }
+
+  changeStatus(e) {
+    this.props.changeStatus(e.target.value);
+    this.setState({ status: e.target.value });
+  }
+
   render() {
-    const selectClassNames = 'status-form__select status-form__select_' + this.state.status;
-    const selectIconClassNames = 'status-form__select-icon status-form__select-icon_' + this.state.status;
+    const { status } = this.state;
+    const selectClassNames = 'status-form__select status-form__select_' + status;
+    const selectIconClassNames = 'status-form__select-icon status-form__select-icon_' + status;
     const options = Object.keys(statusList).map((key) => {
-      return (<option key={key} value={key}>{statusList[key]}</option>);
+      return (
+        <option
+          key={key}
+          value={key}
+        >
+          {statusList[key]}
+        </option>
+      );
     });
     return (
       <form className="status-form">
-        <span className={selectIconClassNames}></span>
-        <select className={selectClassNames} value={this.state.status} onChange={this.changeStatus}>
+        <span className={selectIconClassNames} />
+        <select
+          className={selectClassNames}
+          value={status}
+          onChange={this.changeStatus}
+        >
           {options}
         </select>
       </form>

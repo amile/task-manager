@@ -1,14 +1,16 @@
-import { SET_CURRENT_USER } from '../constants';
+import { handleActions } from 'redux-actions';
 
-const currentUser = (state = null, action) => {
-  switch (action.type) {
-    case SET_CURRENT_USER: {
-      return action.payload;
-    }
-    default: {
-      return state;
-    }
-  }
-};
+import { setCurrentUser } from '../actions';
+
+const initialState = null;
+
+const currentUser = handleActions(
+  {
+    [setCurrentUser]: (state, { payload: { userId } }) => {
+      return userId;
+    },
+  },
+  initialState,
+);
 
 export default currentUser;

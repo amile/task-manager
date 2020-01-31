@@ -13,7 +13,12 @@ const LoginPage = ({ isAuth, onAuth }) => {
   }
   return (
     <div className="login-wrapper">
-      <button className="btn_login" onClick={onAuth}>Login</button>
+      <button
+        className="btn_login"
+        onClick={onAuth}
+      >
+        Login
+      </button>
     </div>
   );
 

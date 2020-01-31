@@ -6,8 +6,8 @@ import { withRouter } from 'react-router-dom';
 import { addProject, addGroup } from '../../actions';
 import { projectsSelector } from '../../selectors';
 
-import AddGroupForm from '../add-group-form/add-group-form';
-import ConnectedMenuLeftItem from '../menu-left-item/menu-left-item';
+import AddGroupForm from '../add-group-form';
+import ConnectedMenuLeftItem from '../menu-left-item';
 
 import './menu-left.sass';
 
@@ -37,42 +37,45 @@ class MenuLeft extends Component {
   }
   addGroup(label, parentId) {
     this.props.addGroup(label, parentId);
-  } 
+  }
   render() {
     const level = 0;
-    const listProjects = (this.props.projects.length === 0) 
-      ? null 
+    const listProjects = (this.props.projects.length === 0)
+      ? null
       : this.props.projects.map((project) => {
         return (
-          <li key={project.id} 
+          <li
+            key={project.id}
             className="list-item projects-list__item projects-list__item_project"
           >
-            <ConnectedMenuLeftItem 
-              group={project} 
-              level={level} 
-              maxLevel={this.state.maxLevel} 
+            <ConnectedMenuLeftItem
+              group={project}
+              level={level}
+              maxLevel={this.state.maxLevel}
               addGroup={this.addGroup}
             />
           </li>
         );
       });
-    const addForm = this.state.showAddProjectForm 
+    const addForm = this.state.showAddProjectForm
       ? (
-        <AddGroupForm 
-          project 
+        <AddGroupForm
+          project
           addNewItem={this.onSubmitProject}
           onCloseForm={this.onCloseAddProjectForm}
         />
-      ) 
+      )
       : null;
     return (
       <div className="menu-left">
         <div className="menu-left__container">
-          <div className="menu-left__item">Уведомления</div>
+          <div className="menu-left__item">
+            Уведомления
+          </div>
           <div className="menu-left__item">
             Проекты
-            <span 
-              className="menu-left__add-button" 
+            <span
+              className="menu-left__add-button"
               onClick={this.onAddProject}
             >
               +
@@ -87,16 +90,16 @@ class MenuLeft extends Component {
           <div className="menu-left__bottom-bar">
             <span className="menu-left__bottom-bar-icon" />
           </div>
-        </div>    
+        </div>
       </div>
     );
-  }  
+  }
 };
 
 const mapStateToProps = (state) => {
   return {
     projects: projectsSelector(state),
-  };   
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {

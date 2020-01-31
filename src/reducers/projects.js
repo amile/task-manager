@@ -1,23 +1,20 @@
-import {
-  PROJECTS_LOADED,
-  ADD_PROJECT,
-} from '../constants';
+import { handleActions } from 'redux-actions';
 
-const projects = (state = [], action) => {
-  switch (action.type) {
-    case PROJECTS_LOADED: {
-      return action.payload;
-    }
-    case ADD_PROJECT: {
-      const newProject = {
-        ...action.payload,
-      };
-      return [...state, newProject];
-    }
-    default: {
-      return state;
-    }
-  }
-};
+import { projectsLoaded, addProject } from '../actions';
+
+const initialState = [];
+
+const projects = handleActions(
+  {
+    [projectsLoaded]: (state, { payload: { data } }) => {
+      return data;
+    },
+    [addProject]: (state, { payload }) => {
+      const newProject = { ...payload };
+      return [ ...state, newProject ];
+    },
+  },
+  initialState,
+);
 
 export default projects;

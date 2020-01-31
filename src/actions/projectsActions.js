@@ -1,23 +1,8 @@
-import {
-  PROJECTS_LOADED,
-  ADD_PROJECT,
-} from '../constants';
+import { createActions } from 'redux-actions';
 
 import { createNewIndex } from '../utils';
 
-export const projectsLoaded = (data) => {
-  return {
-    type: PROJECTS_LOADED,
-    payload: data,
-  };
-};
-
-export const addProject = (label) => {
-  return {
-    type: ADD_PROJECT,
-    payload: {
-      label,
-      id: createNewIndex(),
-    },
-  };
-};
+export const { projectsLoaded, addProject } = createActions({
+  PROJECTS_LOADED: (data) => ({ data }),
+  ADD_PROJECT: (label) => ({ label, id: createNewIndex() }),
+});

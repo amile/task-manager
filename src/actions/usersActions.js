@@ -1,29 +1,11 @@
-import {
-  USERS_LOADED,
-  LOGIN_USER,
-  SET_CURRENT_USER,
-} from '../constants';
+import { createActions } from 'redux-actions';
 
-export const usersLoaded = (data) => {
-  return {
-    type: USERS_LOADED,
-    payload: data,
-  };
-};
-
-export const loginUser = (login, pass) => {
-  return {
-    type: LOGIN_USER,
-    payload: {
-      login,
-      pass,
-    },
-  };
-};
-
-export const setCurrentUser = (userId) => {
-  return {
-    type: SET_CURRENT_USER,
-    payload: userId,
-  };
-};
+export const {
+  usersLoaded,
+  loginUser,
+  setCurrentUser,
+} = createActions({
+  USERS_LOADED: (data) => ({ data }),
+  LOGIN_USER: (login, pass) => ({ login, pass }),
+  SET_CURRENT_USER: (userId) => ({ userId }),
+});

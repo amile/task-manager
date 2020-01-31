@@ -1,31 +1,14 @@
-import {
-  FILES_LOADED,
-  ADD_FILE,
-  DELETE_FILE,
-} from '../constants';
+import { createActions } from 'redux-actions';
 
-export const filesLoaded = (data) => {
-  return {
-    type: FILES_LOADED,
-    payload: data,
-  };
-};
-
-export const addFile = (file, hash, parentId) => {
-  return {
-    type: ADD_FILE,
-    payload: {
-      parentId,
-      file: { ...file, id: hash },
-    },
-  };
-};
-
-export const deleteFile = (fileId) => {
-  return {
-    type: DELETE_FILE,
-    payload: {
-      fileId,
-    },
-  };
-};
+export const {
+  filesLoaded,
+  addFile,
+  deleteFile,
+} = createActions({
+  FILES_LOADED: (data) => ({ data }),
+  ADD_FILE: (file, hash, parentId) => ({
+    parentId,
+    file: { ...file, id: hash },
+  }),
+  DELETE_FILE: (fileId) => ({ fileId }),
+});

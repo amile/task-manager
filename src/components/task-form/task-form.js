@@ -3,18 +3,30 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter, Redirect } from 'react-router-dom';
 
-import { showedTaskSelector, taskCreatedByUserSelector, currentUserSelector,
-  makeTaskAssignedUsersSelector } from '../../selectors';
-import { addTask, addTag, updateTaskAddTag, updateTaskDeleteTag, updateTaskChangeStatus,
-  updateTaskAddAssigned, updateTaskDeleteAssigned, addComment,
-  updateTaskAddDateDue, updateCommentDeleteFile } from '../../actions';
+import {
+  showedTaskSelector,
+  taskCreatedByUserSelector,
+  currentUserSelector,
+  makeTaskAssignedUsersSelector,
+} from '../../selectors';
+import {
+  addTask,
+  addTag,
+  addComment,
+  updateTaskAddTag,
+  updateTaskDeleteTag,
+  updateTaskChangeStatus,
+  updateTaskAddAssigned,
+  updateTaskDeleteAssigned,
+  updateTaskAddDateDue,
+  updateCommentDeleteFile,
+} from '../../actions';
 
-import CreateTaskForm from '../create-task-form/create-task-form';
-import ChangeTaskForm from '../change-task-form/change-task-form';
-import Breadcrumbs from '../breadcrumbs/breadcrumbs';
+import CreateTaskForm from '../create-task-form';
+import ChangeTaskForm from '../change-task-form';
+import Breadcrumbs from '../breadcrumbs';
 
 import './task-form.sass';
-
 
 class TaskForm extends Component {
   constructor(props) {
@@ -72,36 +84,61 @@ class TaskForm extends Component {
     }
   };
   render() {
-    const { itemId, task, user, assigned, currentUser } = this.props;
+    const {
+      itemId,
+      task,
+      user,
+      assigned,
+      currentUser,
+    } = this.props;
     if (!task && itemId !== 'new') {
       return null;
     } else if (!currentUser) {
       return <Redirect to="/login" />;
     }
-    const content = (itemId === 'new') ? <CreateTaskForm addNewItem={this.addNewItem} onClose={this.onClose}/> : 
-      <ChangeTaskForm task={task} user={user} assigned={assigned} 
-        addTag={this.addTag} updateTaskAddTag={this.updateTaskAddTag} 
-        deleteTag={this.updateTaskDeleteTag} changeStatus={this.updateTaskChangeStatus}
-        updateTaskAddAssigned={this.updateTaskAddAssigned} 
-        updateTaskDeleteAssigned={this.updateTaskDeleteAssigned}
-        updateTaskAddDateDue={this.updateTaskAddDateDue} 
-        addComment={this.addComment} updateCommentDeleteFile={this.updateCommentDeleteFile}
-      />;
+    const content = (itemId === 'new')
+      ? (
+        <CreateTaskForm
+          addNewItem={this.addNewItem}
+          onClose={this.onClose}
+        />
+      )
+      : (
+        <ChangeTaskForm
+          task={task}
+          user={user}
+          assigned={assigned}
+          addTag={this.addTag}
+          addComment={this.addComment}
+          updateTaskAddTag={this.updateTaskAddTag}
+          deleteTag={this.updateTaskDeleteTag}
+          changeStatus={this.updateTaskChangeStatus}
+          updateTaskAddAssigned={this.updateTaskAddAssigned}
+          updateTaskDeleteAssigned={this.updateTaskDeleteAssigned}
+          updateTaskAddDateDue={this.updateTaskAddDateDue}
+          updateCommentDeleteFile={this.updateCommentDeleteFile}
+        />
+      );
     let classNames = this.state.close ? 'task-form_close' : '';
-    const breadcrumbs = (itemId === 'new') ? null : <Breadcrumbs child={task}/>;
+    const breadcrumbs = (itemId === 'new') ? null : <Breadcrumbs child={task} />;
     if (this.state.show) { classNames = 'task-form_show'; }
     return (
       <div className={`task-form ${ classNames }`}>
         <div className="task-form__top-bar">
-          <span className="task-form__close-icon" onClick={this.onClose}></span>
-          <div className="breadcrumbs-wrapper">{breadcrumbs}</div>
+          <span
+            className="task-form__close-icon"
+            onClick={this.onClose}
+          />
+          <div className="breadcrumbs-wrapper">
+            {breadcrumbs}
+          </div>
         </div>
         {content}
       </div>
     );
   }
 }
-const makeMapStateToProps = () => {  
+const makeMapStateToProps = () => {
   const taskAssignedUsersSelector = makeTaskAssignedUsersSelector();
   const mapStateToProps = (state, props) => {
     let task, user, assigned = null;
@@ -116,11 +153,10 @@ const makeMapStateToProps = () => {
       assigned,
       currentUser: currentUserSelector(state),
 
-    };   
+    };
   };
   return mapStateToProps;
 };
-
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -136,4 +172,5 @@ const mapDispatchToProps = (dispatch) => {
     updateCommentDeleteFile: bindActionCreators(updateCommentDeleteFile, dispatch),
   };
 };
+
 export default connect(makeMapStateToProps, mapDispatchToProps)(withRouter(TaskForm));

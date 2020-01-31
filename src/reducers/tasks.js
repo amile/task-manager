@@ -1,20 +1,22 @@
+import { handleActions } from 'redux-actions';
+
 import {
-  TASKS_LOADED,
-  ADD_TASK,
-  UPDATE_TASK_ADD_TAG,
-  UPDATE_TASK_DELETE_TAG,
-  UPDATE_TASK_CHANGE_STATUS,
-  UPDATE_TASK_ADD_ASSIGNED,
-  UPDATE_TASK_DELETE_ASSIGNED,
-  UPDATE_TASK_ADD_COMMENT,
-  UPDATE_TASK_DELETE_COMMENT,
-  UPDATE_TASK_ADD_DATE_DUE,
-  UPDATE_TASK_SET_DONE,
-} from '../constants';
+  tasksLoaded,
+  addTask,
+  updateTaskAddTag,
+  updateTaskDeleteTag,
+  updateTaskChangeStatus,
+  updateTaskAddDateDue,
+  updateTaskSetDone,
+  updateTaskAddAssigned,
+  updateTaskDeleteAssigned,
+  updateTaskAddComment,
+  updateTaskDeleteComment,
+} from '../actions';
 
 import { findItemInList } from '../utils';
 
-const createNewTask = ({id, label, parentId, dateCreated, action, currentUser}) => {
+const createNewTask = ({ id, label, parentId, dateCreated, action, currentUser }) => {
   return {
     id,
     parentId,
@@ -38,19 +40,19 @@ const createNewTask = ({id, label, parentId, dateCreated, action, currentUser}) 
   };
 };
 
-const updateTaskSetDone = ({ taskId, done }, state) => {
+const updateTasksSetDone = ({ taskId, done }, state) => {
   const updatedTasks = findItemInList(taskId, state,
     (task) => { return { ...task, done }; });
   return updatedTasks;
 };
 
-const updateTaskAddTag = ({ taskId, tagId }, state) => {
+const updateTasksAddTag = ({ taskId, tagId }, state) => {
   const updatedTasks = findItemInList(taskId, state,
     (task) => { return { ...task, tags: [ ...task.tags, tagId ] }; });
   return updatedTasks;
 };
 
-const updateTaskDeleteTag = ({ taskId, tagId }, state) => {
+const updateTasksDeleteTag = ({ taskId, tagId }, state) => {
   const updatedTasks = findItemInList(taskId, state,
     (task) => {
       const idx = task.tags.findIndex((tag) => tag === tagId);
@@ -59,7 +61,7 @@ const updateTaskDeleteTag = ({ taskId, tagId }, state) => {
   return updatedTasks;
 };
 
-const updateTaskChangeStatus = ({ taskId, status, date, action, currentUser }, state) => {
+const updateTasksChangeStatus = ({ taskId, status, date, action, currentUser }, state) => {
   const updatedTasks = findItemInList(taskId, state,
     (task) => {
       return {
@@ -78,7 +80,7 @@ const updateTaskChangeStatus = ({ taskId, status, date, action, currentUser }, s
   return updatedTasks;
 };
 
-const updateTaskAddAssigned = ({ taskId, assignedUser, date, action, currentUser }, state) => {
+const updateTasksAddAssigned = ({ taskId, assignedUser, date, action, currentUser }, state) => {
   const updatedTasks = findItemInList(taskId, state,
     (task) => {
       return { ...task,
@@ -96,7 +98,7 @@ const updateTaskAddAssigned = ({ taskId, assignedUser, date, action, currentUser
   return updatedTasks;
 };
 
-const updateTaskDeleteAssigned = ({ taskId, assignedUser, date, action, currentUser }, state) => {
+const updateTasksDeleteAssigned = ({ taskId, assignedUser, date, action, currentUser }, state) => {
   const updatedTasks = findItemInList(taskId, state,
     (task) => {
       const userIdx = task.assigned.findIndex((item) => (item === assignedUser.id));
@@ -116,13 +118,13 @@ const updateTaskDeleteAssigned = ({ taskId, assignedUser, date, action, currentU
   return updatedTasks;
 };
 
-const updateTaskAddComment = ({ taskId, commentId }, state) => {
+const updateTasksAddComment = ({ taskId, commentId }, state) => {
   const updatedTasks = findItemInList(taskId, state,
     (task) => { return { ...task, comments: [ ...task.comments, commentId ] }; });
   return updatedTasks;
 };
 
-const updateTaskDeleteComment = ({ taskId, commentId }, state) => {
+const updateTasksDeleteComment = ({ taskId, commentId }, state) => {
   const updatedTasks = findItemInList(taskId, state,
     (task) => {
       const idx = task.comments.findIndex((comment) => (comment === commentId));
@@ -131,7 +133,7 @@ const updateTaskDeleteComment = ({ taskId, commentId }, state) => {
   return updatedTasks;
 };
 
-const updateTaskAddDateDue = ({ taskId, dateDue, date, action, currentUser }, state) => {
+const updateTasksAddDateDue = ({ taskId, dateDue, date, action, currentUser }, state) => {
   const updatedTasks = findItemInList(taskId, state,
     (task) => {
       return {
@@ -150,46 +152,46 @@ const updateTaskAddDateDue = ({ taskId, dateDue, date, action, currentUser }, st
   return updatedTasks;
 };
 
-const tasks = (state = [], action) => {
-  switch (action.type) {
-    case TASKS_LOADED: {
-      return action.payload;
-    }
-    case ADD_TASK: {
-      const newTask = createNewTask({ ...action.payload }, state);
+const initialState = [];
+
+const tasks = handleActions(
+  {
+    [tasksLoaded]: (state, { payload: { data } }) => {
+      return data;
+    },
+    [addTask]: (state, { payload }) => {
+      const newTask = createNewTask(payload, state);
       return [ ...state, newTask];
-    }
-    case UPDATE_TASK_ADD_TAG: {
-      return updateTaskAddTag(action.payload, state);
-    }
-    case UPDATE_TASK_SET_DONE: {
-      return updateTaskSetDone(action.payload, state);
-    }
-    case UPDATE_TASK_DELETE_TAG: {
-      return updateTaskDeleteTag(action.payload, state);
-    }
-    case UPDATE_TASK_CHANGE_STATUS: {
-      return updateTaskChangeStatus(action.payload, state);
-    }
-    case UPDATE_TASK_ADD_DATE_DUE: {
-      return updateTaskAddDateDue(action.payload, state);
-    }
-    case UPDATE_TASK_ADD_ASSIGNED: {
-      return updateTaskAddAssigned(action.payload, state);
-    }
-    case UPDATE_TASK_DELETE_ASSIGNED: {
-      return updateTaskDeleteAssigned(action.payload, state);
-    }
-    case UPDATE_TASK_ADD_COMMENT: {
-      return updateTaskAddComment(action.payload, state);
-    }
-    case UPDATE_TASK_DELETE_COMMENT: {
-      return updateTaskDeleteComment(action.payload, state);
-    }
-    default: {
-      return state;
-    }
-  }
-};
+    },
+    [updateTaskAddTag]: (state, { payload }) => {
+      return updateTasksAddTag(payload, state);
+    },
+    [updateTaskDeleteTag]: (state, { payload }) => {
+      return updateTasksDeleteTag(payload, state);
+    },
+    [updateTaskChangeStatus]: (state, { payload }) => {
+      return updateTasksChangeStatus(payload, state);
+    },
+    [updateTaskAddDateDue]: (state, { payload }) => {
+      return updateTasksAddDateDue(payload, state);
+    },
+    [updateTaskSetDone]: (state, { payload }) => {
+      return updateTasksSetDone(payload, state);
+    },
+    [updateTaskAddAssigned]: (state, { payload }) => {
+      return updateTasksAddAssigned(payload, state);
+    },
+    [updateTaskDeleteAssigned]: (state, { payload }) => {
+      return updateTasksDeleteAssigned(payload, state);
+    },
+    [updateTaskAddComment]: (state, { payload }) => {
+      return updateTasksAddComment(payload, state);
+    },
+    [updateTaskDeleteComment]: (state, { payload }) => {
+      return updateTasksDeleteComment(payload, state);
+    },
+  },
+  initialState,
+);
 
 export default tasks;

@@ -34,6 +34,9 @@ class CommentForm extends Component {
       files: [],
       filePreviewUrl: null,
     };
+    this.onShowLinkForm = this.onShowLinkForm.bind(this);
+    this.onFileUploadRef = this.onFileUploadRef.bind(this);
+
     this.onChange = (editorState) => {
       this.setState({ editorState });
     };
@@ -138,18 +141,30 @@ class CommentForm extends Component {
     };
 
   }
+
+  onFileUploadRef() {
+    this.fileUploadRef.click();
+  }
+
+  onShowLinkForm() {
+    this.setState({ showLinkForm: true });
+  }
+
   checkInlineTypes(type) {
     const inlineStyles = this.state.editorState.getCurrentInlineStyle();
     return inlineStyles.has(type.toUpperCase());
   }
+
   checkBlockTypes(type) {
     const currentBlockType = RichUtils.getCurrentBlockType(this.state.editorState);
     return currentBlockType === type;
   }
+
   render() {
     const linkForm = (!this.state.showLinkForm) ? null : (
       <form className="link-form" onSubmit={this.onSubmitLink}>
-        <input type="text"
+        <input
+          type="text"
           className="tag-form__input link-form__input"
           value={this.state.value}
           placeholder="http://"
@@ -179,14 +194,23 @@ class CommentForm extends Component {
           Сохранить
         </button>
       );
-    const filesLinkList = (this.state.files.length === 0) ? null : this.state.files.map((file, idx) => {
-      return (
-        <div key={idx} className="comment-form__load-file">
-          <a href={file.url} target="_blank" rel="noopener noreferrer" download={file.name}>{file.name}</a>
-          <span className="comment-form__load-file-cancel" onClick={() => {this.handleDeleteFile(file.name);}}> +</span>
-        </div>
-      );
-    });
+    const filesLinkList = (this.state.files.length === 0)
+      ? null
+      : this.state.files.map((file, idx) => {
+        return (
+          <div key={idx} className="comment-form__load-file">
+            <a
+              href={file.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              download={file.name}
+            >
+              {file.name}
+            </a>
+            <span className="comment-form__load-file-cancel" onClick={() => {this.handleDeleteFile(file.name);}}> +</span>
+          </div>
+        );
+      });
     const inlineButtons = inlineTypesButton.map((item) => {
       return (
         <div key={item.type} className="comment-form__item">
@@ -217,12 +241,12 @@ class CommentForm extends Component {
           <button
             key="link"
             className="comment-form__btn comment-form__btn_link"
-            onClick={() => this.setState({ showLinkForm: true })}
+            onClick={this.onShowLinkForm}
           />
           <button
             key="file"
             className="comment-form__btn comment-form__btn_file"
-            onClick={() => { this.fileUploadRef.click(); }}
+            onClick={this.onFileUploadRef}
           >
             <input
               type="file"

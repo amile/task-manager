@@ -1,10 +1,12 @@
+import { handleActions } from 'redux-actions';
+
 import {
-  COMMENTS_LOADED,
-  ADD_COMMENT,
-  DELETE_COMMENT,
-  UPDATE_COMMENT_ADD_FILE,
-  UPDATE_COMMENT_DELETE_FILE,
-} from '../constants';
+  commentsLoaded,
+  addComment,
+  deleteComment,
+  updateCommentAddFile,
+  updateCommentDeleteFile,
+} from '../actions';
 
 import { findItemInList } from '../utils';
 
@@ -19,7 +21,7 @@ const createNewComment = ({ id, parentId, label, dateCreated, currentUser }) => 
   };
 };
 
-const updateCommentAddFile = ({ parentId, fileId }, state) => {
+const updateCommentsAddFile = ({ parentId, fileId }, state) => {
   const updatedComments = findItemInList(parentId, state,
     (comment) => {
       return {
@@ -30,7 +32,7 @@ const updateCommentAddFile = ({ parentId, fileId }, state) => {
   return updatedComments;
 };
 
-const updateCommentDeleteFile = ({ parentId, fileId }, state) => {
+const updateCommentsDeleteFile = ({ parentId, fileId }, state) => {
   const updatedComments = findItemInList(parentId, state,
     (comment) => {
       const idx = comment.files.findIndex((file) => (file === fileId));
@@ -42,30 +44,29 @@ const updateCommentDeleteFile = ({ parentId, fileId }, state) => {
   return updatedComments;
 };
 
-const comments = (state = [], action) => {
-  switch (action.type) {
+const initialState = [];
 
-    case COMMENTS_LOADED:
-      return action.payload;
-
-    case ADD_COMMENT:
-      const newComment = createNewComment(action.payload);
-      return [ ...state, newComment];
-
-    case DELETE_COMMENT:
-      const commentIdx = state.findIndex((comment) => (comment.id === action.payload.commentId));
+const comments = handleActions(
+  {
+    [commentsLoaded]: (state, { payload: { data } }) => {
+      return data;
+    },
+    [addComment]: (state, { payload }) => {
+      const newComment = createNewComment(payload);
+      return [ ...state, newComment ];
+    },
+    [deleteComment]: (state, { payload: { commentId } }) => {
+      const commentIdx = state.findIndex((comment) => (comment.id === commentId));
       return [ ...state.slice(0, commentIdx), ...state.slice(commentIdx + 1) ];
-
-    case UPDATE_COMMENT_ADD_FILE:
-      return updateCommentAddFile(action.payload, state);
-
-    case UPDATE_COMMENT_DELETE_FILE:
-      return updateCommentDeleteFile(action.payload, state);
-
-    default:
-      return state;
-
-  }
-};
+    },
+    [updateCommentAddFile]: (state, { payload }) => {
+      return updateCommentsAddFile(payload, state);
+    },
+    [updateCommentDeleteFile]: (state, { payload }) => {
+      return updateCommentsDeleteFile(payload, state);
+    },
+  },
+  initialState,
+);
 
 export default comments;
