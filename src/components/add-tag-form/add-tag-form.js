@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 
+import ColorItem from '../list-color-item';
+
 import './add-tag-form.sass';
+import SelectListItem from '../select-list-item';
 
 const colorKeys = ['red', 'violet', 'blue', 'green', 'yellow'];
 
@@ -21,14 +24,20 @@ class AddTagForm extends Component {
     this.onToggleSelectList = this.onToggleSelectList.bind(this);
     this.onSelectValue = this.onSelectValue.bind(this);
   }
+
   onSetColor(key) {
-    if (!this.state.selectedValue.label || (this.state.value !== this.state.selectedValue.label)) {
+    if (
+      !this.state.selectedValue.label
+      || (this.state.value !== this.state.selectedValue.label)
+    ) {
       this.setState({ setColor: key });
     }
-  };
+  }
+
   onChangeValue(e) {
     this.setState({ value: e.target.value });
   }
+
   onSubmitTag(e) {
     e.preventDefault();
     const { value, selectedValue } = this.state;
@@ -38,116 +47,124 @@ class AddTagForm extends Component {
       this.props.addTag(value, this.state.setColor);
     }
   }
+
   onShowSelectList() {
     this.setState({ showSelectList: true });
   }
+
   onToggleSelectList() {
     this.setState((state) => {
       return { showSelectList: !state.showSelectList };
     });
   }
+
   searchTags() {
     if (this.state.value === '') { return this.props.tags; }
     const filterTags = this.props.tags.filter((item) => {
-      return item.label.toLowerCase().indexOf(this.state.value.toLowerCase()) > -1;
+      return item.label
+        .toLowerCase()
+        .indexOf(this.state.value.toLowerCase()) > -1;
     });
     return filterTags;
   }
+
   onSelectValue(tag) {
-    if (!tag) {
-      this.setState({showSelectList: false});
+    if (tag === 'new') {
+      this.setState({ showSelectList: false });
     } else {
       this.setState(
-        { 
+        {
           value: tag.label,
-          setColor: tag.color, 
+          setColor: tag.color,
           selectedValue: tag,
-          showSelectList: false, 
+          showSelectList: false,
         },
       );
     }
   }
+
   render() {
     const listColors = this.state.colorKeys.map((key) => {
-      const classNameActive = (key === this.state.setColor) ? 'list-color__item_active' : '';
       return (
-        <div 
-          key={key} 
-          className={`list-color__item list-color__item_${ key } ${ classNameActive }`}
-          onClick={() => { this.onSetColor(key); }}
+        <ColorItem
+          key={key}
+          color={key}
+          active={key === this.state.setColor}
+          onSetColor={this.onSetColor}
         />
       );
     });
     let filteredTags, listTags, newTag;
     let selectListIconClassNames = 'tag-form__select-list-icon select-list__icon';
     if (this.state.showSelectList) {
-      newTag = (this.state.value.length === 0) 
-        ? '' 
+      newTag = (this.state.value.length === 0)
+        ? ''
         : (
-          <div 
-            key="new" 
-            className="select-list__item select-list__item_active" 
-            onClick={(e) => {  this.onSelectValue(false); }}
+          <SelectListItem
+            key="new"
+            item="new"
+            classNames="select-list__item_active"
+            onClick={this.onSelectValue}
           >
             {this.state.value} (new)
-          </div>
+          </SelectListItem>
         );
-      filteredTags = (this.props.tags && (this.props.tags.length > 0)) 
-        ? this.searchTags() 
+      filteredTags = (this.props.tags && (this.props.tags.length > 0))
+        ? this.searchTags()
         : null;
-      listTags = (!filteredTags || (filteredTags.length < 1)) 
-        ? null 
+      listTags = (!filteredTags || (filteredTags.length < 1))
+        ? null
         : this.searchTags().map((tag) => {
-          if (tag.label === this.state.value) { 
-            newTag = ''; 
+          if (tag.label === this.state.value) {
+            newTag = '';
           }
-          const tagAdded = !this.props.taskTags 
-            ? null 
-            : this.props.taskTags.find((taskTag) => taskTag.id === tag.id);
-          const itemClassNames = !tagAdded 
-            ? 'select-list__item select-list__item_active' 
-            : 'select-list__item';
-          const handleFunction = !tagAdded 
-            ? () => { this.onSelectValue(tag); } 
-            : () => {};
+          const tagAdded = !this.props.taskTags
+            ? null
+            : this.props.taskTags.find((taskTag) => (taskTag.id === tag.id));
+          const itemClassNames = !tagAdded
+            ? 'select-list__item_active'
+            : '';
+          const handleFunction = !tagAdded
+            ? this.onSelectValue
+            : null;
           return (
-            <div 
-              key={tag.id} 
-              className={itemClassNames} 
+            <SelectListItem
+              key={tag.id}
+              item={tag}
+              classNames={itemClassNames}
               onClick={handleFunction}
             >
               {tag.label}
-              <span className="select-list__item-icon" />
-            </div>
+            </SelectListItem>
           );
         });
       selectListIconClassNames += ' select-list__icon_hide';
     }
-    let selectListClassNames = this.state.showSelectList 
-      ? 'tag-form__select-list' 
+    let selectListClassNames = this.state.showSelectList
+      ? 'tag-form__select-list'
       : 'tag-form__select-list display_none';
     return (
-      <form 
-        className="tag-form" 
+      <form
+        className="tag-form"
         onSubmit={this.onSubmitTag}
       >
-        <span 
-          className="tag-form__close" 
+        <span
+          className="tag-form__close"
           onClick={this.props.onClose}
         >
           +
-        </span>        
+        </span>
         <div className="tag-form__select-wrapper">
-          <input 
-            type="text" 
-            className="tag-form__input" 
-            value={this.state.value} 
-            placeholder="Новый тег" 
-            onFocus={this.onShowSelectList} 
+          <input
+            type="text"
+            className="tag-form__input"
+            value={this.state.value}
+            placeholder="Новый тег"
+            onFocus={this.onShowSelectList}
             onChange={this.onChangeValue}
           />
-          <span 
-            className={selectListIconClassNames} 
+          <span
+            className={selectListIconClassNames}
             onClick={this.onToggleSelectList}
           />
           <div className={selectListClassNames}>
@@ -158,9 +175,9 @@ class AddTagForm extends Component {
         <div className="list-color">
           {listColors}
         </div>
-        <input 
-          type="submit" 
-          className="tag-form__add" 
+        <input
+          type="submit"
+          className="tag-form__add"
           value="Добавить"
         />
       </form>

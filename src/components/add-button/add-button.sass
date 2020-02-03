@@ -1,4 +1,5 @@
 @import '../../styles/variables'
+@import '../../styles/mixins'
 
 .btn
   background: none
@@ -14,6 +15,7 @@
   color: $add-group-button-color
   padding: .1875rem 10px
   cursor: pointer
+  @include userSelectNone()
 
   &_task
     color: $add-task-button-color

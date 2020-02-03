@@ -1,4 +1,5 @@
 @import '../../styles/variables'
+@import '../../styles/mixins'
 
 .project-menu
   top: 100%
@@ -24,9 +25,10 @@
     padding: .6rem 1rem
     margin: 0
     cursor: pointer
+    @include userSelectNone()
 
     &:hover
-      background-color: $backgroun-color-light
+      background-color: $background-color-light
 
     &_delete
       cursor: inherit

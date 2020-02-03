@@ -39,6 +39,10 @@
       -ms-user-select: $value
           user-select: $value
 
+@mixin userSelectNone()
+  @include userSelect(none)
+
+
 // Set fontSize from Px to Rem
 @mixin fontSize($size)
   font-size: $size

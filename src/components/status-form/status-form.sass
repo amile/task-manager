@@ -6,7 +6,9 @@
     padding: 0 5px
     background-color: $top-bar-background-color
     border: none
+    cursor: pointer
     @include appearance(none)
+    @include userSelectNone()
 
   &__select-icon
     display: inline-block
@@ -14,9 +16,6 @@
     height: 10px
     margin-right: 1rem
     border-radius: 50%
-
-  &__select
-    cursor: pointer
 
 @each $name, $color in $status-colors
   .status-form__select_#{$name}

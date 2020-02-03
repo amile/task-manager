@@ -22,6 +22,7 @@
     font-size: 1.25rem
     cursor: pointer
     transform: rotate(45deg)
+    @include userSelectNone()
 
   &__select-wrapper
     position: relative
@@ -38,12 +39,12 @@
     line-height: 1.2
     text-align: left
     background-color: $popup-menu-color
-    border-bottom: 1px solid $backgroun-color-light
+    border-bottom: 1px solid $background-color-light
 
     &-item
       padding: 5px .625rem
-      border-left: 1px solid $backgroun-color-light
-      border-right: 1px solid $backgroun-color-light
+      border-left: 1px solid $background-color-light
+      border-right: 1px solid $background-color-light
 
       &:first-child
         padding-top: .75rem
@@ -67,7 +68,7 @@
     font-size: .8rem
     color: $menu-left-text-color
     background-color: $popup-menu-color
-    border: 1px solid $backgroun-color-light
+    border: 1px solid $background-color-light
 
   &__input
     position: relative
@@ -76,4 +77,4 @@
     margin: .5rem 0
     padding: 5px .625rem
     color: $menu-left-text-color
-    border: 1px solid $backgroun-color-light
+    border: 1px solid $background-color-light

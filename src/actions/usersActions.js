@@ -1,4 +1,4 @@
-import { createActions } from 'redux-actions';
+import { createAction, createActions } from 'redux-actions';
 
 export const {
   usersLoaded,

@@ -1,5 +1,6 @@
 @import '../../styles/variables'
 @import '../../styles/functions'
+@import '../../styles/mixins'
 
 .top-bar
   position: fixed
@@ -15,3 +16,4 @@
   &__logo
     display: inline-block
     cursor: pointer
+    @include userSelectNone()

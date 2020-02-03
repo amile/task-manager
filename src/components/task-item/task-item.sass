@@ -9,6 +9,7 @@
     flex: 1 1 auto
     padding-right: 1rem
     cursor: pointer
+    @include userSelectNone()
 
     &-name
       display: inline-block
@@ -42,20 +43,24 @@
     font-size: .75rem
     color: $task-item-date-color
     transform: translateX(100%)
+    @include userSelectNone()
 
   &__date-time
     margin-left: .5rem
+    @include userSelectNone()
 
   &__status
     flex: 0 0 6.875rem
     padding: 0 .5rem
     line-height: 21px
+    @include userSelectNone()
 
   &__assigned
     position: relative
     flex: 0 0 5.375rem
     padding-right: 1rem
     text-align: right
+    @include userSelectNone()
 
     & .user-icon
       position: relative

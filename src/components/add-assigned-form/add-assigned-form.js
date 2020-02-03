@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import './add-assigned-form.sass';
+import SelectListItem from '../select-list-item';
 
 class AddAssignedForm extends Component {
   constructor() {
@@ -53,6 +54,7 @@ class AddAssignedForm extends Component {
       this.props.updateTaskDeleteAssigned(user);
     };
   }
+
   render() {
     let listUsers, filteredUsers = null;
     let selectListIconClassNames = 'assigned-form__select-list-icon select-list__icon';
@@ -67,14 +69,19 @@ class AddAssignedForm extends Component {
             ? null
             : this.props.assigned.find((assignedUser) => (assignedUser.id === user.id));
           const itemClassNames = !userAssigned
-            ? 'assigned-form__select-list-item select-list__item select-list__item_active'
-            : 'assigned-form__select-list-item select-list__item';
-          const handleFunction = !userAssigned ? () => { this.onSelectValue(user); } : () => {};
+            ? 'assigned-form__select-list-item select-list__item_active'
+            : 'assigned-form__select-list-item';
+          const handleFunction = !userAssigned ? this.onSelectValue : null;
           return (
-            <div key={user.id} className={itemClassNames} onClick={handleFunction}>
+            <SelectListItem
+              key={user.id}
+              item={user}
+              classNames={itemClassNames}
+              onClick={handleFunction}
+              onIconClick={this.onDeleteAssignedUser}
+            >
               {user.lastName + ' ' + user.firstName}
-              <span className="select-list__item-icon" onClick={() => { this.onDeleteAssignedUser(user); }} />
-            </div>
+            </SelectListItem>
           );
         });
       selectListIconClassNames += ' select-list__icon_hide';

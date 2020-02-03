@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
-import { Editor, EditorState, RichUtils, convertToRaw, CompositeDecorator } from 'draft-js';
+import {
+  Editor,
+  EditorState,
+  RichUtils,
+  convertToRaw,
+  CompositeDecorator,
+} from 'draft-js';
 
-import CommentFormButton from '../comment-form-button/comment-form-button';
+import CommentFormButton from '../comment-form-button';
+import FileLink from '../file-link';
 
 import './comment-form.sass';
 
@@ -36,110 +43,116 @@ class CommentForm extends Component {
     };
     this.onShowLinkForm = this.onShowLinkForm.bind(this);
     this.onFileUploadRef = this.onFileUploadRef.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+    this.onFocus = this.onFocus.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onSubmitLink = this.onSubmitLink.bind(this);
+    this.toggleBlockType = this.toggleBlockType.bind(this);
+    this.handleKeyCommand = this.handleKeyCommand.bind(this);
+    this.onCloseLinkForm = this.onCloseLinkForm.bind(this);
+    this.onChangeLinkValue = this.onChangeLinkValue.bind(this);
+    this.handleUploadFile = this.handleUploadFile.bind(this);
+    this.handleDeleteFile = this.handleDeleteFile.bind(this);
+  }
 
-    this.onChange = (editorState) => {
-      this.setState({ editorState });
-    };
-    this.onBlur = () => {
-      const { editorState, files } = this.state;
-      const raw = convertToRaw(editorState.getCurrentContent());
-      const blockMapHasText = raw.blocks.filter((item) => {
-        return item.text.length > 0;
+  onBlur() {
+    const { editorState, files } = this.state;
+    const raw = convertToRaw(editorState.getCurrentContent());
+    const blockMapHasText = raw.blocks.filter((item) => {
+      return item.text.length > 0;
+    });
+    if ((blockMapHasText.length === 0) && (files.length === 0)) {
+      this.setState({ showSubmitButton: false});
+    }
+  }
+
+  onFocus() {
+    this.setState({ showSubmitButton: true});
+  }
+
+  onChange(editorState) {
+    this.setState({ editorState });
+  }
+
+  toggleBlockType(blockType) {
+    this.onChange(RichUtils.toggleBlockType(this.state.editorState, blockType));
+  }
+
+  handleKeyCommand(command) {
+    const { editorState } = this.state;
+    const newState = RichUtils.handleKeyCommand(
+      editorState,
+      command,
+    );
+    if (newState) {
+      this.onChange(newState);
+      return "handled";
+    }
+    return "not-handled";
+  }
+
+  onCloseLinkForm() {
+    this.setState({ showLinkForm: false });
+  }
+
+  onChangeLinkValue (e) {
+    this.setState({
+      linkValue: e.target.value,
+    });
+  }
+
+  onSubmitLink (e) {
+    e.preventDefault();
+    const { editorState, linkValue } = this.state;
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(
+      'LINK',
+      'MUTABLE',
+      { url: linkValue },
+    );
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    const newEditorState = EditorState.set(
+      editorState,
+      {
+        currentContent: contentStateWithEntity,
+      },
+    );
+    this.setState({
+      editorState: RichUtils.toggleLink(
+        newEditorState,
+        newEditorState.getSelection(),
+        entityKey),
+    });
+    this.onCloseLinkForm();
+  }
+
+  handleUploadFile(e) {
+    e.preventDefault();
+    this.onFocus();
+    const reader = new FileReader();
+    const file = e.target.files[0];
+    reader.onloadend = () => {
+      this.setState((state) => {
+        return {
+          files: [
+            ...state.files,
+            {
+              name: file.name,
+              url: reader.result,
+              type: file.type,
+            },
+          ],
+        };
       });
-      if ((blockMapHasText.length === 0) && (files.length === 0)) {
-        this.setState({ showSubmitButton: false});
-      }
     };
-    this.onFocus = () => {
-      this.setState({ showSubmitButton: true});
-    };
-    this.toggleBlockType = (blockType) => {
-      this.onChange(RichUtils.toggleBlockType(this.state.editorState, blockType));
-    };
-    this.onSubmit = () => {
-      const { editorState, files } = this.state;
-      const raw = convertToRaw(editorState.getCurrentContent());
-      const blockMapHasText = raw.blocks.filter((item) => {
-        return item.text.length > 0;
-      });
+    reader.readAsDataURL(file);
+  }
 
-      this.setState(
-        {
-          editorState: EditorState.createEmpty(this.decorator),
-          showSubmitButton: false,
-          files: [],
-        });
-      if ((blockMapHasText.length > 0) || (files.length > 0)) {
-        const rawJSON = (blockMapHasText.length > 0)
-          ? JSON.stringify(raw)
-          : null;
-        this.props.addComment(rawJSON, files);
-      }
-    };
-    this.handleKeyCommand = command => {
-      const { editorState } = this.state;
-      const newState = RichUtils.handleKeyCommand(
-        editorState,
-        command,
-      );
-      if (newState) {
-        this.onChange(newState);
-        return "handled";
-      }
-      return "not-handled";
-    };
-
-    this.onCloseLinkForm = () => {
-      this.setState({ showLinkForm: false });
-    };
-    this.onChangeLinkValue = (e) => {
-      this.setState({
-        linkValue: e.target.value,
-      });
-    };
-    this.onSubmitLink = (e) => {
-      e.preventDefault();
-      const { editorState, linkValue } = this.state;
-      const contentState = editorState.getCurrentContent();
-      const contentStateWithEntity = contentState.createEntity(
-        'LINK',
-        'MUTABLE',
-        { url: linkValue },
-      );
-      const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-      const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });
-      this.setState({
-        editorState: RichUtils.toggleLink(
-          newEditorState,
-          newEditorState.getSelection(),
-          entityKey),
-      });
-      this.onCloseLinkForm();
-
-    };
-    this.handleUploadFile = (e) => {
-      e.preventDefault();
-      this.onFocus();
-      const reader = new FileReader();
-      const file = e.target.files[0];
-      reader.onloadend = () => {
-        this.setState((state) => {
-          return {
-            files: [
-              ...state.files,
-              { name: file.name, url: reader.result, type: file.type },
-            ],
-          };
-        });
-      };
-      reader.readAsDataURL(file);
-    };
-    this.handleDeleteFile = (name) => {
-      const idx = this.state.files.findIndex((file) => { return name === file.name; });
-      const newFiles = [ ...this.state.files.slice(0, idx), ...this.state.files.slice(idx + 1)];
-      this.setState({files: newFiles});
-    };
-
+  handleDeleteFile (name) {
+    const idx = this.state.files.findIndex((file) => { return name === file.name; });
+    const newFiles = [ ...this.state.files.slice(0, idx), ...this.state.files.slice(idx + 1)];
+    this.setState({files: newFiles});
   }
 
   onFileUploadRef() {
@@ -148,6 +161,27 @@ class CommentForm extends Component {
 
   onShowLinkForm() {
     this.setState({ showLinkForm: true });
+  }
+
+  onSubmit() {
+    const { editorState, files } = this.state;
+    const raw = convertToRaw(editorState.getCurrentContent());
+    const blockMapHasText = raw.blocks.filter((item) => {
+      return item.text.length > 0;
+    });
+
+    this.setState(
+      {
+        editorState: EditorState.createEmpty(this.decorator),
+        showSubmitButton: false,
+        files: [],
+      });
+    if ((blockMapHasText.length > 0) || (files.length > 0)) {
+      const rawJSON = (blockMapHasText.length > 0)
+        ? JSON.stringify(raw)
+        : null;
+      this.props.addComment(rawJSON, files);
+    }
   }
 
   checkInlineTypes(type) {
@@ -198,39 +232,31 @@ class CommentForm extends Component {
       ? null
       : this.state.files.map((file, idx) => {
         return (
-          <div key={idx} className="comment-form__load-file">
-            <a
-              href={file.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              download={file.name}
-            >
-              {file.name}
-            </a>
-            <span className="comment-form__load-file-cancel" onClick={() => {this.handleDeleteFile(file.name);}}> +</span>
-          </div>
+          <FileLink
+            key={idx}
+            file={file}
+            onDeleteFile={this.handleDeleteFile}
+          />
         );
       });
     const inlineButtons = inlineTypesButton.map((item) => {
       return (
-        <div key={item.type} className="comment-form__item">
-          <CommentFormButton
-            type={item.type}
-            active={this.checkInlineTypes(item.type)}
-            onClick={this.handleKeyCommand}
-          />
-        </div>
+        <CommentFormButton
+          key={item.type}
+          type={item.type}
+          active={this.checkInlineTypes(item.type)}
+          onClick={this.handleKeyCommand}
+        />
       );
     });
     const blockButtons = blockTypesButton.map((item) => {
       return (
-        <div key={item.type} className="comment-form__item">
-          <CommentFormButton
-            type={item.type}
-            active={this.checkBlockTypes(item.type)}
-            onClick={this.toggleBlockType}
-          />
-        </div>
+        <CommentFormButton
+          key={item.type}
+          type={item.type}
+          active={this.checkBlockTypes(item.type)}
+          onClick={this.toggleBlockType}
+        />
       );
     });
     return (

@@ -35,54 +35,78 @@ class TaskForm extends Component {
       close: false,
       show: false,
     };
-    this.onClose = () => {
-      const path = `/app/group/${ this.props.match.params.groupId }`;
-      this.setState({ close: true, show: false });
-      setTimeout(() => {this.props.history.push(`${ path }`);}, 1000);
-    };
-    this.addTag = (label, color) => {
-      this.props.addTag(this.props.itemId, { label, color });
-    };
-    this.updateTaskAddTag = (tagId) => {
-      this.props.updateTaskAddTag(this.props.itemId, tagId);
-    };
-    this.addNewItem = (e) => {
-      const { groupId, currentUser, history, match } = this.props;
-      const path = `/app/group/${ match.params.groupId }`;
-      this.props.addTask(e, groupId, currentUser, history, path);
-    };
-    this.updateTaskAddDateDue = (date) => {
-      const { itemId, currentUser } = this.props;
-      this.props.updateTaskAddDateDue(itemId, date, currentUser);
-    };
-    this.updateTaskDeleteTag = (tagId) => {
-      this.props.updateTaskDeleteTag(this.props.itemId, tagId);
-    };
-    this.updateTaskChangeStatus = (status) => {
-      const { itemId, currentUser } = this.props;
-      this.props.updateTaskChangeStatus(itemId, status, currentUser);
-    };
-    this.updateTaskAddAssigned = (assignedUser) => {
-      const { itemId, currentUser } = this.props;
-      this.props.updateTaskAddAssigned(itemId, assignedUser, currentUser);
-    };
-    this.updateTaskDeleteAssigned = (user) => {
-      const { itemId, currentUser } = this.props;
-      this.props.updateTaskDeleteAssigned(itemId, user, currentUser);
-    };
-    this.addComment = (label, files) => {
-      const { itemId, currentUser } = this.props;
-      this.props.addComment(itemId, label, files, currentUser);
-    };
-    this.updateCommentDeleteFile = (commentId, fileId) => {
-      this.props.updateCommentDeleteFile(commentId, fileId);
-    };
+    this.onClose = this.onClose.bind(this);
+    this.addTag = this.addTag.bind(this);
+    this.addNewItem = this.addNewItem.bind(this);
+    this.addComment = this.addComment.bind(this);
+    this.updateTaskAddTag = this.updateTaskAddTag.bind(this);
+    this.updateTaskAddDateDue = this.updateTaskAddDateDue.bind(this);
+    this.updateTaskDeleteTag = this.updateTaskDeleteTag.bind(this);
+    this.updateTaskChangeStatus = this.updateTaskChangeStatus.bind(this);
+    this.updateTaskAddAssigned = this.updateTaskAddAssigned.bind(this);
+    this.updateTaskDeleteAssigned = this.updateTaskDeleteAssigned.bind(this);
+    this.updateCommentDeleteFile = this.updateCommentDeleteFile.bind(this);
   }
+
+  onClose() {
+    const path = `/app/group/${ this.props.match.params.groupId }`;
+    this.setState({ close: true, show: false });
+    setTimeout(() => {this.props.history.push(`${ path }`);}, 1000);
+  }
+
+  addTag(label, color) {
+    this.props.addTag(this.props.itemId, { label, color });
+  }
+
+  updateTaskAddTag(tagId) {
+    this.props.updateTaskAddTag(this.props.itemId, tagId);
+  }
+
+  addNewItem(e) {
+    const { groupId, currentUser, history, match } = this.props;
+    const path = `/app/group/${ match.params.groupId }`;
+    this.props.addTask(e, groupId, currentUser, history, path);
+  }
+
+  updateTaskAddDateDue(date) {
+    const { itemId, currentUser } = this.props;
+    this.props.updateTaskAddDateDue(itemId, date, currentUser);
+  }
+
+  updateTaskDeleteTag(tagId) {
+    this.props.updateTaskDeleteTag(this.props.itemId, tagId);
+  }
+
+  updateTaskChangeStatus(status) {
+    const { itemId, currentUser } = this.props;
+    this.props.updateTaskChangeStatus(itemId, status, currentUser);
+  }
+
+  updateTaskAddAssigned(assignedUser) {
+    const { itemId, currentUser } = this.props;
+    this.props.updateTaskAddAssigned(itemId, assignedUser, currentUser);
+  }
+
+  updateTaskDeleteAssigned(user) {
+    const { itemId, currentUser } = this.props;
+    this.props.updateTaskDeleteAssigned(itemId, user, currentUser);
+  }
+
+  addComment(label, files) {
+    const { itemId, currentUser } = this.props;
+    this.props.addComment(itemId, label, files, currentUser);
+  }
+
+  updateCommentDeleteFile(commentId, fileId) {
+    this.props.updateCommentDeleteFile(commentId, fileId);
+  }
+
   componentDidMount() {
     if (this.props.currentUser) {
       setTimeout(() => {this.setState({ show: true });}, 1000);
     }
-  };
+  }
+
   render() {
     const {
       itemId,

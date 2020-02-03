@@ -1,5 +1,6 @@
 @import '../../styles/variables'
 @import '../../styles/functions'
+@import '../../styles/mixins'
 
 .group
   position: relative
@@ -17,6 +18,7 @@
       font-size: 1rem
       line-height: 1.25
       cursor: pointer
+      @include userSelectNone()
 
       &:hover
         color: $text-color-dark
@@ -26,7 +28,7 @@
       left: -1.1875rem
 
       &:not(:checked)
-        background-color: $backgroun-color-light
+        background-color: $background-color-light
 
       &::before
         position: absolute
@@ -35,7 +37,7 @@
         height: 10px
         bottom: -11px
         left: 0
-        background-color: $backgroun-color-light
+        background-color: $background-color-light
 
     &-icon
       position: absolute
@@ -46,6 +48,7 @@
       cursor: pointer
       border: 5px solid transparent
       border-left-color: gray
+      @include userSelectNone()
 
       &_open
         border-left-color: transparent
@@ -65,7 +68,7 @@
     left: -1px
     width: .5rem
     height: .5rem
-    background-color: $backgroun-color-light
+    background-color: $background-color-light
 
 $delta: 1.5625rem
 $start: 0
@@ -86,7 +89,7 @@ $maxLevel: 10
   margin-left: calc(-13.5rem + 3px)
   border-top: 1px solid $group-item-border-color
   border-bottom: 1px solid $group-item-border-color
-  background-color: $backgroun-color-light
+  background-color: $background-color-light
 
   @for $level from $start through $maxLevel
     .group__label-icon_level-#{$level}

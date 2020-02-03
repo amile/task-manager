@@ -23,6 +23,7 @@
     font-size: 1rem
     line-height: 1.5rem
     border-bottom: 1px solid $menu-left-border-color
+    @include userSelectNone()
 
   &__add-button
     position: absolute
@@ -32,6 +33,7 @@
     font-size: 1.75rem
     color: $menu-left-text-color
     cursor: pointer
+    @include userSelectNone()
 
   .icon
     top: .625rem
@@ -42,6 +44,7 @@
     cursor: pointer
     border: .3125rem solid transparent
     border-left-color: $menu-left-open-icon-color
+    @include userSelectNone()
 
     &.active
       top: .75rem
@@ -112,6 +115,7 @@
 
     &-label-name
       cursor: pointer
+      @include userSelectNone()
 
     &_project
 
@@ -134,6 +138,7 @@
     color: transparent
     cursor: pointer
     @include setBackgroundImage(0 -201px)
+    @include userSelectNone()
 
     &_close
       color: $menu-left-text-color

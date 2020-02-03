@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import './comment-form-button.sass';
+
 class CommentFormButton extends Component {
   constructor() {
     super();

@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Editor, EditorState, convertFromRaw, CompositeDecorator } from 'draft-js';
 import * as moment from 'moment';
+import {
+  Editor,
+  EditorState,
+  convertFromRaw,
+  CompositeDecorator,
+} from 'draft-js';
 
-import { makeCommentCreatedByUserSelector, makeCommentFilesSelector } from '../../selectors';
+import {
+  makeCommentCreatedByUserSelector,
+  makeCommentFilesSelector,
+} from '../../selectors';
+
+import CommentFile from '../comment-file';
 
 import './comment-item.sass';
 
@@ -18,48 +28,26 @@ class CommentItem extends Component {
         component: Link,
       },
     ]);
+    this.updateCommentDeleteFile = this.updateCommentDeleteFile.bind(this);
   }
+
+  updateCommentDeleteFile(fileId) {
+    this.props.updateCommentDeleteFile(this.props.comment.id, fileId);
+  }
+
   render() {
     const { user, comment, files } = this.props;
     let imageList = null;
     if (files) {
       imageList = files.map((file) => {
-        const imageType = file.type.startsWith('image/');
-        const image = (!imageType)
-          ? null
-          : (<img className="file-img" src={file.url} alt="" />);
         return (
-          <div key={file.name}
-            className="file-wrapper"
-          >
-            {image}
-            <div className="file-label">
-              <a className="file-label-link"
-                href={file.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {file.name}
-              </a>
-              <a className="file-label-btn"
-                href={file.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                download={file.name}
-              >
-                Загрузить
-              </a>
-              <button
-                className="file-label-btn"
-                onClick={() => this.props.updateCommentDeleteFile(comment.id, file.id)}
-              >
-                Удалить
-              </button>
-            </div>
-          </div>
+          <CommentFile
+            key={file.name}
+            file={file}
+            onDeleteFile={this.updateCommentDeleteFile}
+          />
         );
       });
-
     }
     const label = !comment.label
       ? EditorState.createEmpty(this.decorator)

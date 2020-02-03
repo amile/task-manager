@@ -14,6 +14,7 @@
 
   &__files-wrapper
     margin-top: 1.5rem
+    @include userSelectNone()
 
   &__load-file
     margin: .25rem 0
@@ -32,52 +33,6 @@
   input::placeholder
     color: $menu-left-text-color
 
-  &__item
-    display: inline-block
-
-  &__btn
-    width: 20px
-    height: 20px
-    margin-left: .5rem
-    margin-right: 10px
-    background: url('../../images/text-editor-icons-blue-sm.png') no-repeat
-    border: none
-    cursor: pointer
-    @include transition(all .1s ease-in-out)
-
-    &.active
-      opacity: .6
-
-    &:hover
-      opacity: .6
-
-    &_bold
-      background-position: -2px -3px
-
-    &_italic
-      background-position: -52px -3px
-
-    &_underline
-      background-position: -104px -3px
-
-    &_unordered-list-item
-      background-position: -2px -54px
-
-    &_ordered-list-item
-      background-position: -54px -54px
-
-    &_code-block
-      background-position: -104px -105px
-
-    &_link
-      background-position: -155px -105px
-
-    &_file
-      float: right
-      margin: 0
-      @include rotate(-45deg)
-      @include setBackgroundImage(0 -65px)
-
   &__submit-btn
     position: absolute
     bottom: 0
@@ -86,7 +41,7 @@
     font-size: .875rem
     color: $menu-left-text-color
     background-color: $popup-menu-color
-    border: 1px solid $backgroun-color-light
+    border: 1px solid $background-color-light
     cursor: pointer
 
   & .link-form
