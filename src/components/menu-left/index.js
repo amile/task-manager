@@ -1,3 +1,3 @@
-import MenuLeft from './menu-left';
+import ConnectedMenuLeft from './menu-left-container';
 
-export default MenuLeft;
+export default ConnectedMenuLeft;

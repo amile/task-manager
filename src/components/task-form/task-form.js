@@ -9,6 +9,7 @@ import {
   currentUserSelector,
   makeTaskAssignedUsersSelector,
 } from '../../selectors';
+
 import {
   addTask,
   addTag,
@@ -21,6 +22,8 @@ import {
   updateTaskAddDateDue,
   updateCommentDeleteFile,
 } from '../../actions';
+
+import { createNewIndex } from '../../utils';
 
 import CreateTaskForm from '../create-task-form';
 import ChangeTaskForm from '../change-task-form';
@@ -55,7 +58,9 @@ class TaskForm extends Component {
   }
 
   addTag(label, color) {
-    this.props.addTag(this.props.itemId, { label, color });
+    const id = createNewIndex();
+    this.props.addTag(this.props.itemId, { label, color, id });
+    this.props.updateTaskAddTag(this.props.itemId, id);
   }
 
   updateTaskAddTag(tagId) {

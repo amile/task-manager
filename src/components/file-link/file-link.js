@@ -19,7 +19,9 @@ class FileLink extends Component {
         <span>{file.name}</span>
         <span className="comment-form__load-file-cancel"
           onClick={this.onDeleteFile}
-        > +</span>
+        >
+          +
+        </span>
       </div>
     );
   }

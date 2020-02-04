@@ -1,3 +1,3 @@
-import ChangeTaskForm from './change-task-form';
+import ChangeTaskFormContainer from './change-task-form-container';
 
-export default ChangeTaskForm;
+export default ChangeTaskFormContainer;

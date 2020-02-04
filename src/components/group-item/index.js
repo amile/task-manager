@@ -1,3 +1,3 @@
-import GroupItem from './group-item';
+import ConnectedGroupItem from './group-item-container';
 
-export default GroupItem;
+export default ConnectedGroupItem;

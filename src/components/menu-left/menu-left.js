@@ -1,10 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router-dom';
-
-import { addProject, addGroup } from '../../actions';
-import { projectsSelector } from '../../selectors';
 
 import AddGroupForm from '../add-group-form';
 import ConnectedMenuLeftItem from '../menu-left-item';
@@ -16,33 +10,22 @@ class MenuLeft extends Component {
     super();
     this.state = {
       maxLevel: 3,
-      showAddProjectForm: false,
     };
-    this.onAddProject = this.onAddProject.bind(this);
-    this.onCloseAddProjectForm = this.onCloseAddProjectForm.bind(this);
-    this.onSubmitProject = this.onSubmitProject.bind(this);
-    this.addGroup = this.addGroup.bind(this);
   }
-  onAddProject() {
-    this.setState({ showAddProjectForm: true });
-  }
-  onCloseAddProjectForm() {
-    this.setState({ showAddProjectForm: false });
-  }
-  onSubmitProject(label) {
-    this.setState({ showAddProjectForm: false });
-    if (label.length > 0) {
-      this.props.addProject(label);
-    }
-  }
-  addGroup(label, parentId) {
-    this.props.addGroup(label, parentId);
-  }
+
   render() {
     const level = 0;
-    const listProjects = (this.props.projects.length === 0)
+    const {
+      projects,
+      showAddProjectForm,
+      addGroup,
+      onAddProject,
+      onSubmitProject,
+      onCloseAddProjectForm,
+    } = this.props;
+    const listProjects = (projects.length === 0)
       ? null
-      : this.props.projects.map((project) => {
+      : projects.map((project) => {
         return (
           <li
             key={project.id}
@@ -52,17 +35,17 @@ class MenuLeft extends Component {
               group={project}
               level={level}
               maxLevel={this.state.maxLevel}
-              addGroup={this.addGroup}
+              addGroup={addGroup}
             />
           </li>
         );
       });
-    const addForm = this.state.showAddProjectForm
+    const addForm = showAddProjectForm
       ? (
         <AddGroupForm
           project
-          addNewItem={this.onSubmitProject}
-          onCloseForm={this.onCloseAddProjectForm}
+          addNewItem={onSubmitProject}
+          onCloseForm={onCloseAddProjectForm}
         />
       )
       : null;
@@ -76,7 +59,7 @@ class MenuLeft extends Component {
             Проекты
             <span
               className="menu-left__add-button"
-              onClick={this.onAddProject}
+              onClick={onAddProject}
             >
               +
             </span>
@@ -96,17 +79,4 @@ class MenuLeft extends Component {
   }
 };
 
-const mapStateToProps = (state) => {
-  return {
-    projects: projectsSelector(state),
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addProject: bindActionCreators(addProject, dispatch),
-    addGroup: bindActionCreators(addGroup, dispatch),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MenuLeft));
+export default MenuLeft;

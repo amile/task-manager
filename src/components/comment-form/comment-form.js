@@ -169,17 +169,21 @@ class CommentForm extends Component {
     const blockMapHasText = raw.blocks.filter((item) => {
       return item.text.length > 0;
     });
-
     this.setState(
       {
         editorState: EditorState.createEmpty(this.decorator),
         showSubmitButton: false,
         files: [],
       });
-    if ((blockMapHasText.length > 0) || (files.length > 0)) {
-      const rawJSON = (blockMapHasText.length > 0)
-        ? JSON.stringify(raw)
-        : null;
+    let rawJSON = null;
+    if (blockMapHasText.length > 0) {
+      try {
+        rawJSON = JSON.stringify(raw);
+      } catch (error) {
+        console.log('Error JSON.stringify read comment raw');
+      }
+    }
+    if (rawJSON || (files.length > 0)) {
       this.props.addComment(rawJSON, files);
     }
   }

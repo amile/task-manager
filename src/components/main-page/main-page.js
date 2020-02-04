@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Route } from 'react-router-dom';
 
 import ItemList from '../item-list';
-import MenuLeft from '../menu-left';
+import ConnectedMenuLeft from '../menu-left';
 import TaskForm from '../task-form';
 
 import './main-page.sass';
@@ -11,7 +11,7 @@ import './main-page.sass';
 const MainPage = () => {
   return (
     <Fragment>
-      <MenuLeft />
+      <ConnectedMenuLeft />
       <main className="main">
         <Route
           path="/app/group/:groupId/"

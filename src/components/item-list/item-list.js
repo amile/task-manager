@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { addGroup } from '../../actions';
 import { showedGroupSelector } from '../../selectors';
 
-import ConnectedGroupItem from '../group-item/group-item';
+import ConnectedGroupItem from '../group-item';
 
 import './item-list.sass';
 

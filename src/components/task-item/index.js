@@ -1,3 +1,3 @@
-import TaskItem from './task-item';
+import ConnectedTaskItem from './task-item-container';
 
-export default TaskItem;
+export default ConnectedTaskItem;

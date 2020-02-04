@@ -49,9 +49,17 @@ class CommentItem extends Component {
         );
       });
     }
-    const label = !comment.label
-      ? EditorState.createEmpty(this.decorator)
-      : EditorState.createWithContent(convertFromRaw(JSON.parse(comment.label)), this.decorator);
+    let label = null;
+    if (comment.label) {
+      try {
+        label = EditorState.createWithContent(
+          convertFromRaw(JSON.parse(comment.label)),
+          this.decorator,
+        );
+      } catch (error) {
+        label = EditorState.createEmpty(this.decorator);
+      }
+    }
     return (
       <div className="comment__wrapper">
         <div className="comment__created-info">
