@@ -1,37 +1,17 @@
 import React, { Component } from 'react';
-import { withRouter, Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-
-import { makeInnerGroupsSelector } from '../../selectors';
+import { Link } from 'react-router-dom';
 
 import ProjectMenu from '../project-menu';
 import AddGroupForm from '../add-group-form';
+import ConnectedMenuLeftItem from './menu-left-item-container';
 
 class MenuLeftItem extends Component {
   constructor() {
     super();
     this.state = {
       open: false,
-      showProjectMenu: false,
-      addGroupForm: false,
     };
-    this.onToggleProjectMenu = this.onToggleProjectMenu.bind(this);
-    this.onCloseProjectMenu = this.onCloseProjectMenu.bind(this);
     this.onToggleActive = this.onToggleActive.bind(this);
-    this.onShowAddGroupForm = this.onShowAddGroupForm.bind(this);
-    this.onCloseAddGroupForm = this.onCloseAddGroupForm.bind(this);
-    this.addGroup = this.addGroup.bind(this);
-  }
-
-  onToggleProjectMenu(e) {
-    e.stopPropagation();
-    this.setState((state) => {
-      return { showProjectMenu: !state.showProjectMenu };
-    });
-  }
-
-  onCloseProjectMenu() {
-    this.setState({ showProjectMenu: false });
   }
 
   onToggleActive() {
@@ -43,26 +23,6 @@ class MenuLeftItem extends Component {
     }
   }
 
-  onShowAddGroupForm() {
-    this.setState({
-      addGroupForm: true,
-      showProjectMenu: false,
-    });
-  }
-
-  onCloseAddGroupForm() {
-    this.setState({
-      addGroupForm: false,
-    });
-  }
-
-  addGroup(label) {
-    if (label.length > 0) {
-      this.props.addGroup(label, this.props.group.id);
-    }
-    this.onCloseAddGroupForm();
-  }
-
   render() {
     let {
       level,
@@ -70,11 +30,17 @@ class MenuLeftItem extends Component {
       group,
       groups,
       history,
+      addGroup,
+      showProjectMenu,
+      addGroupForm,
+      onToggleProjectMenu,
+      onShowAddGroupForm,
+      onCloseAddGroupForm,
     } = this.props;
     const pathName = history ? history.location.pathname.split('/') : null;
     const showedGroupId = (pathName && (pathName.length > 3)) ? pathName[3] : '';
     let iconClassNames = (this.state.open) ? 'icon active' : 'icon';
-    let menuIconClassNames = (!this.state.showProjectMenu)
+    let menuIconClassNames = (!showProjectMenu)
       ? 'projects-list__menu-icon'
       : 'projects-list__menu-icon projects-list__menu-icon_close';
     const icon = (groups.length > 0)
@@ -84,15 +50,15 @@ class MenuLeftItem extends Component {
       ? (
         <span
           className={menuIconClassNames}
-          onClick={this.onToggleProjectMenu}
+          onClick={onToggleProjectMenu}
         >
           +
         </span>
       )
       : null;
-    const projectMenu = !this.state.showProjectMenu
+    const projectMenu = !showProjectMenu
       ? null
-      : <ProjectMenu addGroup={this.onShowAddGroupForm} />;
+      : <ProjectMenu addGroup={onShowAddGroupForm} />;
     let labelClassNames = !group.parentId
       ? 'projects-list__item-label_project'
       : '';
@@ -101,12 +67,12 @@ class MenuLeftItem extends Component {
       : labelClassNames;
     let listItems = null;
     const listItemsClassNames = (groups.length === 0) ? 'last' : null;
-    const addGroupForm = !this.state.addGroupForm
+    const addGroupFormItem = !addGroupForm
       ? null
       : (
         <AddGroupForm
-          onCloseForm={this.onCloseAddGroupForm}
-          addNewItem={this.addGroup}
+          onCloseForm={onCloseAddGroupForm}
+          addNewItem={addGroup}
         />
       );
     if (this.state.open && (level < maxLevel)) {
@@ -141,23 +107,11 @@ class MenuLeftItem extends Component {
           </Link>
           {projectMenu}
         </div>
-        {addGroupForm}
+        {addGroupFormItem}
         {listItems}
       </div>
     );
   }
 }
 
-const makeMapStateToProps = () => {
-  const innerGroupsSelector = makeInnerGroupsSelector();
-  const mapStateToProps = (state, props) => {
-    return {
-      groups: innerGroupsSelector(state, props),
-    };
-  };
-  return mapStateToProps;
-};
-
-const ConnectedMenuLeftItem = connect(makeMapStateToProps)(withRouter(MenuLeftItem));
-
-export default ConnectedMenuLeftItem;
+export default MenuLeftItem;

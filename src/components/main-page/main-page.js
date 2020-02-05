@@ -7,7 +7,6 @@ import TaskForm from '../task-form';
 
 import './main-page.sass';
 
-
 const MainPage = () => {
   return (
     <Fragment>

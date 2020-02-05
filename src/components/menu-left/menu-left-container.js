@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { addProject, addGroup } from '../../actions';
 import { projectsSelector } from '../../selectors';
 
-import MenuLeft from '../menu-left';
+import MenuLeft from './menu-left';
 
 class MenuLeftContainer extends Component {
   constructor() {

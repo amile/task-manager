@@ -1,3 +1,3 @@
-import MenuLeftItem from './menu-left-item';
+import ConnectedMenuLeftItem from './menu-left-item-container';
 
-export default MenuLeftItem;
+export default ConnectedMenuLeftItem;
